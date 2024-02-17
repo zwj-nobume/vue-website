@@ -1,0 +1,16 @@
+{
+	"id": "/index.html",
+	"name": "PWA网站",
+	"start_url": ".",
+	"background_color": "#FFF",
+	"discription": "一个PWA网站",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"type": "image/svg+xml",
+			"form_factor": "wide",
+			"sizes": "512x512"
+		}
+	]
+}
