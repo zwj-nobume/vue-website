@@ -1,16 +1,11 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex'
 import ItemList from '@/comps/ItemList.vue';
 
-const store = useStore()
-
 const pages = ref(new Array(
-    { name: 'View1', path: '/view1' },
-    { name: 'View2', path: '/view2' },
-    { name: 'View3', path: '/view3' },
-    { name: 'View4', path: '/view4' },
-    { name: 'View5', path: '/view5' },
+    { name: '系统管理', path: '/system', icon: '/src/assets/icon/system.svg' },
+    { name: '媒体管理', path: '/media', icon: '/src/assets/icon/media.svg' },
+    { name: '其他服务', path: '/other', icon: '/src/assets/icon/other.svg' },
 ))
 </script>
 

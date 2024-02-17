@@ -15,7 +15,7 @@ const router = useRouter()
             <span class="name">上一页</span>
         </li>
         <li class="item" v-for="li in list" @click="router.push(li.path)">
-            <img src="@/assets/icon/collection.svg" width="100" height="100">
+            <img :src="li.icon" width="100" height="100">
             <span class="name">{{ li.name }}</span>
         </li>
     </ul>
