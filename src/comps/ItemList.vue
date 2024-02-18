@@ -6,6 +6,18 @@ defineProps({
 })
 
 const router = useRouter()
+
+const openPath = (path, target) => {
+    if (typeof target === 'string' && target === '_blank') {
+        let a = document.createElement('a')
+        a.target = target
+        a.href = path
+        a.click()
+        a = null
+    } else {
+        router.push(path)
+    }
+}
 </script>
 
 <template>
@@ -14,7 +26,7 @@ const router = useRouter()
             <img src="@/assets/icon/back.svg" width="100" height="100">
             <span class="name">上一页</span>
         </li>
-        <li class="item" v-for="li in list" @click="router.push(li.path)">
+        <li class="item" v-for="li in list" @click="openPath(li.path, li.target)">
             <img :src="li.icon" width="100" height="100">
             <span class="name">{{ li.name }}</span>
         </li>
@@ -32,7 +44,6 @@ ul.list {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: space-between; */
     align-items: center;
     align-content: flex-start;
 }
