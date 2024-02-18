@@ -10,7 +10,9 @@ const pages = ref(new Array(
 </script>
 
 <template>
-    <ItemList :list="pages"></ItemList>
+    <main class="main">
+        <ItemList :list="pages"></ItemList>
+    </main>
 </template>
 
 <style scoped></style>

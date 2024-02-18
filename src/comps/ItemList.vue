@@ -35,17 +35,16 @@ const openPath = (path, target) => {
 
 <style scoped>
 ul.list {
-    width: 90%;
-    height: 90%;
-    border-radius: 2%;
-    background-color: rgba(255, 240, 245, 0.5);
-    list-style: none;
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     align-content: flex-start;
+    list-style: none;
 }
 
 ul.list li.item {
