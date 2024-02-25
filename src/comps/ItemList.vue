@@ -45,6 +45,7 @@ ul.list {
     align-items: center;
     align-content: flex-start;
     list-style: none;
+    scrollbar-width: none;
 }
 
 ul.list li.item {

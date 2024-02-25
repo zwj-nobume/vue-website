@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { store } from '@/utils/store'
 
 import Home from '@/view/Home.vue'
 import Login from '@/view/Login.vue'
@@ -23,10 +24,18 @@ const routes = [
 	{ path: '/media/comic', component: Comic },
 	{ path: '/other', component: Other },
 ]
+const noVerify = new Set(['/login'])
 
 const router = createRouter({
 	history: createWebHashHistory(),
 	routes: routes
+})
+
+router.beforeEach((to, from, next) => {
+	if (!noVerify.has(to.fullPath) && (store.getters.getToken === null || store.getters.getToken === '')) {
+		router.push('/login')
+	}
+	next()
 })
 
 export { router }

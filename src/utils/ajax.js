@@ -1,11 +1,8 @@
-import { useStore } from "vuex"
-import { useRouter } from "vue-router"
-
-const store = useStore()
-const router = useRouter()
+import { store } from '@/utils/store.js'
+import { router } from '@/utils/router.js'
 
 const apiGet = (url, callback) => {
-	let token = store.state.token
+	let token = store.getters.getToken
 	let request = token === null || token === void 0 ? null : {
 		method: "GET",
 		headers: {
@@ -28,7 +25,7 @@ const apiGetDownload = (url, fileName) => {
 }
 
 const apiGetBlob = (url, callback) => {
-	let token = store.state.token
+	let token = store.getters.getToken
 	let request = token === null || token === void 0 ? null : {
 		method: "GET",
 		headers: {
@@ -39,7 +36,7 @@ const apiGetBlob = (url, callback) => {
 }
 
 const apiPost = (url, data, callback) => {
-	let token = store.state.token
+	let token = store.getters.getToken
 	token = token === null || token === void 0 ? "" : token
 	let request = {
 		method: "POST",
@@ -53,7 +50,7 @@ const apiPost = (url, data, callback) => {
 }
 
 const apiPostBlob = (url, data, callback) => {
-	let token = store.state.token
+	let token = store.getters.getToken
 	let request = token === null || token === void 0 ? null : {
 		method: "POST",
 		headers: {
@@ -66,7 +63,7 @@ const apiPostBlob = (url, data, callback) => {
 }
 
 const apiPut = (url, data, callback) => {
-	let token = store.state.token
+	let token = store.getters.getToken
 	token = token === null || token === void 0 ? "" : token
 	let request = {
 		method: "PUT",
@@ -80,7 +77,7 @@ const apiPut = (url, data, callback) => {
 }
 
 const apiDelete = (url, callback) => {
-	let token = store.state.token
+	let token = store.getters.getToken
 	let request = token === null || token === void 0 ? null : {
 		method: "DELETE",
 		headers: {
