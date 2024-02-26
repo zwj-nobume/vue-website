@@ -3,31 +3,30 @@ import { createStore } from 'vuex'
 const store = createStore({
 	state() {
 		return {
-			token: '',
-			permission: []
+			token: localStorage.getItem('token'),
+			permission: new Set(localStorage.getItem('permission').split(';'))
 		}
 	},
 	mutations: {
 		setToken(state, payload) {
 			state.token = payload.token
-			state.permission = payload.permission
+			state.permission.clear()
+			payload.permission.forEach(item => state.permission.add(item))
 			localStorage.setItem('token', payload.token)
 			localStorage.setItem('permission', payload.permission.join(';'))
 		},
 		deleteToken(state) {
 			state.token = ''
-			state.permission = []
+			state.permission.clear()
 			localStorage.removeItem('token')
 			localStorage.removeItem('permission')
 		},
 	},
 	getters: {
 		getToken(state) {
-			state.token = localStorage.getItem('token')
 			return state.token
 		},
 		getPermission(state) {
-			state.permission = localStorage.getItem('permission').split(';')
 			return state.permission
 		}
 	}
