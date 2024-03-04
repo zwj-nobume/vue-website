@@ -37,6 +37,7 @@ router.beforeEach((to, from, next) => {
 		return
 	}
 	if (store.getters.getToken === null || store.getters.getToken === '') {
+		alert("需要登录")
 		router.push('/login')
 		return
 	}

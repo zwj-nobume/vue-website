@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import ItemList from '@/comps/ItemList.vue';
+import ButtonList from '@/comps/ButtonList.vue';
 
 const pages = ref(new Array(
     { name: '系统管理', path: '/system', icon: '/src/assets/icon/system.svg' },
@@ -11,7 +11,7 @@ const pages = ref(new Array(
 
 <template>
     <main class="main">
-        <ItemList :list="pages"></ItemList>
+        <ButtonList :list="pages"></ButtonList>
     </main>
 </template>
 

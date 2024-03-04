@@ -1,10 +1,13 @@
 import { createStore } from 'vuex'
 
+const token = localStorage.getItem('token')
+const permission = localStorage.getItem('permission')
+
 const store = createStore({
 	state() {
 		return {
-			token: localStorage.getItem('token'),
-			permission: new Set(localStorage.getItem('permission').split(';'))
+			token: token,
+			permission: new Set(permission === null ? [] : permission.split(';'))
 		}
 	},
 	mutations: {
