@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { apiGet } from '@/utils/ajax.js'
+import { useStore } from 'vuex';
 
 const props = defineProps({
     url: {
@@ -13,19 +14,19 @@ const props = defineProps({
     },
 })
 
-const table = ref(new Array())
+const store = useStore()
 const loadTable = (params) => {
     let arr = new Array()
     Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
-    apiGet(`${props.url}?${arr.join('&')}`, res => table.value = res.data)
+    apiGet(`${props.url}?${arr.join('&')}`, res => store.commit('setTable', res.data))
 }
 loadTable({
     pageNum: 1,
-    pageSize: 25,
+    pageSize: 20,
 })
 
 const selectLine = (num) => {
-    let line = table.value[num]
+    let line = store.getters.getTable[num]
     let selected = line.selected
     selected ? line.selected = false : line.selected = true
 }
@@ -40,7 +41,7 @@ const selectLine = (num) => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(tr, i) in table" @click="selectLine(i)" :class="{ selected: tr.selected }">
+                <tr v-for="(tr, i) in store.state.table" @click="selectLine(i)" :class="{ selected: tr.selected }">
                     <td v-for="td in struct">{{ tr[td.value] }}</td>
                 </tr>
             </tbody>
@@ -59,7 +60,7 @@ section.table-page {
     justify-content: space-between;
     align-items: center;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     scrollbar-width: thin;
 }
 
