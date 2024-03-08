@@ -27,8 +27,8 @@ const clevent = (button) => {
     }
     if (typeof button.target === 'string' && button.target === '_blank') {
         let a = document.createElement('a')
-        a.target = target
-        a.href = path
+        a.target = button.target
+        a.href = button.path
         a.click()
         a = null
         return
