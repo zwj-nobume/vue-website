@@ -76,13 +76,15 @@ const apiPut = (url, data, callback) => {
 	apiAjax(url, request, callback)
 }
 
-const apiDelete = (url, callback) => {
+const apiDelete = (url, data, callback) => {
 	let token = store.getters.getToken
 	let request = token === null || token === void 0 ? null : {
 		method: "DELETE",
 		headers: {
-			"Authorization": token
-		}
+			"Authorization": token,
+			"Content-Type": "application/json"
+		},
+		body: data === null ? "" : JSON.stringify(data)
 	}
 	apiAjax(url, request, callback)
 }

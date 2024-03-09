@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import { apiDelete } from '@/utils/ajax'
+import { router } from '@/utils/router'
 
 const token = localStorage.getItem('token')
 const permission = localStorage.getItem('permission')
@@ -34,9 +36,20 @@ const store = createStore({
 		selResvTable(state) {
 			state.table.forEach(tb => tb.selected = !tb.selected)
 		},
-		delTable(state) {
+		delTable(state, payload) {
 			let delTable = state.table.filter(tb => tb.selected)
-			console.log(delTable)
+			if (delTable.length === 0) {
+				alert("请先选择需要删除的记录")
+				return
+			}
+			if (window.confirm(`确认要删除选中的 ${delTable.length} 条记录吗?`)) {
+				let ids = delTable.map(tb => tb[payload.idName])
+				const callback = (res) => {
+					alert(res.message)
+					router.go(0)
+				}
+				apiDelete(payload.url, ids, callback)
+			}
 		}
 	},
 	getters: {

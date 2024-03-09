@@ -8,7 +8,10 @@ const store = useStore()
 
 const selAll = () => store.commit('selAllTable')
 const selResv = () => store.commit('selResvTable')
-const del = () => store.commit('delTable')
+const del = () => store.commit('delTable', {
+    url: '/api/user/delete',
+    idName: 'userId'
+})
 
 const add = () => {
     console.log('add')
