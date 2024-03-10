@@ -8,12 +8,12 @@ defineProps({
     },
     width: {
         type: Number,
-        default: 120,
+        default: 100,
         required: false,
     },
     height: {
         type: Number,
-        default: 80,
+        default: 60,
         required: false,
     },
 })
