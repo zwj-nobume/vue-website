@@ -1,6 +1,5 @@
 <script setup>
 import { apiDelete, apiGet, apiPut } from '@/utils/ajax.js';
-import { router } from '@/utils/router';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -20,14 +19,17 @@ const props = defineProps({
 
 const table = ref(new Array())
 const loadTable = (params) => {
+    if (typeof params === 'undefined' || params === null) {
+        params = {
+            pageNum: 1,
+            pageSize: 20,
+        }
+    }
     let arr = new Array()
     Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
     apiGet(`${props.url.list}?${arr.join('&')}`, res => table.value = res.data)
 }
-loadTable({
-    pageNum: 1,
-    pageSize: 20,
-})
+loadTable()
 
 const selectLine = (num) => {
     let line = table.value[num]
@@ -71,13 +73,14 @@ const del = () => {
         let ids = delTable.map(tb => tb[props.idName])
         const callback = (res) => {
             alert(res.message)
-            router.go(0)
+            loadTable()
         }
         apiDelete(props.url.delete, ids, callback)
     }
 }
 
 defineExpose({
+    loadTable,
     selAll,
     selResv,
     del,

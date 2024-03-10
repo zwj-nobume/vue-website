@@ -17,12 +17,18 @@ defineProps({
         required: false,
     },
 })
+const emit = defineEmits([
+    'btn-add',
+    'btn-sel-all',
+    'btn-sel-resv',
+    'btn-del',
+])
 
 const router = useRouter()
 
 const clevent = (button) => {
-    if (typeof button.click === 'function') {
-        button.click()
+    if (typeof button.emit === 'string') {
+        emit(button.emit)
         return
     }
     if (typeof button.target === 'string' && button.target === '_blank') {

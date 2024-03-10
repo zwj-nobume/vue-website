@@ -1,22 +1,28 @@
 <script setup>
+import AddDialog from '@/comps/AddDialog.vue';
 import ButtonList from '@/comps/ButtonList.vue';
 import TablePage from '@/comps/TablePage.vue';
 import { ref } from 'vue';
 
 const tableFunc = ref(null)
+const reloadTable = () => tableFunc.value.loadTable()
 const selAll = () => tableFunc.value.selAll()
 const selResv = () => tableFunc.value.selResv()
 const del = () => tableFunc.value.del()
 
-const add = () => {
-    console.log('add')
-}
+const addDialog = ref(null)
+const elems = ref(new Array(
+    { name: 'userName', label: "用户名", type: 'text', required: true },
+    { name: 'password', label: "密码", type: 'password', required: true },
+    { name: 'email', label: "邮箱", type: 'email', required: true },
+))
+const add = () => addDialog.value.showModal()
 
 const buttons = ref(new Array(
-    { name: "添加", click: add, icon: '/src/assets/icon/add-user.svg' },
-    { name: "全选", click: selAll, icon: '/src/assets/icon/sel-all.svg' },
-    { name: "反选", click: selResv, icon: '/src/assets/icon/sel-resv.svg' },
-    { name: "删除", click: del, icon: '/src/assets/icon/delete.svg' },
+    { name: "添加", emit: 'btn-add', icon: '/src/assets/icon/add-user.svg' },
+    { name: "全选", emit: 'btn-sel-all', icon: '/src/assets/icon/sel-all.svg' },
+    { name: "反选", emit: 'btn-sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
+    { name: "删除", emit: 'btn-del', icon: '/src/assets/icon/delete.svg' },
 ))
 
 const url = ref({
@@ -38,8 +44,9 @@ const struct = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons"></ButtonList>
+        <ButtonList :list="buttons" @btn-add="add" @btn-sel-all="selAll" @btn-sel-resv="selResv" @btn-del="del"></ButtonList>
         <TablePage ref="tableFunc" :url="url" :idName="idName" :struct="struct"></TablePage>
+        <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
     </main>
 </template>
 
