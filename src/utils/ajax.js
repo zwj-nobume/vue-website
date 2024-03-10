@@ -1,5 +1,5 @@
-import { store } from '@/utils/store.js'
 import { router } from '@/utils/router.js'
+import { store } from '@/utils/store.js'
 
 const apiGet = (url, callback) => {
 	let token = store.getters.getToken
@@ -144,4 +144,4 @@ const apiAjaxBlob = (url, request, callback) => {
 	})
 }
 
-export { apiGet, apiGetDownload, apiGetBlob, apiPost, apiPostBlob, apiPut, apiDelete, logout }
+export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, logout }
