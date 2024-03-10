@@ -1,10 +1,14 @@
 <script setup>
+import { apiDelete, apiGet, apiPut } from '@/utils/ajax.js';
+import { router } from '@/utils/router';
 import { ref } from 'vue';
-import { apiGet } from '@/utils/ajax.js'
-import { useStore } from 'vuex';
 
 const props = defineProps({
     url: {
+        type: Object,
+        required: true,
+    },
+    idName: {
         type: String,
         required: true,
     },
@@ -14,11 +18,11 @@ const props = defineProps({
     },
 })
 
-const store = useStore()
+const table = ref(new Array())
 const loadTable = (params) => {
     let arr = new Array()
     Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
-    apiGet(`${props.url}?${arr.join('&')}`, res => store.commit('setTable', res.data))
+    apiGet(`${props.url.list}?${arr.join('&')}`, res => table.value = res.data)
 }
 loadTable({
     pageNum: 1,
@@ -26,10 +30,58 @@ loadTable({
 })
 
 const selectLine = (num) => {
-    let line = store.getters.getTable[num]
+    let line = table.value[num]
     let selected = line.selected
     selected ? line.selected = false : line.selected = true
 }
+
+const selAll = () => table.value.forEach(tb => tb.selected = true)
+const selResv = () => table.value.forEach(tb => tb.selected = !tb.selected)
+
+const upd = (num, td) => {
+    if (!td.modifiable) return
+    let line = table.value[num]
+    let newVal = prompt(`${td.name}`, line[td.value])
+    if (newVal === null) return
+    if (newVal === line[td.value]) {
+        alert("数据未修改")
+        return
+    }
+    if (td.regexp && newVal.match(td.regexp) === null) {
+        alert("输入格式不匹配")
+        return
+    }
+    const data = new Object()
+    data[props.idName] = line[props.idName]
+    data[td.value] = newVal
+    const callback = (res) => {
+        alert(res.message)
+        line[td.value] = newVal
+    }
+    apiPut(props.url.edit, data, callback)
+}
+
+const del = () => {
+    let delTable = table.value.filter(tb => tb.selected)
+    if (delTable.length === 0) {
+        alert("请先选择需要删除的记录")
+        return
+    }
+    if (window.confirm(`确认要删除选中的 ${delTable.length} 条记录吗?`)) {
+        let ids = delTable.map(tb => tb[props.idName])
+        const callback = (res) => {
+            alert(res.message)
+            router.go(0)
+        }
+        apiDelete(props.url.delete, ids, callback)
+    }
+}
+
+defineExpose({
+    selAll,
+    selResv,
+    del,
+})
 </script>
 
 <template>
@@ -41,8 +93,8 @@ const selectLine = (num) => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(tr, i) in store.state.table" @click="selectLine(i)" :class="{ selected: tr.selected }">
-                    <td v-for="td in struct">{{ tr[td.value] }}</td>
+                <tr v-for="(tr, i) in table" @click="selectLine(i)" :class="{ selected: tr.selected }">
+                    <td v-for="td in struct" @dblclick="upd(i, td)">{{ tr[td.value] }}</td>
                 </tr>
             </tbody>
         </table>

@@ -1,17 +1,12 @@
 <script setup>
-import { ref } from 'vue';
 import ButtonList from '@/comps/ButtonList.vue';
 import TablePage from '@/comps/TablePage.vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 
-const store = useStore()
-
-const selAll = () => store.commit('selAllTable')
-const selResv = () => store.commit('selResvTable')
-const del = () => store.commit('delTable', {
-    url: '/api/album/delete',
-    idName: 'albumId'
-})
+const tableFunc = ref(null)
+const selAll = () => tableFunc.value.selAll()
+const selResv = () => tableFunc.value.selResv()
+const del = () => tableFunc.value.del()
 
 const add = () => {
     console.log('add')
@@ -24,17 +19,23 @@ const buttons = ref(new Array(
     { name: "删除", click: del, icon: '/src/assets/icon/delete.svg' },
 ))
 
-const url = ref("/api/album/list")
+const url = ref({
+    list: '/api/album/list',
+    add: '/api/album/add',
+    edit: '/api/album/edit',
+    delete: '/api/album/delete',
+})
+const idName = ref('albumId')
 const struct = ref(new Array(
-    { name: "专辑名称", value: 'albumName' },
-    { name: "专辑路径", value: 'albumPath' },
+    { name: "专辑名称", value: 'albumName', modifiable: true },
+    { name: "专辑路径", value: 'albumPath', modifiable: true },
 ))
 </script>
 
 <template>
     <main class="main">
         <ButtonList :list="buttons"></ButtonList>
-        <TablePage :url="url" :struct="struct"></TablePage>
+        <TablePage ref="tableFunc" :url="url" :idName="idName" :struct="struct"></TablePage>
     </main>
 </template>
 

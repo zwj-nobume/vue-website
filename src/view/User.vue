@@ -1,17 +1,12 @@
 <script setup>
-import { ref } from 'vue';
 import ButtonList from '@/comps/ButtonList.vue';
 import TablePage from '@/comps/TablePage.vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 
-const store = useStore()
-
-const selAll = () => store.commit('selAllTable')
-const selResv = () => store.commit('selResvTable')
-const del = () => store.commit('delTable', {
-    url: '/api/user/delete',
-    idName: 'userId'
-})
+const tableFunc = ref(null)
+const selAll = () => tableFunc.value.selAll()
+const selResv = () => tableFunc.value.selResv()
+const del = () => tableFunc.value.del()
 
 const add = () => {
     console.log('add')
@@ -24,10 +19,16 @@ const buttons = ref(new Array(
     { name: "删除", click: del, icon: '/src/assets/icon/delete.svg' },
 ))
 
-const url = ref("/api/user/list")
+const url = ref({
+    list: '/api/user/list',
+    add: '/api/user/add',
+    edit: '/api/user/edit',
+    delete: '/api/user/delete',
+})
+const idName = ref('userId')
 const struct = ref(new Array(
-    { name: "用户名", value: 'userName' },
-    { name: "邮箱", value: 'email' },
+    { name: "用户名", value: 'userName', modifiable: true },
+    { name: "邮箱", value: 'email', modifiable: true, regexp: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ },
     { name: "创建人", value: 'createName' },
     { name: "创建时间", value: 'createTime' },
     { name: "修改人", value: 'updateName' },
@@ -38,7 +39,7 @@ const struct = ref(new Array(
 <template>
     <main class="main">
         <ButtonList :list="buttons"></ButtonList>
-        <TablePage :url="url" :struct="struct"></TablePage>
+        <TablePage ref="tableFunc" :url="url" :idName="idName" :struct="struct"></TablePage>
     </main>
 </template>
 
