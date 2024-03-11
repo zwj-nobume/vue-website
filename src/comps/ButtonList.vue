@@ -73,6 +73,7 @@ ul.list {
 ul.list li.btn {
     margin: 20px 0 0 20px;
     display: flex;
+    user-select: none;
     flex-direction: column;
 }
 
