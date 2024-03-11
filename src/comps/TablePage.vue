@@ -1,6 +1,7 @@
 <script setup>
+import PageList from '@/comps/PageList.vue';
 import { apiDelete, apiGet, apiPut } from '@/utils/ajax.js';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps({
     url: {
@@ -17,19 +18,29 @@ const props = defineProps({
     },
 })
 
+const page = ref(null)
 const table = ref(new Array())
-const loadTable = (params) => {
-    if (typeof params === 'undefined' || params === null) {
-        params = {
-            pageNum: 1,
-            pageSize: 20,
-        }
+const sortFlag = ref('')
+const pageSize = ref(20)
+const total = ref(0)
+const sizeList = ref([10, 20, 30, 40, 50])
+const loadTable = (pageNum) => {
+    if (typeof pageNum === 'undefined' || pageNum === null) {
+        pageNum = 1
+        page.value.cur = 1
     }
+    let params = {
+        pageNum: pageNum,
+        pageSize: pageSize.value,
+    }
+    if (sortFlag.value !== "") params.sortFlag = sortFlag.value
     let arr = new Array()
     Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
-    apiGet(`${props.url.list}?${arr.join('&')}`, res => table.value = res.data)
+    apiGet(`${props.url.list}?${arr.join('&')}`, res => {
+        table.value = res.data
+        total.value = res.total
+    })
 }
-loadTable()
 
 const selectLine = (num) => {
     let line = table.value[num]
@@ -85,6 +96,8 @@ defineExpose({
     selResv,
     del,
 })
+
+onMounted(() => loadTable())
 </script>
 
 <template>
@@ -102,14 +115,24 @@ defineExpose({
             </tbody>
         </table>
     </section>
-    <p style="text-align: center;">Page</p>
+    <p class="page">
+    <div>
+        <select v-model="sortFlag" @change="loadTable()">
+            <option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
+            <option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
+        </select>
+        <select v-model="pageSize" @change="loadTable()">
+            <option v-for="size in sizeList" :value="size">{{ size }}</option>
+        </select>
+    </div>
+    <PageList ref="page" @load-page="loadTable" :total="total" :size="pageSize"></PageList>
+    </p>
 </template>
 
 <style scoped>
 section.table-page {
     flex: 1;
     width: 100%;
-    font-size: larger;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -131,11 +154,28 @@ table td {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
+    user-select: none;
     border-bottom: 1px solid gray;
 }
 
 table tbody tr.selected,
 table tbody tr:hover {
     background-color: rgba(128, 128, 128, 0.5);
+}
+
+p.page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+p.page div select {
+    margin-left: 10px;
+}
+
+section.table-page,
+p.page div select,
+p.page ul {
+    font-size: larger;
 }
 </style>

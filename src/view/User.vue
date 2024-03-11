@@ -33,12 +33,12 @@ const url = ref({
 })
 const idName = ref('userId')
 const struct = ref(new Array(
-    { name: "用户名", value: 'userName', modifiable: true },
-    { name: "邮箱", value: 'email', modifiable: true, regexp: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ },
-    { name: "创建人", value: 'createName' },
-    { name: "创建时间", value: 'createTime' },
-    { name: "修改人", value: 'updateName' },
-    { name: "修改时间", value: 'updateTime' },
+    { name: "用户名", value: 'userName', sortFlag: 'ui.user_name', modifiable: true },
+    { name: "邮箱", value: 'email', sortFlag: 'ui.email', modifiable: true, regexp: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ },
+    { name: "创建人", value: 'createName', sortFlag: 'uic.user_name' },
+    { name: "创建时间", value: 'createTime', sortFlag: 'ui.create_time' },
+    { name: "修改人", value: 'updateName', sortFlag: 'uiu.user_name' },
+    { name: "修改时间", value: 'updateTime', sortFlag: 'ui.update_time' },
 ))
 </script>
 

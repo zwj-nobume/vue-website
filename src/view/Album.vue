@@ -33,8 +33,8 @@ const url = ref({
 })
 const idName = ref('albumId')
 const struct = ref(new Array(
-    { name: "专辑名称", value: 'albumName', modifiable: true },
-    { name: "专辑路径", value: 'albumPath', modifiable: true },
+    { name: "专辑名称", value: 'albumName', sortFlag: 'ai.album_name', modifiable: true },
+    { name: "专辑路径", value: 'albumPath', sortFlag: 'ai.album_path', modifiable: true },
 ))
 </script>
 
