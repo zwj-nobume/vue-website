@@ -28,7 +28,6 @@ const add = () => {
     if (!checked) return false
     const callback = (res) => {
         alert(res.message)
-        console.log(form.value)
         dialogRef.value.close()
         emit('reload-table')
     }
@@ -36,7 +35,13 @@ const add = () => {
 }
 
 const dialogRef = ref(null)
-const showModal = () => dialogRef.value.showModal()
+const showModal = (params) => {
+    Object.keys(form.value).forEach(key => delete form.value[key])
+    if (typeof params !== 'undefined' && params !== null) {
+        Object.keys(params).forEach(key => form.value[key] = params[key])
+    }
+    dialogRef.value.showModal()
+}
 
 defineExpose({
     showModal,
