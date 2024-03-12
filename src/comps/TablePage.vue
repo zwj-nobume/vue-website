@@ -117,10 +117,12 @@ onMounted(() => loadTable())
     </section>
     <p class="page">
     <div>
+        <span>排序标识:&emsp;</span>
         <select v-model="sortFlag" @change="loadTable()">
             <option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
             <option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
         </select>
+        <span>每页数量:&emsp;</span>
         <select v-model="pageSize" @change="loadTable()">
             <option v-for="size in sizeList" :value="size">{{ size }}</option>
         </select>
@@ -149,7 +151,7 @@ table {
 
 table th,
 table td {
-    padding: 5px 0;
+    height: 2em;
     text-align: center;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -169,13 +171,18 @@ p.page {
     align-items: center;
 }
 
-p.page div select {
+p.page div {
+    display: flex;
+    align-items: center;
+}
+
+p.page div span {
     margin-left: 10px;
 }
 
 section.table-page,
 p.page div select,
 p.page ul {
-    font-size: larger;
+    font-size: 1.3em;
 }
 </style>
