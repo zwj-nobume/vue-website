@@ -4,11 +4,11 @@ import ButtonList from '@/comps/ButtonList.vue';
 import TablePage from '@/comps/TablePage.vue';
 import { ref } from 'vue';
 
-const tableFunc = ref(null)
-const reloadTable = () => tableFunc.value.loadTable()
-const selAll = () => tableFunc.value.selAll()
-const selResv = () => tableFunc.value.selResv()
-const del = () => tableFunc.value.del()
+const tablePage = ref(null)
+const reloadTable = () => tablePage.value.loadTable()
+const selAll = () => tablePage.value.selAll()
+const selResv = () => tablePage.value.selResv()
+const del = () => tablePage.value.del()
 const buttons = ref(new Array(
     { name: "添加", emit: 'btn-add', icon: '/src/assets/icon/add-user.svg' },
     { name: "全选", emit: 'btn-sel-all', icon: '/src/assets/icon/sel-all.svg' },
@@ -41,7 +41,7 @@ const struct = ref(new Array(
     <main class="main">
         <ButtonList :list="buttons" @btn-add="add" @btn-sel-all="selAll" @btn-sel-resv="selResv" @btn-del="del">
         </ButtonList>
-        <TablePage ref="tableFunc" :url="url" :idName="idName" :struct="struct"></TablePage>
+        <TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct"></TablePage>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
     </main>
 </template>
