@@ -18,10 +18,10 @@ defineProps({
     },
 })
 const emit = defineEmits([
-    'btn-add',
-    'btn-sel-all',
-    'btn-sel-resv',
-    'btn-del',
+    'add',
+    'sel-all',
+    'sel-resv',
+    'del',
 ])
 
 const router = useRouter()

@@ -10,10 +10,10 @@ const selAll = () => tablePage.value.selAll()
 const selResv = () => tablePage.value.selResv()
 const del = () => tablePage.value.del()
 const buttons = ref(new Array(
-    { name: "添加", emit: 'btn-add', icon: '/src/assets/icon/add-user.svg' },
-    { name: "全选", emit: 'btn-sel-all', icon: '/src/assets/icon/sel-all.svg' },
-    { name: "反选", emit: 'btn-sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
-    { name: "删除", emit: 'btn-del', icon: '/src/assets/icon/delete.svg' },
+    { name: "添加", emit: 'add', icon: '/src/assets/icon/add-user.svg' },
+    { name: "全选", emit: 'sel-all', icon: '/src/assets/icon/sel-all.svg' },
+    { name: "反选", emit: 'sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
+    { name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg' },
 ))
 
 const addDialog = ref(null)
@@ -43,7 +43,7 @@ const struct = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons" @btn-add="add" @btn-sel-all="selAll" @btn-sel-resv="selResv" @btn-del="del">
+        <ButtonList :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
         </ButtonList>
         <TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct"></TablePage>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
