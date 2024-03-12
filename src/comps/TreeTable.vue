@@ -36,6 +36,12 @@ const loadTable = (pid) => {
     })
 }
 
+const loadLastTable = () => {
+    if (parentId.value.length <= 1) return
+    parentId.value.pop()
+    loadTable()
+}
+
 const selectLine = (num) => {
     let line = table.value[num]
     let selected = line.selected
@@ -92,6 +98,7 @@ const getLastParentId = () => {
 defineExpose({
     getLastParentId,
     loadTable,
+    loadLastTable,
     selAll,
     selResv,
     del,
@@ -166,6 +173,7 @@ table tbody tr td button {
     width: 100%;
     height: 100%;
     border-radius: 8px;
+    font-size: 1em;
     background-color: orange;
 }
 

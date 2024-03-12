@@ -6,10 +6,12 @@ import { ref } from 'vue';
 
 const treeTable = ref(null)
 const reloadTable = () => treeTable.value.loadTable()
+const loadLastTable = () => treeTable.value.loadLastTable()
 const selAll = () => treeTable.value.selAll()
 const selResv = () => treeTable.value.selResv()
 const del = () => treeTable.value.del()
 const buttons = ref(new Array(
+    { name: "上一菜单", emit: 'last-tree', icon: '/src/assets/icon/last-menu.svg' },
     { name: "添加", emit: 'add', icon: '/src/assets/icon/add-menu.svg' },
     { name: "全选", emit: 'sel-all', icon: '/src/assets/icon/sel-all.svg' },
     { name: "反选", emit: 'sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
@@ -47,7 +49,8 @@ const struct = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
+        <ButtonList :list="buttons" @last-tree="loadLastTable" @add="add" @sel-all="selAll" @sel-resv="selResv"
+            @del="del">
         </ButtonList>
         <TreeTable ref="treeTable" :url="url" :idName="idName" :parentName="parentName" :struct="struct"></TreeTable>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>

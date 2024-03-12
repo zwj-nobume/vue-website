@@ -18,6 +18,7 @@ defineProps({
     },
 })
 const emit = defineEmits([
+    'last-tree',
     'add',
     'sel-all',
     'sel-resv',
