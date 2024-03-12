@@ -9,6 +9,12 @@ const reloadTable = () => tableFunc.value.loadTable()
 const selAll = () => tableFunc.value.selAll()
 const selResv = () => tableFunc.value.selResv()
 const del = () => tableFunc.value.del()
+const buttons = ref(new Array(
+    { name: "添加", emit: 'btn-add', icon: '/src/assets/icon/add-user.svg' },
+    { name: "全选", emit: 'btn-sel-all', icon: '/src/assets/icon/sel-all.svg' },
+    { name: "反选", emit: 'btn-sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
+    { name: "删除", emit: 'btn-del', icon: '/src/assets/icon/delete.svg' },
+))
 
 const addDialog = ref(null)
 const elems = ref(new Array(
@@ -17,13 +23,6 @@ const elems = ref(new Array(
     { name: 'email', label: "邮箱", type: 'email', required: true },
 ))
 const add = () => addDialog.value.showModal()
-
-const buttons = ref(new Array(
-    { name: "添加", emit: 'btn-add', icon: '/src/assets/icon/add-user.svg' },
-    { name: "全选", emit: 'btn-sel-all', icon: '/src/assets/icon/sel-all.svg' },
-    { name: "反选", emit: 'btn-sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
-    { name: "删除", emit: 'btn-del', icon: '/src/assets/icon/delete.svg' },
-))
 
 const url = ref({
     list: '/api/user/list',
@@ -44,7 +43,8 @@ const struct = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons" @btn-add="add" @btn-sel-all="selAll" @btn-sel-resv="selResv" @btn-del="del"></ButtonList>
+        <ButtonList :list="buttons" @btn-add="add" @btn-sel-all="selAll" @btn-sel-resv="selResv" @btn-del="del">
+        </ButtonList>
         <TablePage ref="tableFunc" :url="url" :idName="idName" :struct="struct"></TablePage>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
     </main>
