@@ -19,13 +19,20 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    control: {
+        type: Array,
+        required: false
+    },
 })
+const emit = defineEmits([
+    'next-tree',
+])
 
 const table = ref(new Array())
 const parentId = ref([''])
 const sortFlag = ref('')
 const loadTable = (pid) => {
-    if (typeof pid !== 'undefined' && pid !== null) parentId.value.push(pid)
+    if (!ifNull(pid)) parentId.value.push(pid)
     let params = new Object()
     params[props.parentName] = getLastParentId()
     if (sortFlag.value !== '') params.sortFlag = sortFlag.value
@@ -95,6 +102,10 @@ const getLastParentId = () => {
     return lastParentId === '' ? 'NULL' : lastParentId
 }
 
+const ifNull = (item) => {
+    return typeof item === 'undefined' || item === null
+}
+
 defineExpose({
     getLastParentId,
     loadTable,
@@ -113,12 +124,15 @@ onMounted(() => loadTable())
             <thead>
                 <tr>
                     <th v-for="td in struct">{{ td.name }}</th>
+                    <th v-if="!ifNull(control)">操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(tr, i) in table" @click="selectLine(i)" :class="{ selected: tr.selected }">
                     <td v-for="td in struct" @dblclick="upd(i, td)">{{ tr[td.value] }}</td>
-                    <td><button @click="loadTable(tr[idName])">子菜单</button></td>
+                    <td v-if="!ifNull(control)">
+                        <button v-for="ctl in control" @click="emit(ctl.emit, tr[idName])">{{ ctl.name }}</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

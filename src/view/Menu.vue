@@ -5,7 +5,7 @@ import TreeTable from '@/comps/TreeTable.vue';
 import { ref } from 'vue';
 
 const treeTable = ref(null)
-const reloadTable = () => treeTable.value.loadTable()
+const reloadTable = (pid) => treeTable.value.loadTable(pid)
 const loadLastTable = () => treeTable.value.loadLastTable()
 const selAll = () => treeTable.value.selAll()
 const selResv = () => treeTable.value.selResv()
@@ -45,6 +45,9 @@ const struct = ref(new Array(
     { name: "修改人", value: 'updateName', sortFlag: 'uiu.user_name' },
     { name: "修改时间", value: 'updateTime', sortFlag: 'mi.create_time' },
 ))
+const control = ref(new Array(
+    { name: "子菜单", emit: 'next-tree' },
+))
 </script>
 
 <template>
@@ -52,7 +55,9 @@ const struct = ref(new Array(
         <ButtonList :list="buttons" @last-tree="loadLastTable" @add="add" @sel-all="selAll" @sel-resv="selResv"
             @del="del">
         </ButtonList>
-        <TreeTable ref="treeTable" :url="url" :idName="idName" :parentName="parentName" :struct="struct"></TreeTable>
+        <TreeTable ref="treeTable" :url="url" :idName="idName" :parentName="parentName" :struct="struct"
+            :control="control" @next-tree="reloadTable">
+        </TreeTable>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
     </main>
 </template>
