@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import ButtonList from '@/comps/ButtonList.vue';
+import NavList from '@/comps/NavList.vue';
 
 const pages = ref(new Array(
     { name: 'Memos', path: 'https://memos.colonq.cn:81', icon: '/src/assets/icon/memos.svg', target: '_blank' },
@@ -15,7 +15,7 @@ const pages = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="pages"></ButtonList>
+        <NavList :list="pages"></NavList>
     </main>
 </template>
 

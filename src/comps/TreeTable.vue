@@ -128,10 +128,10 @@ onMounted(() => loadTable())
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(tr, i) in table" @click="selectLine(i)" :class="{ selected: tr.selected }">
-                    <td v-for="td in struct" @dblclick="upd(i, td)">{{ tr[td.value] }}</td>
+                <tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
+                    <td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
                     <td v-if="!ifNull(control)">
-                        <button v-for="ctl in control" @click="emit(ctl.emit, tr[idName])">{{ ctl.name }}</button>
+                        <button v-for="ctl in control" @click.stop="emit(ctl.emit, tr[idName])">{{ ctl.name }}</button>
                     </td>
                 </tr>
             </tbody>

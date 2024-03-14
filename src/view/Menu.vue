@@ -1,8 +1,8 @@
 <script setup>
 import AddDialog from '@/comps/AddDialog.vue';
-import ButtonList from '@/comps/ButtonList.vue';
 import TreeTable from '@/comps/TreeTable.vue';
 import { ref } from 'vue';
+import TitleButton from '../comps/TitleButton.vue';
 
 const treeTable = ref(null)
 const reloadTable = (pid) => treeTable.value.loadTable(pid)
@@ -52,9 +52,9 @@ const control = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons" @last-tree="loadLastTable" @add="add" @sel-all="selAll" @sel-resv="selResv"
+        <TitleButton :list="buttons" @last-tree="loadLastTable" @add="add" @sel-all="selAll" @sel-resv="selResv"
             @del="del">
-        </ButtonList>
+        </TitleButton>
         <TreeTable ref="treeTable" :url="url" :idName="idName" :parentName="parentName" :struct="struct"
             :control="control" @next-tree="reloadTable">
         </TreeTable>

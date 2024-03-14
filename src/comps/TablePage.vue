@@ -16,7 +16,12 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    control: {
+        type: Array,
+        required: false
+    },
 })
+const emit = defineEmits([])
 
 const page = ref(null)
 const table = ref(new Array())
@@ -90,6 +95,10 @@ const del = () => {
     }
 }
 
+const ifNull = (item) => {
+    return typeof item === 'undefined' || item === null
+}
+
 defineExpose({
     loadTable,
     selAll,
@@ -106,11 +115,15 @@ onMounted(() => loadTable())
             <thead>
                 <tr>
                     <th v-for="td in struct">{{ td.name }}</th>
+                    <th v-if="!ifNull(control)">操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(tr, i) in table" @click="selectLine(i)" :class="{ selected: tr.selected }">
-                    <td v-for="td in struct" @dblclick="upd(i, td)">{{ tr[td.value] }}</td>
+                <tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
+                    <td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
+                    <td v-if="!ifNull(control)">
+                        <button v-for="ctl in control" @click.stop="emit(ctl.emit, tr[idName])">{{ ctl.name }}</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -163,6 +176,22 @@ table td {
 table tbody tr.selected,
 table tbody tr:hover {
     background-color: rgba(128, 128, 128, 0.5);
+}
+
+table tbody tr td button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: orange;
+}
+
+table tbody tr td button:hover {
+    filter: brightness(1.4);
+    cursor: pointer;
 }
 
 p.page {

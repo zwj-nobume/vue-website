@@ -26,22 +26,6 @@ const emit = defineEmits([
 ])
 
 const router = useRouter()
-
-const clevent = (button) => {
-    if (typeof button.emit === 'string') {
-        emit(button.emit)
-        return
-    }
-    if (typeof button.target === 'string' && button.target === '_blank') {
-        let a = document.createElement('a')
-        a.target = button.target
-        a.href = button.path
-        a.click()
-        a = null
-        return
-    }
-    router.push(button.path)
-}
 </script>
 
 <template>
@@ -50,7 +34,7 @@ const clevent = (button) => {
             <img src="@/assets/icon/back.svg" :width="width" :height="height">
             <span class="name">上一页</span>
         </li>
-        <li class="btn" v-for="li in list" @click="clevent(li)">
+        <li class="btn" v-for="li in list" @click="emit(li.emit)">
             <img :src="li.icon ? li.icon : '/src/assets/icon/box.svg'" :width="width" :height="height">
             <span class="name">{{ li.name }}</span>
         </li>

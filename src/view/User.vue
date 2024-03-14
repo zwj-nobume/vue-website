@@ -1,8 +1,8 @@
 <script setup>
 import AddDialog from '@/comps/AddDialog.vue';
-import ButtonList from '@/comps/ButtonList.vue';
 import TablePage from '@/comps/TablePage.vue';
 import { ref } from 'vue';
+import TitleButton from '../comps/TitleButton.vue';
 
 const tablePage = ref(null)
 const reloadTable = () => tablePage.value.loadTable()
@@ -39,13 +39,20 @@ const struct = ref(new Array(
     { name: "修改人", value: 'updateName', sortFlag: 'uiu.user_name' },
     { name: "修改时间", value: 'updateTime', sortFlag: 'ui.update_time' },
 ))
+const control = ref(new Array(
+    { name: "子菜单", emit: 'next-tree' },
+    { name: "子菜单", emit: 'next-tree' },
+    { name: "子菜单", emit: 'next-tree' },
+    { name: "子菜单", emit: 'next-tree' },
+    { name: "子菜单", emit: 'next-tree' },
+))
 </script>
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
-        </ButtonList>
-        <TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct"></TablePage>
+        <TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
+        </TitleButton>
+        <TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control"></TablePage>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
     </main>
 </template>

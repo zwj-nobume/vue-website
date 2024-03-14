@@ -1,7 +1,7 @@
 <script setup>
 import AddDialog from '@/comps/AddDialog.vue';
-import ButtonList from '@/comps/ButtonList.vue';
 import TablePage from '@/comps/TablePage.vue';
+import TitleButton from '@/comps/TitleButton.vue';
 import { ref } from 'vue';
 
 const tablePage = ref(null)
@@ -39,8 +39,8 @@ const struct = ref(new Array(
 
 <template>
     <main class="main">
-        <ButtonList :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
-        </ButtonList>
+        <TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
+        </TitleButton>
         <TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct"></TablePage>
         <AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
     </main>
