@@ -130,8 +130,10 @@ onMounted(() => loadTable())
             <tbody>
                 <tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
                     <td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
-                    <td v-if="!ifNull(control)">
-                        <button v-for="ctl in control" @click.stop="emit(ctl.emit, tr[idName])">{{ ctl.name }}</button>
+                    <td class="control" v-if="!ifNull(control)">
+                        <a href="javascript:void(0);" v-for="ctl in control" @click.stop="emit(ctl.emit, tr[idName])">
+                            {{ ctl.name }}
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -208,5 +210,18 @@ p.page span {
 section.tree-table,
 p.page select {
     font-size: 1.3em;
+}
+
+table td.control {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+table td.control a {
+    font-size: small;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
 }
 </style>
