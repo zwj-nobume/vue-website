@@ -21,7 +21,9 @@ const props = defineProps({
         required: false
     },
 })
-const emit = defineEmits([])
+const emit = defineEmits([
+    'role-menu',
+])
 
 const page = ref(null)
 const table = ref(new Array())
