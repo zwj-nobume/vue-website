@@ -109,7 +109,7 @@ const apiAjax = (url, request, callback) => {
 		}
 	}).then(res => callback(res)).catch(err => {
 		if (401 === err.status) {
-			alert("需要登录")
+			alert(err.message)
 			store.commit('deleteToken')
 			router.push('/login')
 		} else {
@@ -131,7 +131,7 @@ const apiAjaxBlob = (url, request, callback) => {
 		}
 	}).then(blob => callback(blob)).catch(err => {
 		if (401 === err.status) {
-			alert("需要登录")
+			alert(err.message)
 			store.commit('deleteToken')
 			router.push('/login')
 		} else {

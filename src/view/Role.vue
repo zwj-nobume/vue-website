@@ -29,6 +29,7 @@ const url = ref({
     list: '/api/role/list',
     add: '/api/role/add',
     edit: '/api/role/edit',
+    link: '/api/role/link',
     delete: '/api/role/delete',
 })
 const idName = ref('roleId')
