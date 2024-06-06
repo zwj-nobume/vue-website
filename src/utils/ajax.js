@@ -116,8 +116,8 @@ const apiAjax = (url, request, callback) => {
 			return err.json()
 		}
 	}).then(res => {
-		if (typeof res !== "undefined" && typeof res.error !== "undefined") {
-			alert(`${res.error}: ${res.message}`)
+		if (typeof res !== "undefined" && typeof res.status !== "undefined" && typeof res.message !== "undefined") {
+			alert(`${res.status}: ${res.message}`)
 		}
 	})
 }

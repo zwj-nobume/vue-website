@@ -1,8 +1,8 @@
 <script setup>
+import { apiPost } from '@/utils/ajax.js';
 import { ref } from 'vue';
-import { apiPost } from '@/utils/ajax.js'
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 const store = useStore()
 const router = useRouter()
@@ -17,11 +17,8 @@ if (token !== null && typeof token !== 'undefined' && token !== '') {
 	router.push('/')
 }
 const submit = () => {
-	apiPost('/api/login', form.value, (res) => {
-		store.commit('setToken', {
-			token: res.data.token,
-			permission: res.data.permission
-		})
+	apiPost('/api/user/login', form.value, (res) => {
+		store.commit('setToken', res.data)
 		router.push('/')
 	})
 }

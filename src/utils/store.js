@@ -12,16 +12,20 @@ const store = createStore({
 	},
 	mutations: {
 		setToken(state, payload) {
-			state.token = payload.token
-			state.permission.clear()
-			payload.permission.forEach(item => state.permission.add(item))
-			localStorage.setItem('token', payload.token)
-			localStorage.setItem('permission', payload.permission.join(';'))
+			state.token = payload
+			localStorage.setItem('token', payload)
 		},
 		deleteToken(state) {
 			state.token = ''
-			state.permission.clear()
 			localStorage.removeItem('token')
+		},
+		setPermission(state, payload) {
+			state.permission.clear()
+			payload.forEach(item => state.permission.add(item))
+			localStorage.setItem('permission', payload.join(';'))
+		},
+		deletePermission(state) {
+			state.permission.clear()
 			localStorage.removeItem('permission')
 		},
 	},

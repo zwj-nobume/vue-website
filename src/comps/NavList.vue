@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 defineProps({
     list: {
@@ -19,6 +20,7 @@ defineProps({
 })
 
 const router = useRouter()
+const store = useStore()
 
 const clevent = (item) => {
     if (typeof item.target === 'string' && item.target === '_blank') {
@@ -39,7 +41,7 @@ const clevent = (item) => {
             <img src="@/assets/icon/back.svg" :width="width" :height="height">
             <span class="name">上一页</span>
         </li>
-        <li class="btn" v-for="li in list" @click="clevent(li)">
+        <li class="btn" v-for="li in list.filter(item => !item.permission || store.state.permission.has(item.permission))" @click="clevent(li)">
             <img :src="li.icon ? li.icon : '/src/assets/icon/box.svg'" :width="width" :height="height">
             <span class="name">{{ li.name }}</span>
         </li>

@@ -1,5 +1,5 @@
 <script setup>
-import { apiPost } from '@/utils/ajax.js';
+import { apiPut } from '@/utils/ajax.js';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -31,7 +31,7 @@ const add = () => {
         dialogRef.value.close()
         emit('reload-table')
     }
-    apiPost(props.url.add, form.value, callback)
+    apiPut(props.url.add, form.value, callback)
 }
 
 const dialogRef = ref(null)
