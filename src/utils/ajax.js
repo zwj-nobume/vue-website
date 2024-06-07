@@ -107,9 +107,10 @@ const apiAjax = (url, request, callback) => {
 		} else {
 			return Promise.reject(res)
 		}
-	}).then(res => callback(res)).catch(err => {
+	}).then(res => callback(res)).catch(async err => {
 		if (401 === err.status) {
-			alert(err.message)
+			let errObj = await err.json()
+			alert(errObj.message)
 			store.commit('deleteToken')
 			router.push('/login')
 		} else {
@@ -129,11 +130,12 @@ const apiAjaxBlob = (url, request, callback) => {
 		} else {
 			return Promise.reject(res)
 		}
-	}).then(blob => callback(blob)).catch(err => {
+	}).then(blob => callback(blob)).catch(async err => {
 		if (401 === err.status) {
-			alert(err.message)
+			let errObj = await err.json()
+			alert(errObj.message)
 			store.commit('deleteToken')
-			router.push('/login')
+			// router.push('/login')
 		} else {
 			return err.json()
 		}

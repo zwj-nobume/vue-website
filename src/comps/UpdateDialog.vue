@@ -1,6 +1,6 @@
 <script setup>
-import { apiPut } from '@/utils/ajax.js';
-import { ref } from 'vue';
+import { apiPut, apiPost } from '@/utils/ajax.js';
+import { ref, toRaw } from 'vue';
 
 const props = defineProps({
 	url: {
@@ -16,8 +16,9 @@ const emit = defineEmits([
 	'reload-table',
 ])
 
+const flag = ref(new String(''))
 const form = ref(new Object())
-const add = () => {
+const update = () => {
 	let checked = true
 	props.elems.forEach(elem => {
 		if (elem.required && !form.value[elem.name]) {
@@ -31,14 +32,21 @@ const add = () => {
 		dialogRef.value.close()
 		emit('reload-table')
 	}
-	apiPut(props.url.add, form.value, callback)
+	if ('add' === flag.value) {
+		apiPut(props.url.add, form.value, callback)
+	}
+	if ('edit' === flag.value) {
+		apiPost(props.url.edit, form.value, callback)
+	}
 }
 
 const dialogRef = ref(null)
-const showModal = (params) => {
+const showModal = (sflag, params) => {
+	let rawParams = toRaw(params)
 	Object.keys(form.value).forEach(key => delete form.value[key])
-	if (typeof params !== 'undefined' && params !== null) {
-		Object.keys(params).forEach(key => form.value[key] = params[key])
+	flag.value = sflag
+	if (typeof rawParams !== 'undefined' && rawParams !== null) {
+		Object.keys(rawParams).forEach(key => form.value[key] = rawParams[key])
 	}
 	dialogRef.value.showModal()
 }
@@ -50,9 +58,9 @@ defineExpose({
 
 <template>
 	<dialog ref="dialogRef">
-		<form method="dialog" @submit.prevent="add">
+		<form method="dialog" @submit.prevent="update">
 			<p v-for="elem in elems">
-				<label>{{ elem.label }}:&emsp;</label>
+				<label v-if="elem.type !== 'hidden'">{{ elem.label }}:&emsp;</label>
 				<input :name="elem.name" :type="elem.type" v-model="form[elem.name]" />
 			</p>
 			<p>

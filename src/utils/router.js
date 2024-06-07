@@ -1,11 +1,8 @@
 import { store } from '@/utils/store'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import Album from '@/view/Album.vue'
-import Comic from '@/view/Comic.vue'
 import Home from '@/view/Home.vue'
 import Login from '@/view/Login.vue'
-import Media from '@/view/Media.vue'
 import Menu from '@/view/Menu.vue'
 import Other from '@/view/Other.vue'
 import Role from '@/view/Role.vue'
@@ -19,9 +16,6 @@ const routes = [
 	{ name: 'user', path: '/system/user', component: User, permission: 'system:user' },
 	{ name: 'role', path: '/system/role', component: Role, permission: 'system:role' },
 	{ name: 'menu', path: '/system/menu', component: Menu, permission: 'system:menu' },
-	{ name: 'media', path: '/media', component: Media, permission: 'media' },
-	{ name: 'album', path: '/media/album', component: Album, permission: 'media:album' },
-	{ name: 'comic', path: '/media/comic', component: Comic, permission: 'media:comic' },
 	{ name: 'other', path: '/other', component: Other },
 ]
 const noVerify = new Set(['/login'])

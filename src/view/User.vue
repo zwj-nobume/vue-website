@@ -1,5 +1,5 @@
 <script setup>
-import AddDialog from '@/comps/AddDialog.vue';
+import UpdateDialog from '@/comps/UpdateDialog.vue';
 import TablePage from '@/comps/TablePage.vue';
 import { ref } from 'vue';
 import TitleButton from '../comps/TitleButton.vue';
@@ -17,12 +17,22 @@ const buttons = ref(new Array(
 ))
 
 const addDialog = ref(null)
-const elems = ref(new Array(
+const editDialog = ref(null)
+const addElems = ref(new Array(
 	{ name: 'userName', label: "用户名", type: 'text', required: true },
 	{ name: 'password', label: "密码", type: 'password', required: true },
 	{ name: 'email', label: "邮箱", type: 'email', required: true },
 ))
-const add = () => addDialog.value.showModal()
+const editElems = ref(new Array(
+	{ name: 'userName', label: "用户名", type: 'text', required: true },
+	{ name: 'email', label: "邮箱", type: 'email', required: true },
+))
+const add = () => addDialog.value.showModal('add')
+const edit = (item) => editDialog.value.showModal('edit', item)
+const openLinkRole = () => {
+	// TODO: 弹窗选择用户角色
+	console.log("弹窗选择用户角色")
+}
 
 const url = ref({
 	list: '/api/user/page',
@@ -37,14 +47,20 @@ const struct = ref(new Array(
 	{ name: "创建人", value: 'createName', sortFlag: 'create_name' },
 	{ name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
+const control = ref(new Array(
+	{ name: "角色", emit: 'linkRole' },
+	{ name: "修改", emit: 'edit' },
+))
 </script>
 
 <template>
 	<main class="main">
-		<TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
-		</TitleButton>
-		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct"></TablePage>
-		<AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
+		<TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del"></TitleButton>
+		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control" @linkRole="openLinkRole"
+			@edit="edit">
+		</TablePage>
+		<UpdateDialog ref="addDialog" :url="url" :elems="addElems" @reload-table="reloadTable"></UpdateDialog>
+		<UpdateDialog ref="editDialog" :url="url" :elems="editElems" @reload-table="reloadTable"></UpdateDialog>
 	</main>
 </template>
 

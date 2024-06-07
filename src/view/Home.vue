@@ -13,7 +13,6 @@ if (store.state.permission.size === 0) {
 
 const pages = ref(new Array(
 	{ name: '系统管理', path: '/system', icon: '/src/assets/icon/system.svg', permission: 'system' },
-	{ name: '媒体管理', path: '/media', icon: '/src/assets/icon/media.svg', permission: 'media' },
 	{ name: '其他服务', path: '/other', icon: '/src/assets/icon/other.svg' },
 ))
 </script>

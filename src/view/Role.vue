@@ -1,5 +1,5 @@
 <script setup>
-import AddDialog from '@/comps/AddDialog.vue';
+import UpdateDialog from '@/comps/UpdateDialog.vue';
 import TablePage from '@/comps/TablePage.vue';
 import { ref } from 'vue';
 import TitleButton from '../comps/TitleButton.vue';
@@ -16,14 +16,21 @@ const buttons = ref(new Array(
 	{ name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg' },
 ))
 
-const addDialog = ref(null)
+const updateDialog = ref(null)
 const elems = ref(new Array(
 	{ name: 'roleName', label: "角色名", type: 'text', required: true },
 	{ name: 'roleLabel', label: "角色标签", type: 'text', required: true },
 ))
-const add = () => addDialog.value.showModal()
-
-const openRoleMenu = () => { }
+const add = () => updateDialog.value.showModal('add')
+const edit = (item) => updateDialog.value.showModal('edit', item)
+const openLinkUser = () => {
+	// TODO: 弹窗选择角色用户
+	console.log("弹窗选择角色用户")
+}
+const openLinkMenu = () => {
+	// TODO: 弹窗选择角色菜单
+	console.log("弹窗选择角色菜单")
+}
 
 const url = ref({
 	list: '/api/role/page',
@@ -40,18 +47,19 @@ const struct = ref(new Array(
 	{ name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
 const control = ref(new Array(
-	{ name: "角色权限", emit: 'role-menu' },
+	{ name: "用户", emit: 'linkUser' },
+	{ name: "菜单", emit: 'linkMenu' },
+	{ name: "修改", emit: 'edit' },
 ))
 </script>
 
 <template>
 	<main class="main">
-		<TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del">
-		</TitleButton>
-		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control"
-			@role-menu="openRoleMenu">
+		<TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del"></TitleButton>
+		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control" @linkUser="openLinkUser" @linkMenu="openLinkMenu"
+			@edit="edit">
 		</TablePage>
-		<AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
+		<UpdateDialog ref="updateDialog" :url="url" :elems="elems" @reload-table="reloadTable"></UpdateDialog>
 	</main>
 </template>
 

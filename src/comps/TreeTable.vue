@@ -25,14 +25,16 @@ const props = defineProps({
 	},
 })
 const emit = defineEmits([
-	'next-tree',
+	'next',
+	'linkRole',
+	'edit',
 ])
 
 const table = ref(new Array())
 const parentId = ref([''])
 const sortFlag = ref('')
-const loadTable = (pid) => {
-	if (!ifNull(pid)) parentId.value.push(pid)
+const loadTable = (item) => {
+	if (typeof item !== 'undefined' && !ifNull(item[props.idName])) parentId.value.push(item[props.idName])
 	let params = new Object()
 	params[props.parentName] = getLastParentId()
 	if (sortFlag.value !== '') params.sortFlag = sortFlag.value
@@ -131,7 +133,7 @@ onMounted(() => loadTable())
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
 					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
 					<td class="control" v-if="!ifNull(control)">
-						<a href="javascript:void(0);" v-for="ctl in control" @click.stop="emit(ctl.emit, tr[idName])">
+						<a href="javascript:void(0);" v-for="ctl in control" @click.stop="emit(ctl.emit, tr)">
 							{{ ctl.name }}
 						</a>
 					</td>
@@ -220,8 +222,11 @@ table td.control {
 }
 
 table td.control a {
-	font-size: small;
-	margin-left: 0.5em;
+	font-size: smaller;
 	margin-top: 0.5em;
+}
+
+table td.control a:not(:first-child) {
+	margin-left: 0.5em;
 }
 </style>

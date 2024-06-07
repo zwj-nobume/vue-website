@@ -1,11 +1,11 @@
 <script setup>
-import AddDialog from '@/comps/AddDialog.vue';
 import TreeTable from '@/comps/TreeTable.vue';
+import UpdateDialog from '@/comps/UpdateDialog.vue';
 import { ref } from 'vue';
 import TitleButton from '../comps/TitleButton.vue';
 
 const treeTable = ref(null)
-const reloadTable = (pid) => treeTable.value.loadTable(pid)
+const reloadTable = (item) => treeTable.value.loadTable(item)
 const loadLastTable = () => treeTable.value.loadLastTable()
 const selAll = () => treeTable.value.selAll()
 const selResv = () => treeTable.value.selResv()
@@ -18,15 +18,20 @@ const buttons = ref(new Array(
 	{ name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg' },
 ))
 
-const addDialog = ref(null)
+const updateDialog = ref(null)
 const elems = ref(new Array(
 	{ name: 'menuName', label: "菜单名称", type: 'text', required: true },
 	{ name: 'menuLabel', label: "菜单标签", type: 'text', required: true },
 	{ name: 'permission', label: "权限标识", type: 'text', required: true },
 ))
-const add = () => addDialog.value.showModal({
+const add = () => updateDialog.value.showModal('add', {
 	parentId: treeTable.value.getLastParentId()
 })
+const edit = (item) => updateDialog.value.showModal('edit', item)
+const openLinkRole = () => {
+	// TODO: 弹窗选择菜单角色
+	console.log("弹窗选择菜单角色")
+}
 
 const url = ref({
 	list: '/api/menu/page',
@@ -44,7 +49,9 @@ const struct = ref(new Array(
 	{ name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
 const control = ref(new Array(
-	{ name: "子菜单", emit: 'next-tree' },
+	{ name: "子菜单", emit: 'next' },
+	{ name: "角色", emit: 'linkRole' },
+	{ name: "修改", emit: 'edit' },
 ))
 </script>
 
@@ -54,9 +61,9 @@ const control = ref(new Array(
 			@del="del">
 		</TitleButton>
 		<TreeTable ref="treeTable" :url="url" :idName="idName" :parentName="parentName" :struct="struct"
-			:control="control" @next-tree="reloadTable">
+			@linkRole="openLinkRole" :control="control" @next="reloadTable" @edit="edit">
 		</TreeTable>
-		<AddDialog ref="addDialog" :url="url" :elems="elems" @reload-table="reloadTable"></AddDialog>
+		<UpdateDialog ref="updateDialog" :url="url" :elems="elems" @reload-table="reloadTable"></UpdateDialog>
 	</main>
 </template>
 

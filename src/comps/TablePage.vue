@@ -22,7 +22,10 @@ const props = defineProps({
 	},
 })
 const emit = defineEmits([
-	'role-menu',
+	'linkUser',
+	'linkRole',
+	'linkMenu',
+	'edit',
 ])
 
 const page = ref(null)
@@ -124,7 +127,7 @@ onMounted(() => loadTable())
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
 					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
 					<td class="control" v-if="!ifNull(control)">
-						<a href="javascript:void(0);" v-for="ctl in control" @click.stop="emit(ctl.emit, tr[idName])">
+						<a href="javascript:void(0);" v-for="ctl in control" @click.stop="emit(ctl.emit, tr)">
 							{{ ctl.name }}
 						</a>
 					</td>
@@ -227,8 +230,11 @@ table td.control {
 }
 
 table td.control a {
-	font-size: small;
-	margin-left: 0.5em;
+	font-size: smaller;
 	margin-top: 0.5em;
+}
+
+table td.control a:not(:first-child) {
+	margin-left: 0.5em;
 }
 </style>
