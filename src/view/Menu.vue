@@ -1,8 +1,9 @@
 <script setup>
+import LinkDialog from '@/comps/LinkDialog.vue';
+import TitleButton from '@/comps/TitleButton.vue';
 import TreeTable from '@/comps/TreeTable.vue';
 import UpdateDialog from '@/comps/UpdateDialog.vue';
 import { ref } from 'vue';
-import TitleButton from '../comps/TitleButton.vue';
 
 const treeTable = ref(null)
 const reloadTable = (item) => treeTable.value.loadTable(item)
@@ -19,6 +20,7 @@ const buttons = ref(new Array(
 ))
 
 const updateDialog = ref(null)
+const linkDialog = ref(null)
 const elems = ref(new Array(
 	{ name: 'menuName', label: "菜单名称", type: 'text', required: true },
 	{ name: 'menuLabel', label: "菜单标签", type: 'text', required: true },
@@ -28,9 +30,17 @@ const add = () => updateDialog.value.showModal('add', {
 	parentId: treeTable.value.getLastParentId()
 })
 const edit = (item) => updateDialog.value.showModal('edit', item)
-const openLinkRole = () => {
-	// TODO: 弹窗选择菜单角色
-	console.log("弹窗选择菜单角色")
+const openLinkRole = (item) => {
+	const params = {
+		id: item.menuId,
+		idName: 'menuId',
+		elemIdName: 'roleId',
+		elemName: 'roleLabel',
+		tgtUrl: '/api/menu/roleIds',
+		allUrl: '/api/role/page',
+		linkUrl: '/api/menu/link',
+	}
+	linkDialog.value.showModal(params)
 }
 
 const url = ref({
@@ -64,6 +74,7 @@ const control = ref(new Array(
 			@linkRole="openLinkRole" :control="control" @next="reloadTable" @edit="edit">
 		</TreeTable>
 		<UpdateDialog ref="updateDialog" :url="url" :elems="elems" @reload-table="reloadTable"></UpdateDialog>
+		<LinkDialog ref="linkDialog" :url="url"></LinkDialog>
 	</main>
 </template>
 

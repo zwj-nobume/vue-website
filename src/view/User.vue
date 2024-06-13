@@ -1,8 +1,9 @@
 <script setup>
-import UpdateDialog from '@/comps/UpdateDialog.vue';
+import LinkDialog from '@/comps/LinkDialog.vue';
 import TablePage from '@/comps/TablePage.vue';
+import TitleButton from '@/comps/TitleButton.vue';
+import UpdateDialog from '@/comps/UpdateDialog.vue';
 import { ref } from 'vue';
-import TitleButton from '../comps/TitleButton.vue';
 
 const tablePage = ref(null)
 const reloadTable = () => tablePage.value.loadTable()
@@ -18,6 +19,7 @@ const buttons = ref(new Array(
 
 const addDialog = ref(null)
 const editDialog = ref(null)
+const linkDialog = ref(null)
 const addElems = ref(new Array(
 	{ name: 'userName', label: "用户名", type: 'text', required: true },
 	{ name: 'password', label: "密码", type: 'password', required: true },
@@ -29,9 +31,17 @@ const editElems = ref(new Array(
 ))
 const add = () => addDialog.value.showModal('add')
 const edit = (item) => editDialog.value.showModal('edit', item)
-const openLinkRole = () => {
-	// TODO: 弹窗选择用户角色
-	console.log("弹窗选择用户角色")
+const openLinkRole = (item) => {
+	const params = {
+		id: item.userId,
+		idName: 'userId',
+		elemIdName: 'roleId',
+		elemName: 'roleLabel',
+		tgtUrl: '/api/user/roleIds',
+		allUrl: '/api/role/page',
+		linkUrl: '/api/user/link',
+	}
+	linkDialog.value.showModal(params)
 }
 
 const url = ref({
@@ -56,11 +66,12 @@ const control = ref(new Array(
 <template>
 	<main class="main">
 		<TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del"></TitleButton>
-		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control" @linkRole="openLinkRole"
-			@edit="edit">
+		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control"
+			@linkRole="openLinkRole" @edit="edit">
 		</TablePage>
 		<UpdateDialog ref="addDialog" :url="url" :elems="addElems" @reload-table="reloadTable"></UpdateDialog>
 		<UpdateDialog ref="editDialog" :url="url" :elems="editElems" @reload-table="reloadTable"></UpdateDialog>
+		<LinkDialog ref="linkDialog" :url="url"></LinkDialog>
 	</main>
 </template>
 

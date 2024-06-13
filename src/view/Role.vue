@@ -1,8 +1,9 @@
 <script setup>
-import UpdateDialog from '@/comps/UpdateDialog.vue';
+import LinkDialog from '@/comps/LinkDialog.vue';
 import TablePage from '@/comps/TablePage.vue';
+import TitleButton from '@/comps/TitleButton.vue';
+import UpdateDialog from '@/comps/UpdateDialog.vue';
 import { ref } from 'vue';
-import TitleButton from '../comps/TitleButton.vue';
 
 const tablePage = ref(null)
 const reloadTable = () => tablePage.value.loadTable()
@@ -17,26 +18,42 @@ const buttons = ref(new Array(
 ))
 
 const updateDialog = ref(null)
+const linkDialog = ref(null)
 const elems = ref(new Array(
 	{ name: 'roleName', label: "角色名", type: 'text', required: true },
 	{ name: 'roleLabel', label: "角色标签", type: 'text', required: true },
 ))
 const add = () => updateDialog.value.showModal('add')
 const edit = (item) => updateDialog.value.showModal('edit', item)
-const openLinkUser = () => {
-	// TODO: 弹窗选择角色用户
-	console.log("弹窗选择角色用户")
+const openLinkUser = (item) => {
+	const params = {
+		id: item.roleId,
+		idName: 'roleId',
+		elemIdName: 'userId',
+		elemName: 'userName',
+		tgtUrl: '/api/role/userIds',
+		allUrl: '/api/user/page',
+		linkUrl: '/api/role/linkUR',
+	}
+	linkDialog.value.showModal(params)
 }
-const openLinkMenu = () => {
-	// TODO: 弹窗选择角色菜单
-	console.log("弹窗选择角色菜单")
+const openLinkMenu = (item) => {
+	const params = {
+		id: item.roleId,
+		idName: 'roleId',
+		elemIdName: 'menuId',
+		elemName: 'menuLabel',
+		tgtUrl: '/api/role/menuIds',
+		allUrl: '/api/menu/page',
+		linkUrl: '/api/role/linkRM',
+	}
+	linkDialog.value.showModal(params)
 }
 
 const url = ref({
 	list: '/api/role/page',
 	add: '/api/role/add',
 	edit: '/api/role/edit',
-	link: '/api/role/link',
 	delete: '/api/role/delete',
 })
 const idName = ref('roleId')
@@ -56,10 +73,11 @@ const control = ref(new Array(
 <template>
 	<main class="main">
 		<TitleButton :list="buttons" @add="add" @sel-all="selAll" @sel-resv="selResv" @del="del"></TitleButton>
-		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control" @linkUser="openLinkUser" @linkMenu="openLinkMenu"
-			@edit="edit">
+		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control"
+			@linkUser="openLinkUser" @linkMenu="openLinkMenu" @edit="edit">
 		</TablePage>
 		<UpdateDialog ref="updateDialog" :url="url" :elems="elems" @reload-table="reloadTable"></UpdateDialog>
+		<LinkDialog ref="linkDialog" :url="url"></LinkDialog>
 	</main>
 </template>
 
