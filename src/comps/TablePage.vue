@@ -118,7 +118,7 @@ onMounted(() => loadTable())
 </script>
 
 <template>
-	<section class="table-page">
+	<section class="page">
 		<table>
 			<thead>
 				<tr>
@@ -157,18 +157,6 @@ onMounted(() => loadTable())
 </template>
 
 <style scoped>
-section.table-page {
-	flex: 1;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	overflow-x: hidden;
-	overflow-y: auto;
-	scrollbar-width: thin;
-}
-
 table {
 	width: 90%;
 	table-layout: fixed;
@@ -221,7 +209,7 @@ p.page div span {
 	margin-left: 10px;
 }
 
-section.table-page,
+section.page,
 p.page div select,
 p.page ul {
 	font-size: 1.3em;

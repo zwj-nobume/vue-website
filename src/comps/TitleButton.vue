@@ -37,7 +37,9 @@ const emit = defineEmits([
 			<img src="@/assets/icon/back.svg" :width="width" :height="height">
 			<span class="name">上一页</span>
 		</li>
-		<li class="btn" v-for="li in list.filter(item => !item.permission || store.state.permission.has(item.permission))" @click="emit(li.emit)">
+		<li class="btn"
+			v-for="li in list.filter(item => !item.permission || store.state.permission.has(item.permission))"
+			:style="{ 'width': width + 'px' }" :title="li.name" @click="emit(li.emit)">
 			<img :src="li.icon ? li.icon : '/src/assets/icon/box.svg'" :width="width" :height="height">
 			<span class="name">{{ li.name }}</span>
 		</li>
@@ -59,7 +61,7 @@ ul.list {
 }
 
 ul.list li.btn {
-	margin: 20px 0 0 20px;
+	margin: 1.2em 0 0 1.2em;
 	display: flex;
 	user-select: none;
 	flex-direction: column;
@@ -72,7 +74,11 @@ ul.list li.btn:hover {
 }
 
 ul.list li.btn span.name {
-	margin-top: 10px;
+	margin-top: 0.5em;
 	text-align: center;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	width: 100%;
 }
 </style>

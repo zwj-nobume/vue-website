@@ -124,7 +124,7 @@ onMounted(() => loadTable())
 </script>
 
 <template>
-	<section class="tree-table">
+	<section class="page">
 		<table>
 			<thead>
 				<tr>
@@ -156,18 +156,6 @@ onMounted(() => loadTable())
 </template>
 
 <style scoped>
-section.tree-table {
-	flex: 1;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	overflow-x: hidden;
-	overflow-y: auto;
-	scrollbar-width: thin;
-}
-
 table {
 	width: 90%;
 	table-layout: fixed;
@@ -214,7 +202,7 @@ p.page span {
 	margin-left: 10px;
 }
 
-section.tree-table,
+section.page,
 p.page select {
 	font-size: 1.3em;
 }
