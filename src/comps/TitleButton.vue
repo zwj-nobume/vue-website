@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 defineProps({
 	list: {
@@ -17,6 +18,10 @@ defineProps({
 		required: false,
 	},
 })
+
+const router = useRouter()
+const store = useStore()
+
 const emit = defineEmits([
 	'last-tree',
 	'add',
@@ -24,8 +29,6 @@ const emit = defineEmits([
 	'sel-resv',
 	'del',
 ])
-
-const router = useRouter()
 </script>
 
 <template>
@@ -34,7 +37,7 @@ const router = useRouter()
 			<img src="@/assets/icon/back.svg" :width="width" :height="height">
 			<span class="name">上一页</span>
 		</li>
-		<li class="btn" v-for="li in list" @click="emit(li.emit)">
+		<li class="btn" v-for="li in list.filter(item => !item.permission || store.state.permission.has(item.permission))" @click="emit(li.emit)">
 			<img :src="li.icon ? li.icon : '/src/assets/icon/box.svg'" :width="width" :height="height">
 			<span class="name">{{ li.name }}</span>
 		</li>

@@ -135,7 +135,7 @@ const apiAjaxBlob = (url, request, callback) => {
 			let errObj = await err.json()
 			alert(errObj.message)
 			store.commit('deleteToken')
-			// router.push('/login')
+			router.push('/login')
 		} else {
 			return err.json()
 		}

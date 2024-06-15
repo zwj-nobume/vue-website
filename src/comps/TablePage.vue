@@ -2,6 +2,7 @@
 import PageList from '@/comps/PageList.vue';
 import { apiDelete, apiGet, apiPut } from '@/utils/ajax.js';
 import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 
 const props = defineProps({
 	url: {
@@ -21,6 +22,8 @@ const props = defineProps({
 		required: false
 	},
 })
+
+const store = useStore()
 const emit = defineEmits([
 	'linkUser',
 	'linkRole',
@@ -127,7 +130,9 @@ onMounted(() => loadTable())
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
 					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
 					<td class="control" v-if="!ifNull(control)">
-						<a href="javascript:void(0);" v-for="ctl in control" @click.stop="emit(ctl.emit, tr)">
+						<a href="javascript:void(0);"
+							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"
+							@click.stop="emit(ctl.emit, tr)">
 							{{ ctl.name }}
 						</a>
 					</td>
