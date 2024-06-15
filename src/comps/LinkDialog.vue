@@ -1,10 +1,11 @@
 <script setup>
+import TreeCheckBoxList from '@/comps/TreeCheckBoxList.vue';
 import { apiGet, apiPost } from '@/utils/ajax.js';
 import { ref, toRaw } from 'vue';
 
 const linkUrl = ref('')
 const form = ref(new Object())
-const elems = ref(new Set())
+const elems = ref(new Array())
 const link = () => {
 	const callback = (res) => {
 		alert(res.message)
@@ -24,12 +25,23 @@ const showModal = (params) => {
 	apiGet(url, callback)
 	url = `${rawParams.allUrl}?pageSize=1000`
 	callback = (res) => {
-		elems.value.clear()
+		elems.value.length = 0
+		let elemMap = new Map()
 		res.data.forEach(item => {
-			elems.value.add({
+			let elem = {
 				id: item[rawParams.elemIdName],
 				name: item[rawParams.elemName]
-			})
+			}
+			elemMap.set(elem.id, elem)
+			if (typeof item['parentId'] !== 'undefined' && elemMap.has(item['parentId'])) {
+				let parentELem = elemMap.get(item['parentId'])
+				if (typeof parentELem['children'] === 'undefined') {
+					parentELem['children'] = new Array()
+				}
+				parentELem['children'].push(elem)
+			} else {
+				elems.value.push(elem)
+			}
 		})
 	}
 	apiGet(url, callback)
@@ -46,12 +58,7 @@ defineExpose({
 	<dialog ref="dialogRef">
 		<form method="dialog" @submit.prevent="link">
 			<input type="hidden" name="id" v-model="form.id">
-			<ul>
-				<li v-for="elem in elems" :data-id="elem.id">
-					<input type="checkbox" v-model="form.ids" :value="elem.id" />
-					<label>{{ elem.name }}</label>
-				</li>
-			</ul>
+			<TreeCheckBoxList :elems="elems" v-model="form.ids"></TreeCheckBoxList>
 			<p>
 				<button class="cancel" type="button" @click="dialogRef.close">取消</button>
 				<button class="submit" type="submit">提交</button>
@@ -61,11 +68,6 @@ defineExpose({
 </template>
 
 <style scoped>
-form ul {
-	list-style: none;
-	padding: 0 0 0 1em;
-}
-
 dialog {
 	border: 1px solid;
 	font-size: 1.2em;
