@@ -64,7 +64,7 @@ defineExpose({
 				<input :name="elem.name" :type="elem.type" v-model="form[elem.name]" />
 			</p>
 			<p>
-				<button class="cancel" type="button" @click="dialogRef.close">取消</button>
+				<button class="cancel" type="button" @click.stop="dialogRef.close">取消</button>
 				<button class="submit" type="submit">提交</button>
 			</p>
 		</form>

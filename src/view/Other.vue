@@ -22,7 +22,7 @@ const download = () => {
 <template>
 	<main class="main">
 		<NavList :list="pages"></NavList>
-		<button @click="download">点击下载</button>
+		<button @click.stop="download">点击下载</button>
 	</main>
 </template>
 

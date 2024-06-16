@@ -42,20 +42,20 @@ defineExpose({
 
 <template>
 	<ul>
-		<li @click="lastPage">&lt;</li>
-		<li :class="{ hide: (cur - midNum + 1) <= 1 }" @click="loadPage(1)">1</li>
+		<li @click.stop="lastPage">&lt;</li>
+		<li :class="{ hide: (cur - midNum + 1) <= 1 }" @click.stop="loadPage(1)">1</li>
 		<span v-if="(cur - midNum + 1) > 2">...</span>
 		<li :class="{
 			cur: cur === (cur - midNum + i),
 			hide: 0 >= (cur - midNum + i) || (cur - midNum + i) > Math.ceil(total / size),
-		}" @click="loadPage(cur - midNum + i)" v-for="i in midSize">
+		}" @click.stop="loadPage(cur - midNum + i)" v-for="i in midSize">
 			{{ cur - midNum + i }}
 		</li>
 		<span v-if="(cur + midNum - 1) < Math.ceil(total / size) - 1">...</span>
-		<li :class="{ hide: (cur + midNum - 1) >= Math.ceil(total / size) }" @click="loadPage(Math.ceil(total / size))">
+		<li :class="{ hide: (cur + midNum - 1) >= Math.ceil(total / size) }" @click.stop="loadPage(Math.ceil(total / size))">
 			{{ Math.ceil(total / size) }}
 		</li>
-		<li @click="nextPage">&gt;</li>
+		<li @click.stop="nextPage">&gt;</li>
 	</ul>
 </template>
 

@@ -41,8 +41,8 @@ const reset = () => {
 				密&emsp;码:
 			</label>
 			<input id="password" v-model="form.password" @keyup.enter="submit" type="password" placeholder="请输入密码" />
-			<button class="submit" type="button" @click="submit">提交</button>
-			<button class="reset" type="button" @click="reset">重置</button>
+			<button class="submit" type="button" @click.stop="submit">提交</button>
+			<button class="reset" type="button" @click.stop="reset">重置</button>
 		</form>
 	</main>
 </template>

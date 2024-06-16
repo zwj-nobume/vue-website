@@ -33,13 +33,13 @@ const emit = defineEmits([
 
 <template>
 	<ul class="list">
-		<li class="btn" @click="router.go(-1)">
+		<li class="btn" @click.stop="router.go(-1)">
 			<img src="@/assets/icon/back.svg" :width="width" :height="height">
 			<span class="name">上一页</span>
 		</li>
 		<li class="btn"
 			v-for="li in list.filter(item => !item.permission || store.state.permission.has(item.permission))"
-			:style="{ 'width': width + 'px' }" :title="li.name" @click="emit(li.emit)">
+			:style="{ 'width': width + 'px' }" :title="li.name" @click.stop="emit(li.emit)">
 			<img :src="li.icon ? li.icon : '/src/assets/icon/box.svg'" :width="width" :height="height">
 			<span class="name">{{ li.name }}</span>
 		</li>

@@ -60,7 +60,7 @@ defineExpose({
 			<input type="hidden" name="id" v-model="form.id">
 			<TreeCheckBoxList :elems="elems" v-model="form.ids"></TreeCheckBoxList>
 			<p>
-				<button class="cancel" type="button" @click="dialogRef.close">取消</button>
+				<button class="cancel" type="button" @click.stop="dialogRef.close">取消</button>
 				<button class="submit" type="submit">提交</button>
 			</p>
 		</form>
