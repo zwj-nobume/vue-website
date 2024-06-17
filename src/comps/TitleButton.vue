@@ -24,6 +24,8 @@ const store = useStore()
 
 const emit = defineEmits([
 	'last-tree',
+	'mkdir',
+	'upload',
 	'add',
 	'sel-all',
 	'sel-resv',
