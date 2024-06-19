@@ -76,6 +76,23 @@ const apiPut = (url, data, callback) => {
 	apiAjax(url, request, callback)
 }
 
+const apiPutUpload = (url, files, callback) => {
+	let token = store.getters.getToken
+	token = token === null || token === void 0 ? "" : token
+	let formData = new FormData()
+	for (const file of files) {
+		formData.append("files", file)
+	}
+	let request = {
+		method: "PUT",
+		headers: {
+			"Authorization": token,
+		},
+		body: formData
+	}
+	apiAjax(url, request, callback)
+}
+
 const apiDelete = (url, data, callback) => {
 	let token = store.getters.getToken
 	let request = token === null || token === void 0 ? null : {
@@ -146,4 +163,4 @@ const apiAjaxBlob = (url, request, callback) => {
 	})
 }
 
-export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, logout }
+export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload, logout }

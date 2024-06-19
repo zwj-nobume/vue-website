@@ -42,10 +42,10 @@ const update = () => {
 
 const dialogRef = ref(null)
 const showModal = (sflag, params) => {
-	let rawParams = toRaw(params)
+	const rawParams = toRaw(params)
 	Object.keys(form.value).forEach(key => delete form.value[key])
 	flag.value = sflag
-	if (typeof rawParams !== 'undefined' && rawParams !== null) {
+	if (typeof rawParams !== 'undefined') {
 		Object.keys(rawParams).forEach(key => form.value[key] = rawParams[key])
 	}
 	dialogRef.value.showModal()

@@ -1,7 +1,10 @@
 <script setup>
 import TitleButton from '@/comps/TitleButton.vue';
-import { apiGet, apiPut } from '@/utils/ajax';
+import UploadDialog from '@/comps/UploadDialog.vue';
+import { apiDelete, apiGet, apiPut } from '@/utils/ajax';
 import { onMounted, ref } from 'vue';
+
+const uploadDialog = ref(null)
 
 const flist = ref(new Array())
 const dlist = ref(new Array())
@@ -20,7 +23,7 @@ const mkdir = () => {
 	let folderName = prompt("请输入文件夹名字", "新建文件夹");
 	if (folderName != null && folderName != "") {
 		dlist.value.push(folderName)
-		let path = '/' + dlist.value.join('/')
+		let path = getCurPath()
 		const callback = (res) => {
 			alert(res.message)
 			dlist.value.pop()
@@ -30,7 +33,7 @@ const mkdir = () => {
 	}
 }
 
-const upload = () => console.log('upload')
+const upload = () => uploadDialog.value.showModal({ path: getCurPath() })
 
 const sel = (name) => {
 	if (selItem.value.has(name)) {
@@ -52,7 +55,28 @@ const selResv = () => {
 	})
 }
 
-const del = () => console.log('del')
+const del = () => {
+	if (selItem.value.size === 0) {
+		alert("未选择要删除的文件或文件夹")
+		return
+	}
+	if (confirm("确定要删除选择的文件或文件夹吗?")) {
+		let callback = (res) => {
+			alert(res.message)
+			loadFile()
+		}
+		if (selItem.value.size === 1) {
+			dlist.value.push([...selItem.value][0])
+			let url = `/api/file/delete${getCurPath()}`
+			dlist.value.pop()
+			apiDelete(url, null, callback)
+		} else {
+			let url = `/api/file/deleteBatch${getCurPath()}`
+			apiDelete(url, [...selItem.value], callback)
+		}
+	}
+}
+
 const prev = () => {
 	if (dlist.value.length != 0) {
 		dlist.value.pop()
@@ -68,7 +92,7 @@ const next = (file) => {
 }
 
 const loadFile = () => {
-	let path = '/' + dlist.value.join('/')
+	let path = getCurPath()
 	const callback = (res) => {
 		flist.value = res.data.sort(sortFile)
 		selItem.value.clear()
@@ -91,6 +115,10 @@ const sortFile = (a, b) => {
 	return -1
 }
 
+const getCurPath = () => {
+	return '/' + dlist.value.join('/');
+}
+
 onMounted(loadFile)
 </script>
 
@@ -110,6 +138,7 @@ onMounted(loadFile)
 				</li>
 			</ul>
 		</section>
+		<UploadDialog ref="uploadDialog" @reload="loadFile"></UploadDialog>
 	</main>
 </template>
 

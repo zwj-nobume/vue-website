@@ -1,6 +1,6 @@
 <script setup>
 import PageList from '@/comps/PageList.vue';
-import { apiDelete, apiGet, apiPut } from '@/utils/ajax.js';
+import { apiDelete, apiGet, apiPost } from '@/utils/ajax.js';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -84,7 +84,7 @@ const upd = (num, td) => {
 		alert(res.message)
 		line[td.value] = newVal
 	}
-	apiPut(props.url.edit, data, callback)
+	apiPost(props.url.edit, data, callback)
 }
 
 const del = () => {

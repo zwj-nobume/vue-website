@@ -16,7 +16,11 @@ const link = () => {
 
 const dialogRef = ref(null)
 const showModal = (params) => {
-	let rawParams = toRaw(params)
+	const rawParams = toRaw(params)
+	if (typeof rawParams === 'undefined') {
+		alert("请先绑定参数")
+		return
+	}
 	form.value.id = rawParams.id
 	let url = `${rawParams.tgtUrl}?${rawParams.idName}=${rawParams.id}`
 	let callback = (res) => {
