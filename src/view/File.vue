@@ -14,6 +14,7 @@ const buttons = ref(new Array(
 	{ name: "上一文件夹", emit: 'last-tree', icon: '/src/assets/icon/last-menu.svg', permission: 'system:file:query' },
 	{ name: "添加文件夹", emit: 'mkdir', icon: '/src/assets/icon/floder-add.svg', permission: 'system:file:add' },
 	{ name: "上传文件", emit: 'upload', icon: '/src/assets/icon/upload.svg', permission: 'system:file:add' },
+	{ name: "移动", emit: 'move', icon: '/src/assets/icon/move.svg', permission: 'system:file:edit' },
 	{ name: "全选", emit: 'sel-all', icon: '/src/assets/icon/sel-all.svg' },
 	{ name: "反选", emit: 'sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
 	{ name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg', permission: 'system:file:delete' },
@@ -35,25 +36,16 @@ const mkdir = () => {
 
 const upload = () => uploadDialog.value.showModal({ path: getCurPath() })
 
-const sel = (name) => {
-	if (selItem.value.has(name)) {
-		selItem.value.delete(name)
-	} else {
-		selItem.value.add(name)
+const move = () => {
+	if (selItem.value.size === 0) {
+		alert("未选择要移动的文件或文件夹")
+		return
 	}
 }
 
-const selAll = () => {
-	flist.value.forEach(file => {
-		selItem.value.add(file.name)
-	})
-}
-
-const selResv = () => {
-	flist.value.forEach(file => {
-		sel(file.name)
-	})
-}
+const sel = (name) => selItem.value.has(name) ? selItem.value.delete(name) : selItem.value.add(name)
+const selAll = () => flist.value.filter(file => !file.hide).forEach(file => selItem.value.add(file.name))
+const selResv = () => flist.value.filter(file => !file.hide).forEach(file => sel(file.name))
 
 const del = () => {
 	if (selItem.value.size === 0) {
@@ -124,8 +116,8 @@ onMounted(loadFile)
 
 <template>
 	<main class="main">
-		<TitleButton :list="buttons" @mkdir="mkdir" @upload="upload" @sel-all="selAll" @sel-resv="selResv" @del="del"
-			@last-tree="prev">
+		<TitleButton :list="buttons" @mkdir="mkdir" @upload="upload" @move="move" @sel-all="selAll" @sel-resv="selResv"
+			@del="del" @last-tree="prev">
 		</TitleButton>
 		<section class="page">
 			<ul class="file-box">
