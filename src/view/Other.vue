@@ -1,6 +1,6 @@
 <script setup>
 import NavList from '@/comps/NavList.vue';
-import { apiGetDownload } from '@/utils/ajax.js';
+import { apiGetDownload } from '@/utils/ajax';
 import { ref } from 'vue';
 
 const pages = ref(new Array(

@@ -1,6 +1,6 @@
 <script setup>
 import TreeCheckBoxList from '@/comps/TreeCheckBoxList.vue';
-import { apiGet, apiPost } from '@/utils/ajax.js';
+import { apiGet, apiPost } from '@/utils/ajax';
 import { ref, toRaw } from 'vue';
 
 const linkUrl = ref('')

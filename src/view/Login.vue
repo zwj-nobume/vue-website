@@ -1,5 +1,5 @@
 <script setup>
-import { apiPost } from '@/utils/ajax.js';
+import { apiPost } from '@/utils/ajax';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';

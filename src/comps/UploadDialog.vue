@@ -1,5 +1,5 @@
 <script setup>
-import { apiPutUpload } from '@/utils/ajax.js'
+import { apiPutUpload } from '@/utils/ajax'
 import { ref, toRaw } from 'vue';
 
 const emit = defineEmits([

@@ -1,5 +1,5 @@
 <script setup>
-import { apiPut, apiPost } from '@/utils/ajax.js';
+import { apiPut, apiPost } from '@/utils/ajax';
 import { ref, toRaw } from 'vue';
 
 const props = defineProps({

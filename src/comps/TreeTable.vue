@@ -1,5 +1,5 @@
 <script setup>
-import { apiDelete, apiGet, apiPost } from '@/utils/ajax.js';
+import { apiDelete, apiGet, apiPost } from '@/utils/ajax';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 

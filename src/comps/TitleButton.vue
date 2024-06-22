@@ -27,6 +27,7 @@ const emit = defineEmits([
 	'mkdir',
 	'upload',
 	'add',
+	'move',
 	'sel-all',
 	'sel-resv',
 	'del',
