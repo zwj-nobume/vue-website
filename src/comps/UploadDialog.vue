@@ -1,5 +1,5 @@
 <script setup>
-import { apiPutUpload } from '@/utils/ajax'
+import { apiPutUpload } from '@/utils/ajax';
 import { ref, toRaw } from 'vue';
 
 const emit = defineEmits([
@@ -17,11 +17,12 @@ const upload = () => {
 	let callback = (res) => {
 		alert(res.message)
 		if (200 === res.status) {
+			flist.value = []
 			dialogRef.value.close()
 		}
 		emit('reload')
 	}
-	apiPutUpload(`/api/file/upload${path.value}`, flist.value, callback)
+	apiPutUpload(`/api/file/upload/${path.value}`, flist.value, callback)
 }
 
 const filesInput = ref(null)
