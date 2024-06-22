@@ -1,5 +1,5 @@
 <script setup>
-import { apiPut, apiPost } from '@/utils/ajax';
+import { apiPost, apiPut } from '@/utils/ajax';
 import { ref, toRaw } from 'vue';
 
 const props = defineProps({
@@ -63,7 +63,7 @@ defineExpose({
 				<label v-if="elem.type !== 'hidden'">{{ elem.label }}:&emsp;</label>
 				<input :name="elem.name" :type="elem.type" v-model="form[elem.name]" />
 			</p>
-			<p>
+			<p class="btn-list">
 				<button class="cancel" type="button" @click.stop="dialogRef.close">取消</button>
 				<button class="submit" type="submit">提交</button>
 			</p>
@@ -84,11 +84,11 @@ dialog form p {
 	justify-content: space-between;
 }
 
-dialog form p button:first-child {
+dialog form p.btn-list button:first-child {
 	margin-left: 0;
 }
 
-dialog form p button {
+dialog form p.btn-list button {
 	flex: 1;
 	margin-left: 5px;
 	padding: 0;
@@ -97,21 +97,21 @@ dialog form p button {
 	margin-top: 15px;
 }
 
-dialog form p button.submit {
+dialog form p.btn-list button.submit {
 	background-color: orange;
 }
 
-dialog form p button.cancel {
+dialog form p.btn-list button.cancel {
 	background-color: darkcyan;
 }
 
-dialog form p button:hover {
+dialog form p.btn-list button:hover {
 	filter: brightness(1.4);
 	cursor: pointer;
 }
 
 dialog form p input,
-dialog form p button {
+dialog form p.btn-list button {
 	font-size: larger;
 }
 </style>

@@ -2,8 +2,8 @@ import { router } from '@/utils/router.js'
 import { store } from '@/utils/store.js'
 
 const apiGet = (url, callback) => {
-	let token = store.getters.getToken
-	let request = token === null || token === void 0 ? null : {
+	const token = store.getters.getToken
+	const request = token === null || token === void 0 ? null : {
 		method: "GET",
 		headers: {
 			"Authorization": token
@@ -13,7 +13,7 @@ const apiGet = (url, callback) => {
 }
 
 const apiGetDownload = (url, fileName) => {
-	let callback = (blob) => {
+	const callback = (blob) => {
 		const fileURL = window.URL.createObjectURL(blob)
 		const link = document.createElement('a')
 		link.href = fileURL
@@ -25,8 +25,8 @@ const apiGetDownload = (url, fileName) => {
 }
 
 const apiGetBlob = (url, callback) => {
-	let token = store.getters.getToken
-	let request = token === null || token === void 0 ? null : {
+	const token = store.getters.getToken
+	const request = token === null || token === void 0 ? null : {
 		method: "GET",
 		headers: {
 			"Authorization": token
@@ -36,9 +36,9 @@ const apiGetBlob = (url, callback) => {
 }
 
 const apiPost = (url, data, callback) => {
-	let token = store.getters.getToken
+	const token = store.getters.getToken
 	token = token === null || token === void 0 ? "" : token
-	let request = {
+	const request = {
 		method: "POST",
 		headers: {
 			"Authorization": token,
@@ -50,8 +50,8 @@ const apiPost = (url, data, callback) => {
 }
 
 const apiPostBlob = (url, data, callback) => {
-	let token = store.getters.getToken
-	let request = token === null || token === void 0 ? null : {
+	const token = store.getters.getToken
+	const request = token === null || token === void 0 ? null : {
 		method: "POST",
 		headers: {
 			"Authorization": token,
@@ -63,9 +63,9 @@ const apiPostBlob = (url, data, callback) => {
 }
 
 const apiPut = (url, data, callback) => {
-	let token = store.getters.getToken
+	const token = store.getters.getToken
 	token = token === null || token === void 0 ? "" : token
-	let request = {
+	const request = {
 		method: "PUT",
 		headers: {
 			"Authorization": token,
@@ -77,13 +77,13 @@ const apiPut = (url, data, callback) => {
 }
 
 const apiPutUpload = (url, files, callback) => {
-	let token = store.getters.getToken
+	const token = store.getters.getToken
 	token = token === null || token === void 0 ? "" : token
-	let formData = new FormData()
+	const formData = new FormData()
 	for (const file of files) {
 		formData.append("files", file)
 	}
-	let request = {
+	const request = {
 		method: "PUT",
 		headers: {
 			"Authorization": token,
@@ -94,8 +94,8 @@ const apiPutUpload = (url, files, callback) => {
 }
 
 const apiDelete = (url, data, callback) => {
-	let token = store.getters.getToken
-	let request = token === null || token === void 0 ? null : {
+	const token = store.getters.getToken
+	const request = token === null || token === void 0 ? null : {
 		method: "DELETE",
 		headers: {
 			"Authorization": token,
@@ -107,7 +107,7 @@ const apiDelete = (url, data, callback) => {
 }
 
 const logout = (msg) => {
-	let confirmVal = confirm(msg ? msg : "需要退出登录吗?")
+	const confirmVal = confirm(msg ? msg : "需要退出登录吗?")
 	if (confirmVal) {
 		apiPost("/api/logout", null, (res) => {
 			alert(res.message)
@@ -126,7 +126,7 @@ const apiAjax = (url, request, callback) => {
 		}
 	}).then(res => callback(res)).catch(async err => {
 		if (401 === err.status) {
-			let errObj = await err.json()
+			const errObj = await err.json()
 			alert(errObj.message)
 			store.commit('deleteToken')
 			router.push('/login')
@@ -149,7 +149,7 @@ const apiAjaxBlob = (url, request, callback) => {
 		}
 	}).then(blob => callback(blob)).catch(async err => {
 		if (401 === err.status) {
-			let errObj = await err.json()
+			const errObj = await err.json()
 			alert(errObj.message)
 			store.commit('deleteToken')
 			router.push('/login')

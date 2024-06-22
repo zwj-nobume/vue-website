@@ -14,7 +14,7 @@ const selectFile = (e) => {
 }
 
 const upload = () => {
-	let callback = (res) => {
+	const callback = (res) => {
 		alert(res.message)
 		if (200 === res.status) {
 			flist.value = []
@@ -47,7 +47,7 @@ defineExpose({
 			<img src="/src/assets/icon/file-add.svg" alt="选择文件" width="100">
 		</p>
 		<p v-for="file in flist">{{ file.name }}</p>
-		<p class="button">
+		<p class="btn-list">
 			<button class="cancel" type="button" @click.stop="dialogRef.close">取消</button>
 			<button class="upload" type="button" @click.stop="upload">上传</button>
 		</p>
@@ -75,17 +75,17 @@ dialog p.choose:hover {
 	cursor: pointer;
 }
 
-dialog p.button {
+dialog p.btn-list {
 	margin-bottom: 0;
 	display: flex;
 	justify-content: space-between;
 }
 
-dialog p.button button:first-child {
+dialog p.btn-list button:first-child {
 	margin-left: 0;
 }
 
-dialog p.button button {
+dialog p.btn-list button {
 	flex: 1;
 	margin-left: 5px;
 	padding: 0;
@@ -94,21 +94,20 @@ dialog p.button button {
 	margin-top: 15px;
 }
 
-dialog p.button button.upload {
+dialog p.btn-list button.upload {
 	background-color: orange;
 }
 
-dialog p.button button.cancel {
+dialog p.btn-list button.cancel {
 	background-color: darkcyan;
 }
 
-dialog p.button button:hover {
+dialog p.btn-list button:hover {
 	filter: brightness(1.4);
 	cursor: pointer;
 }
 
-dialog p.button input,
-dialog p.button button {
+dialog p.btn-list button {
 	font-size: larger;
 }
 </style>

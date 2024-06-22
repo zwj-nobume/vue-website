@@ -22,23 +22,23 @@ const showModal = (params) => {
 		return
 	}
 	form.value.id = rawParams.id
-	let url = `${rawParams.tgtUrl}?${rawParams.idName}=${rawParams.id}`
-	let callback = (res) => {
+	const url = `${rawParams.tgtUrl}?${rawParams.idName}=${rawParams.id}`
+	const callback = (res) => {
 		form.value.ids = res.data
 	}
 	apiGet(url, callback)
 	url = `${rawParams.allUrl}?pageSize=1000`
 	callback = (res) => {
 		elems.value.length = 0
-		let elemMap = new Map()
+		const elemMap = new Map()
 		res.data.forEach(item => {
-			let elem = {
+			const elem = {
 				id: item[rawParams.elemIdName],
 				name: item[rawParams.elemName]
 			}
 			elemMap.set(elem.id, elem)
 			if (typeof item['parentId'] !== 'undefined' && elemMap.has(item['parentId'])) {
-				let parentELem = elemMap.get(item['parentId'])
+				const parentELem = elemMap.get(item['parentId'])
 				if (typeof parentELem['children'] === 'undefined') {
 					parentELem['children'] = new Array()
 				}

@@ -38,10 +38,10 @@ const parentId = ref([''])
 const sortFlag = ref('')
 const loadTable = (item) => {
 	if (typeof item !== 'undefined' && !ifNull(item[props.idName])) parentId.value.push(item[props.idName])
-	let params = new Object()
+	const params = new Object()
 	params[props.parentName] = getLastParentId()
 	if (sortFlag.value !== '') params.sortFlag = sortFlag.value
-	let arr = new Array()
+	const arr = new Array()
 	Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
 	apiGet(`${props.url.list}?${arr.join('&')}`, res => {
 		table.value = res.data
@@ -55,8 +55,8 @@ const loadLastTable = () => {
 }
 
 const selectLine = (num) => {
-	let line = table.value[num]
-	let selected = line.selected
+	const line = table.value[num]
+	const selected = line.selected
 	selected ? line.selected = false : line.selected = true
 }
 
@@ -65,8 +65,8 @@ const selResv = () => table.value.forEach(tb => tb.selected = !tb.selected)
 
 const upd = (num, td) => {
 	if (!td.modifiable) return
-	let line = table.value[num]
-	let newVal = prompt(`${td.name}`, line[td.value])
+	const line = table.value[num]
+	const newVal = prompt(`${td.name}`, line[td.value])
 	if (newVal === null) return
 	if (newVal === line[td.value]) {
 		alert("数据未修改")
@@ -87,13 +87,13 @@ const upd = (num, td) => {
 }
 
 const del = () => {
-	let delTable = table.value.filter(tb => tb.selected)
+	const delTable = table.value.filter(tb => tb.selected)
 	if (delTable.length === 0) {
 		alert("请先选择需要删除的记录")
 		return
 	}
 	if (window.confirm(`确认要删除选中的 ${delTable.length} 条记录吗?`)) {
-		let ids = delTable.map(tb => tb[props.idName])
+		const ids = delTable.map(tb => tb[props.idName])
 		const callback = (res) => {
 			alert(res.message)
 			loadTable()
@@ -103,7 +103,7 @@ const del = () => {
 }
 
 const getLastParentId = () => {
-	let lastParentId = parentId.value[parentId.value.length - 1]
+	const lastParentId = parentId.value[parentId.value.length - 1]
 	return lastParentId === '' ? 'NULL' : lastParentId
 }
 

@@ -38,14 +38,14 @@ router.beforeEach((to, from, next) => {
 		router.push('/login')
 		return
 	}
-	let findList = routes.filter(item => item.path === to.fullPath)
+	const findList = routes.filter(item => item.path === to.fullPath)
 	if (findList.length === 1) {
-		let findOne = findList[0]
+		const findOne = findList[0]
 		if (typeof findOne.permission === 'undefined') {
 			next()
 			return
 		}
-		let permission = store.getters.getPermission
+		const permission = store.getters.getPermission
 		if (permission.has(findOne.permission)) {
 			next()
 			return

@@ -24,11 +24,10 @@ const store = useStore()
 
 const clevent = (item) => {
 	if (typeof item.target === 'string' && item.target === '_blank') {
-		let a = document.createElement('a')
+		const a = document.createElement('a')
 		a.target = item.target
 		a.href = item.path
 		a.click()
-		a = null
 		return
 	}
 	router.push(item.path)

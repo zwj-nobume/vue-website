@@ -11,7 +11,7 @@ const form = ref({
 	password: '',
 })
 
-let token = store.getters.getToken
+const token = store.getters.getToken
 if (token !== null && typeof token !== 'undefined' && token !== '') {
 	alert("您已登录")
 	router.push('/')
