@@ -31,6 +31,7 @@ const emit = defineEmits([
 	'sel-all',
 	'sel-resv',
 	'del',
+	'download',
 ])
 </script>
 

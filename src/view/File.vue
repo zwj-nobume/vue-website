@@ -1,12 +1,14 @@
 <script setup>
 import FileList from '@/comps/FileList.vue';
+import FileSelect from '@/comps/FileSelect.vue';
 import TitleButton from '@/comps/TitleButton.vue';
 import UploadDialog from '@/comps/UploadDialog.vue';
-import { apiDelete, apiPut } from '@/utils/ajax';
+import { apiDelete, apiGetDownload, apiPost, apiPut } from '@/utils/ajax';
 import { ref } from 'vue';
 
 const fileList = ref(null)
 const uploadDialog = ref(null)
+const fileSelect = ref(null)
 
 const buttons = ref(new Array(
 	{ name: "添加文件夹", emit: 'mkdir', icon: '/src/assets/icon/floder-add.svg', permission: 'system:file:add' },
@@ -15,6 +17,7 @@ const buttons = ref(new Array(
 	{ name: "全选", emit: 'sel-all', icon: '/src/assets/icon/sel-all.svg' },
 	{ name: "反选", emit: 'sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
 	{ name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg', permission: 'system:file:delete' },
+	{ name: "下载", emit: 'download', icon: '/src/assets/icon/download.svg', permission: 'system:file:download' },
 ))
 
 const mkdir = () => {
@@ -38,6 +41,37 @@ const move = () => {
 		alert("未选择要移动的文件或文件夹")
 		return
 	}
+	fileSelect.value.showModal()
+}
+const moveStart = (targetPath, targetList) => {
+	if (targetList.length > 1) {
+		alert("最多只能选择一个目标路径")
+		return
+	}
+	if (typeof targetPath !== 'undefined' && targetPath !== null && targetPath !== '') {
+		for (let i = targetList.length; i > 0; i--) {
+			targetList[i] = targetList[i - 1]
+		}
+		targetList[0] = targetPath
+	}
+	const curPath = getCurPath()
+	const sourceArr = getSelectNames()
+	if (sourceArr.length === 1) {
+		const newName = prompt("请输入新文件名", sourceArr[0])
+		targetList.push(newName)
+	}
+	const target = targetList.join('/')
+	if (typeof curPath !== 'undefined' && curPath !== null && curPath != '') {
+		for (let i = 0; i < sourceArr.length; i++) {
+			sourceArr[i] = `${curPath}/${sourceArr[i]}`
+		}
+	}
+	const callback = (res) => {
+		alert(res.message)
+		loadFile()
+		fileSelect.value.reloadFile()
+	}
+	apiPost(`/api/file/move/${target}`, sourceArr, callback)
 }
 
 const selAll = () => fileList.value.selAll()
@@ -50,20 +84,33 @@ const del = () => {
 		return
 	}
 	if (confirm("确定要删除选择的文件或文件夹吗?")) {
-		let callback = (res) => {
+		const callback = (res) => {
 			alert(res.message)
 			loadFile()
 		}
 		const curPath = getCurPath()
 		if (selNames.length === 1) {
 			const path = `${curPath}${curPath === '' ? '' : '/'}${selNames[0]}`
-			let url = `/api/file/delete/${path}`
+			const url = `/api/file/delete/${path}`
 			apiDelete(url, null, callback)
 		} else {
-			let url = `/api/file/deleteBatch/${curPath}`
+			const url = `/api/file/deleteBatch/${curPath}`
 			apiDelete(url, selNames, callback)
 		}
 	}
+}
+
+const download = () => {
+	const selNames = getSelectNames()
+	if (selNames.length === 0) {
+		alert("未选择要下载的文件")
+		return
+	}
+	const curPath = getCurPath()
+	selNames.forEach(fileName => {
+		const path = `${curPath}${curPath === '' ? '' : '/'}${fileName}`
+		apiGetDownload(`/api/file/download/${path}`, fileName)
+	});
 }
 
 const loadFile = () => fileList.value.loadFile()
@@ -74,10 +121,11 @@ const getSelectNames = () => fileList.value.getSelectNames()
 <template>
 	<main class="main">
 		<TitleButton :list="buttons" @mkdir="mkdir" @upload="upload" @move="move" @sel-all="selAll" @sel-resv="selResv"
-			@del="del">
+			@del="del" @download="download">
 		</TitleButton>
 		<FileList ref="fileList"></FileList>
 		<UploadDialog ref="uploadDialog" @reload="loadFile"></UploadDialog>
+		<FileSelect ref="fileSelect" @select="moveStart" selSingle></FileSelect>
 	</main>
 </template>
 

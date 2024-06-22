@@ -3,7 +3,7 @@ import { store } from '@/utils/store.js'
 
 const apiGet = (url, callback) => {
 	const token = store.getters.getToken
-	const request = token === null || token === void 0 ? null : {
+	const request = {
 		method: "GET",
 		headers: {
 			"Authorization": token
@@ -26,7 +26,7 @@ const apiGetDownload = (url, fileName) => {
 
 const apiGetBlob = (url, callback) => {
 	const token = store.getters.getToken
-	const request = token === null || token === void 0 ? null : {
+	const request = {
 		method: "GET",
 		headers: {
 			"Authorization": token
@@ -36,8 +36,7 @@ const apiGetBlob = (url, callback) => {
 }
 
 const apiPost = (url, data, callback) => {
-	const token = store.getters.getToken
-	token = token === null || token === void 0 ? "" : token
+	let token = store.getters.getToken
 	const request = {
 		method: "POST",
 		headers: {
@@ -51,7 +50,7 @@ const apiPost = (url, data, callback) => {
 
 const apiPostBlob = (url, data, callback) => {
 	const token = store.getters.getToken
-	const request = token === null || token === void 0 ? null : {
+	const request = {
 		method: "POST",
 		headers: {
 			"Authorization": token,
@@ -64,7 +63,6 @@ const apiPostBlob = (url, data, callback) => {
 
 const apiPut = (url, data, callback) => {
 	const token = store.getters.getToken
-	token = token === null || token === void 0 ? "" : token
 	const request = {
 		method: "PUT",
 		headers: {
@@ -78,7 +76,6 @@ const apiPut = (url, data, callback) => {
 
 const apiPutUpload = (url, files, callback) => {
 	const token = store.getters.getToken
-	token = token === null || token === void 0 ? "" : token
 	const formData = new FormData()
 	for (const file of files) {
 		formData.append("files", file)
@@ -95,7 +92,7 @@ const apiPutUpload = (url, files, callback) => {
 
 const apiDelete = (url, data, callback) => {
 	const token = store.getters.getToken
-	const request = token === null || token === void 0 ? null : {
+	const request = {
 		method: "DELETE",
 		headers: {
 			"Authorization": token,

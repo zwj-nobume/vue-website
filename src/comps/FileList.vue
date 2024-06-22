@@ -2,13 +2,38 @@
 import { apiGet } from '@/utils/ajax';
 import { onMounted, ref } from 'vue';
 
+const props = defineProps({
+    selSingle: {
+        type: Boolean,
+        required: false,
+    },
+    autoLoad: {
+        default: true,
+        type: Boolean,
+        required: false,
+    },
+})
+
 const flist = ref(new Array())
 const dlist = ref(new Array())
 const selItem = ref(new Set())
 
-const sel = (name) => selItem.value.has(name) ? selItem.value.delete(name) : selItem.value.add(name)
-const selAll = () => flist.value.filter(file => !file.hide).forEach(file => selItem.value.add(file.name))
-const selResv = () => flist.value.filter(file => !file.hide).forEach(file => sel(file.name))
+const sel = (name) => {
+    if (props.selSingle && selItem.value.size > 0 && !selItem.value.has(name)) {
+        selItem.value.clear()
+        selItem.value.add(name)
+    } else {
+        selItem.value.has(name) ? selItem.value.delete(name) : selItem.value.add(name)
+    }
+}
+const selAll = () => {
+    if (props.selSingle) return
+    flist.value.filter(file => !file.hide).forEach(file => selItem.value.add(file.name))
+}
+const selResv = () => {
+    if (props.selSingle) return
+    flist.value.filter(file => !file.hide).forEach(file => sel(file.name))
+}
 
 const prev = () => {
     if (dlist.value.length != 0) {
@@ -25,12 +50,17 @@ const next = (file) => {
 }
 
 const loadFile = () => {
-    let path = getCurPath()
+    const path = getCurPath()
     const callback = (res) => {
         flist.value = res.data.sort(sortFile)
         selItem.value.clear()
     }
     apiGet(`/api/file/list/${path}`, callback)
+}
+
+const reloadFile = () => {
+    dlist.value = []
+    loadFile()
 }
 
 const sortFile = (a, b) => {
@@ -60,11 +90,14 @@ defineExpose({
     selAll,
     selResv,
     loadFile,
+    reloadFile,
     getCurPath,
     getSelectNames,
 })
 
-onMounted(loadFile)
+if (props.autoLoad) {
+    onMounted(loadFile)
+}
 </script>
 
 <template>
@@ -86,11 +119,12 @@ onMounted(loadFile)
 
 <style scoped>
 ul.file-box {
-    margin: 0.5em 0 0 0;
+    margin: 1em 0 1em 0;
     padding: 0;
     width: 90%;
     list-style: none;
     display: flex;
+    flex-wrap: wrap;
 }
 
 ul.file-box li.file {
@@ -105,7 +139,6 @@ ul.file-box li.file {
 
 ul.file-box li.file:hover {
     cursor: pointer;
-    /* -webkit-transform: scale(1.1) translateY(-8px); */
     transform: scale(1.1) translateY(-8px);
 }
 
