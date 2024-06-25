@@ -12,6 +12,16 @@ const props = defineProps({
         type: Boolean,
         required: false,
     },
+    width: {
+        type: Number,
+        default: 100,
+        required: false,
+    },
+    height: {
+        type: Number,
+        default: 60,
+        required: false,
+    },
 })
 
 const flist = ref(new Array())
@@ -103,13 +113,14 @@ if (props.autoLoad) {
 <template>
     <section class="page">
         <ul class="file-box">
-            <li class="file" @dblclick.stop="prev()">
-                <img width="100" height="60" src="/src/assets/icon/last-menu.svg" alt="上一页面">
+            <li class="file" :style="{ 'width': width + 'px' }" @dblclick.stop="prev()" title="上一页面">
+                <img :width="width" :height="height" src="/src/assets/icon/last-menu.svg" alt="上一页面">
                 <span class="name">上一页面</span>
             </li>
-            <li :class="{ 'file': true, 'selected': selItem.has(file.name) }" v-for="file in flist"
-                :data-hide="file.hide" @click.stop="sel(file.name)" @dblclick.stop="next(file)" :title="file.name">
-                <img width="100" height="60"
+            <li :class="{ 'file': true, 'selected': selItem.has(file.name) }" :style="{ 'width': width + 'px' }"
+                :data-hide="file.hide" v-for="file in flist" @click.stop="sel(file.name)" @dblclick.stop="next(file)"
+                :title="file.name">
+                <img :width="width" :height="height"
                     :src="file.dir ? '/src/assets/icon/directory.svg' : '/src/assets/icon/file.svg'" :alt="file.name">
                 <span class="name">{{ file.name }}</span>
             </li>
@@ -132,7 +143,6 @@ ul.file-box li.file {
     padding: 0.5em;
     border-radius: 10px;
     display: flex;
-    width: 100px;
     flex-direction: column;
     align-items: center;
 }
