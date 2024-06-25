@@ -13,11 +13,11 @@ const fileSelect = ref(null)
 const buttons = ref(new Array(
 	{ name: "添加文件夹", emit: 'mkdir', icon: '/src/assets/icon/floder-add.svg', permission: 'system:file:add' },
 	{ name: "上传文件", emit: 'upload', icon: '/src/assets/icon/upload.svg', permission: 'system:file:add' },
+	{ name: "下载", emit: 'download', icon: '/src/assets/icon/download.svg', permission: 'system:file:download' },
 	{ name: "移动", emit: 'move', icon: '/src/assets/icon/move.svg', permission: 'system:file:edit' },
 	{ name: "全选", emit: 'sel-all', icon: '/src/assets/icon/sel-all.svg' },
 	{ name: "反选", emit: 'sel-resv', icon: '/src/assets/icon/sel-resv.svg' },
 	{ name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg', permission: 'system:file:delete' },
-	{ name: "下载", emit: 'download', icon: '/src/assets/icon/download.svg', permission: 'system:file:download' },
 ))
 
 const mkdir = () => {
