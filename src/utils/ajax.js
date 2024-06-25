@@ -115,6 +115,7 @@ const logout = (msg) => {
 }
 
 const apiAjax = (url, request, callback) => {
+	url = encodeURI(url)
 	fetch(url, request).then(res => {
 		if (200 === res.status) {
 			return res.json()
@@ -138,6 +139,7 @@ const apiAjax = (url, request, callback) => {
 }
 
 const apiAjaxBlob = (url, request, callback) => {
+	url = encodeURI(url)
 	fetch(url, request).then(res => {
 		if (200 === res.status) {
 			return res.blob()
@@ -161,3 +163,4 @@ const apiAjaxBlob = (url, request, callback) => {
 }
 
 export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload, logout }
+
