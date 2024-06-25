@@ -11,8 +11,8 @@ const uploadDialog = ref(null)
 const fileSelect = ref(null)
 
 const buttons = ref(new Array(
-	{ name: "新建文件夹", emit: 'mkdir', icon: '/src/assets/icon/floder-add.svg', permission: 'system:file:add' },
-	{ name: "上传文件", emit: 'upload', icon: '/src/assets/icon/upload.svg', permission: 'system:file:add' },
+	{ name: "新建", emit: 'mkdir', icon: '/src/assets/icon/floder-add.svg', permission: 'system:file:add' },
+	{ name: "上传", emit: 'upload', icon: '/src/assets/icon/upload.svg', permission: 'system:file:add' },
 	{ name: "下载", emit: 'download', icon: '/src/assets/icon/download.svg', permission: 'system:file:download' },
 	{ name: "移动", emit: 'move', icon: '/src/assets/icon/move.svg', permission: 'system:file:edit' },
 	{ name: "全选", emit: 'sel-all', icon: '/src/assets/icon/sel-all.svg' },
@@ -121,9 +121,9 @@ const getSelectNames = () => fileList.value.getSelectNames()
 <template>
 	<main class="main">
 		<TitleButton :list="buttons" @mkdir="mkdir" @upload="upload" @move="move" @sel-all="selAll" @sel-resv="selResv"
-			@del="del" @download="download">
+			@del="del" @download="download" width="80" height="48">
 		</TitleButton>
-		<FileList ref="fileList"></FileList>
+		<FileList ref="fileList" width="80" height="48"></FileList>
 		<UploadDialog ref="uploadDialog" @reload="loadFile"></UploadDialog>
 		<FileSelect ref="fileSelect" @select="moveStart" selSingle></FileSelect>
 	</main>
