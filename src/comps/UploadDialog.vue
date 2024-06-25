@@ -8,6 +8,7 @@ const emit = defineEmits([
 
 const flist = ref(new Array())
 const path = ref('')
+const uploading = ref(false)
 
 const selectFile = (e) => {
 	flist.value = e.target.files
@@ -20,8 +21,10 @@ const upload = () => {
 			flist.value = []
 			dialogRef.value.close()
 		}
+		uploading.value = false
 		emit('reload')
 	}
+	uploading.value = true
 	apiPutUpload(`/api/file/upload/${path.value}`, flist.value, callback)
 }
 
@@ -44,7 +47,8 @@ defineExpose({
 	<dialog ref="dialogRef">
 		<input ref="filesInput" type="file" name="files" @change="selectFile" multiple hidden>
 		<p class="choose" @click.stop="filesInput.click">
-			<img src="/src/assets/icon/file-add.svg" alt="选择文件" width="100">
+			<img :class="{ 'hide': uploading }" src="/src/assets/icon/file-add.svg" alt="选择文件" width="98">
+		<div :class="{ 'loading': uploading }"></div>
 		</p>
 		<p v-for="file in flist">{{ file.name }}</p>
 		<p class="btn-list">
