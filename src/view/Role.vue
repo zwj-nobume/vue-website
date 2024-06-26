@@ -31,9 +31,9 @@ const openLinkUser = (item) => {
 		idName: 'roleId',
 		elemIdName: 'userId',
 		elemName: 'userName',
-		tgtUrl: '/api/role/userIds',
-		allUrl: '/api/user/page',
-		linkUrl: '/api/role/linkUR',
+		linked: '/api/role/userIds',
+		list: '/api/user/page',
+		link: '/api/role/linkUR',
 	}
 	linkDialog.value.showModal(params)
 }
@@ -43,9 +43,9 @@ const openLinkMenu = (item) => {
 		idName: 'roleId',
 		elemIdName: 'menuId',
 		elemName: 'menuLabel',
-		tgtUrl: '/api/role/menuIds',
-		allUrl: '/api/menu/page',
-		linkUrl: '/api/role/linkRM',
+		linked: '/api/role/menuIds',
+		list: '/api/menu/page',
+		link: '/api/role/linkRM',
 	}
 	linkDialog.value.showModal(params)
 }

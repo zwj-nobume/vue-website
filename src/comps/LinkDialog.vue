@@ -22,13 +22,13 @@ const showModal = (params) => {
 		return
 	}
 	form.value.id = rawParams.id
-	const url = `${rawParams.tgtUrl}?${rawParams.idName}=${rawParams.id}`
-	const callback = (res) => {
+	const lurl = `${rawParams.linked}?${rawParams.idName}=${rawParams.id}`
+	const lcallback = (res) => {
 		form.value.ids = res.data
 	}
-	apiGet(url, callback)
-	url = `${rawParams.allUrl}?pageSize=1000`
-	callback = (res) => {
+	apiGet(lurl, lcallback)
+	const url = `${rawParams.list}?pageSize=1000`
+	const callback = (res) => {
 		elems.value.length = 0
 		const elemMap = new Map()
 		res.data.forEach(item => {
@@ -49,7 +49,7 @@ const showModal = (params) => {
 		})
 	}
 	apiGet(url, callback)
-	linkUrl.value = rawParams.linkUrl
+	linkUrl.value = rawParams.link
 	dialogRef.value.showModal()
 }
 

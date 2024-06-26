@@ -37,9 +37,9 @@ const openLinkRole = (item) => {
 		idName: 'userId',
 		elemIdName: 'roleId',
 		elemName: 'roleLabel',
-		tgtUrl: '/api/user/roleIds',
-		allUrl: '/api/role/page',
-		linkUrl: '/api/user/link',
+		linked: '/api/user/roleIds',
+		list: '/api/role/page',
+		link: '/api/user/link',
 	}
 	linkDialog.value.showModal(params)
 }
