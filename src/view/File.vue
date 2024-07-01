@@ -121,9 +121,9 @@ const getSelectNames = () => fileList.value.getSelectNames()
 <template>
 	<main class="main">
 		<TitleButton :list="buttons" @mkdir="mkdir" @upload="upload" @move="move" @sel-all="selAll" @sel-resv="selResv"
-			@del="del" @download="download" width="80" height="48">
+			@del="del" @download="download" :width="80" :height="48">
 		</TitleButton>
-		<FileList ref="fileList" width="80" height="48"></FileList>
+		<FileList ref="fileList" :width="80" :height="48"></FileList>
 		<UploadDialog ref="uploadDialog" @reload="loadFile"></UploadDialog>
 		<FileSelect ref="fileSelect" @select="moveStart" selSingle></FileSelect>
 	</main>

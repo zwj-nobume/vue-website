@@ -34,7 +34,7 @@ defineExpose({
 
 <template>
     <dialog ref="dialogRef">
-        <FileList ref="fileList" :autoLoad="false" :selSingle="props.selSingle" width="80" height="48"></FileList>
+        <FileList ref="fileList" :autoLoad="false" :selSingle="props.selSingle" :width="80" :height="48"></FileList>
         <p class="btn-list">
             <button class="cancel" type="button" @click.stop="dialogRef.close">取消</button>
             <button class="select" type="button" @click.stop="select">选择</button>
