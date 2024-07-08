@@ -46,7 +46,6 @@ defineExpose({
 dialog {
     width: 80%;
     height: 60%;
-    border-radius: 1em;
     scrollbar-width: thin;
     background-color: rgba(255, 240, 245, 0.95);
 }

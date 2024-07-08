@@ -72,12 +72,6 @@ defineExpose({
 </template>
 
 <style scoped>
-dialog {
-	border: 1px solid;
-	font-size: 1.2em;
-	border-radius: 5%;
-}
-
 dialog form p {
 	margin-bottom: 0;
 	font-size: 1.2em;

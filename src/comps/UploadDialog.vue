@@ -61,9 +61,6 @@ defineExpose({
 <style scoped>
 dialog {
 	width: 30vw;
-	border: 1px solid;
-	border-radius: 5%;
-	font-size: x-large;
 }
 
 dialog p.choose {

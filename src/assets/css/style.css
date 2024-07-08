@@ -35,6 +35,12 @@ section.page {
 	scrollbar-width: thin;
 }
 
+dialog {
+	border: 1px solid;
+	font-size: 1.2em;
+	border-radius: 0.8em;
+}
+
 .hide {
 	display: none;
 }
