@@ -1,6 +1,7 @@
 <script setup>
 import TreeCheckBoxList from '@/comps/TreeCheckBoxList.vue';
 import { apiGet, apiPost } from '@/utils/ajax';
+import { isBlank, isNull } from '@/utils/public';
 import { ref, toRaw } from 'vue';
 
 const linkUrl = ref('')
@@ -17,7 +18,7 @@ const link = () => {
 const dialogRef = ref(null)
 const showModal = (params) => {
 	const rawParams = toRaw(params)
-	if (typeof rawParams === 'undefined') {
+	if (isNull(rawParams)) {
 		alert("请先绑定参数")
 		return
 	}
@@ -37,9 +38,9 @@ const showModal = (params) => {
 				name: item[rawParams.elemName]
 			}
 			elemMap.set(elem.id, elem)
-			if (typeof item['parentId'] !== 'undefined' && elemMap.has(item['parentId'])) {
+			if (!isBlank(item['parentId']) && elemMap.has(item['parentId'])) {
 				const parentELem = elemMap.get(item['parentId'])
-				if (typeof parentELem['children'] === 'undefined') {
+				if (isNull(parentELem['children'])) {
 					parentELem['children'] = new Array()
 				}
 				parentELem['children'].push(elem)

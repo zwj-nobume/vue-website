@@ -1,4 +1,5 @@
 <script setup>
+import { isBlank } from '@/utils/public';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -23,7 +24,7 @@ const router = useRouter()
 const store = useStore()
 
 const clevent = (item) => {
-	if (typeof item.target === 'string' && item.target === '_blank') {
+	if (!isBlank(item.target) && item.target === '_blank') {
 		const a = document.createElement('a')
 		a.target = item.target
 		a.href = item.path

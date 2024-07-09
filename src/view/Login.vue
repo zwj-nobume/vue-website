@@ -3,6 +3,7 @@ import { apiPost } from '@/utils/ajax';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { isBlank } from '../utils/public';
 
 const store = useStore()
 const router = useRouter()
@@ -12,7 +13,7 @@ const form = ref({
 })
 
 const token = store.getters.getToken
-if (token !== null && typeof token !== 'undefined' && token !== '') {
+if (!isBlank(token)) {
 	alert("您已登录")
 	router.push('/')
 }

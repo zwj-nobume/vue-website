@@ -4,6 +4,7 @@ import FileSelect from '@/comps/FileSelect.vue';
 import TitleButton from '@/comps/TitleButton.vue';
 import UploadDialog from '@/comps/UploadDialog.vue';
 import { apiDelete, apiGetDownload, apiPost, apiPut } from '@/utils/ajax';
+import { isBlank } from '@/utils/public';
 import { ref } from 'vue';
 
 const fileList = ref(null)
@@ -22,7 +23,7 @@ const buttons = ref(new Array(
 
 const mkdir = () => {
 	let folderName = prompt("请输入文件夹名字", "新建文件夹");
-	if (typeof folderName !== 'undefined' && folderName != null && folderName != "") {
+	if (!isBlank(folderName)) {
 		const curPath = getCurPath()
 		const path = `${curPath}${curPath === '' ? '' : '/'}${folderName}`
 		const callback = (res) => {
@@ -48,7 +49,7 @@ const moveStart = (targetPath, targetList) => {
 		alert("最多只能选择一个目标路径")
 		return
 	}
-	if (typeof targetPath !== 'undefined' && targetPath !== null && targetPath !== '') {
+	if (!isBlank(targetPath)) {
 		for (let i = targetList.length; i > 0; i--) {
 			targetList[i] = targetList[i - 1]
 		}
@@ -61,7 +62,7 @@ const moveStart = (targetPath, targetList) => {
 		targetList.push(newName)
 	}
 	const target = targetList.join('/')
-	if (typeof curPath !== 'undefined' && curPath !== null && curPath != '') {
+	if (!isBlank(curPath)) {
 		for (let i = 0; i < sourceArr.length; i++) {
 			sourceArr[i] = `${curPath}/${sourceArr[i]}`
 		}

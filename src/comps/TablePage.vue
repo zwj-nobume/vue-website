@@ -1,6 +1,7 @@
 <script setup>
 import PageList from '@/comps/PageList.vue';
 import { apiDelete, apiGet, apiPost } from '@/utils/ajax';
+import { isNull } from '@/utils/public';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -38,7 +39,7 @@ const pageSize = ref(20)
 const total = ref(0)
 const sizeList = ref([10, 20, 30, 40, 50])
 const loadTable = (pageNum) => {
-	if (typeof pageNum === 'undefined' || pageNum === null) {
+	if (isNull(pageNum)) {
 		pageNum = 1
 		page.value.cur = 1
 	}
@@ -103,10 +104,6 @@ const del = () => {
 	}
 }
 
-const ifNull = (item) => {
-	return typeof item === 'undefined' || item === null
-}
-
 defineExpose({
 	loadTable,
 	selAll,
@@ -123,13 +120,13 @@ onMounted(() => loadTable())
 			<thead>
 				<tr>
 					<th v-for="td in struct">{{ td.name }}</th>
-					<th v-if="!ifNull(control)">操作</th>
+					<th v-if="!isNull(control)">操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
 					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
-					<td class="control" v-if="!ifNull(control)">
+					<td class="control" v-if="!isNull(control)">
 						<a href="javascript:void(0);"
 							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"
 							@click.stop="emit(ctl.emit, tr)">

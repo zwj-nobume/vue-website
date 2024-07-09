@@ -1,5 +1,6 @@
 <script setup>
 import { apiPutUpload } from '@/utils/ajax';
+import { isNull } from '@/utils/public';
 import { ref, toRaw } from 'vue';
 
 const emit = defineEmits([
@@ -32,7 +33,7 @@ const filesInput = ref(null)
 const dialogRef = ref(null)
 const showModal = (params) => {
 	const rawParams = toRaw(params)
-	if (typeof rawParams !== 'undefined') {
+	if (!isNull(rawParams)) {
 		path.value = rawParams.path
 	}
 	dialogRef.value.showModal()

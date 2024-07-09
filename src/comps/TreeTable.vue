@@ -1,5 +1,6 @@
 <script setup>
 import { apiDelete, apiGet, apiPost } from '@/utils/ajax';
+import { isNull } from '@/utils/public';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -37,7 +38,7 @@ const table = ref(new Array())
 const parentId = ref([''])
 const sortFlag = ref('')
 const loadTable = (item) => {
-	if (typeof item !== 'undefined' && !ifNull(item[props.idName])) parentId.value.push(item[props.idName])
+	if (!isNull(item) && !isNull(item[props.idName])) parentId.value.push(item[props.idName])
 	const params = new Object()
 	params[props.parentName] = getLastParentId()
 	if (sortFlag.value !== '') params.sortFlag = sortFlag.value
@@ -107,10 +108,6 @@ const getLastParentId = () => {
 	return lastParentId === '' ? 'NULL' : lastParentId
 }
 
-const ifNull = (item) => {
-	return typeof item === 'undefined' || item === null
-}
-
 defineExpose({
 	getLastParentId,
 	loadTable,
@@ -129,13 +126,13 @@ onMounted(() => loadTable())
 			<thead>
 				<tr>
 					<th v-for="td in struct">{{ td.name }}</th>
-					<th v-if="!ifNull(control)">操作</th>
+					<th v-if="!isNull(control)">操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
 					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
-					<td class="control" v-if="!ifNull(control)">
+					<td class="control" v-if="!isNull(control)">
 						<a href="javascript:void(0);"
 							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"
 							@click.stop="emit(ctl.emit, tr)">

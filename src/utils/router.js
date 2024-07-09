@@ -1,6 +1,10 @@
 import { store } from '@/utils/store'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+import { isBlank } from '@/utils/public'
+
+import Dict from '@/view/Dict.vue'
+import File from '@/view/File.vue'
 import Home from '@/view/Home.vue'
 import Login from '@/view/Login.vue'
 import Menu from '@/view/Menu.vue'
@@ -8,8 +12,6 @@ import Other from '@/view/Other.vue'
 import Role from '@/view/Role.vue'
 import System from '@/view/System.vue'
 import User from '@/view/User.vue'
-import File from '@/view/File.vue'
-import Dict from '@/view/Dict.vue'
 
 const routes = [
 	{ name: 'home', path: '/', component: Home },
@@ -43,7 +45,7 @@ router.beforeEach((to, from, next) => {
 	const findList = routes.filter(item => item.path === to.fullPath)
 	if (findList.length === 1) {
 		const findOne = findList[0]
-		if (typeof findOne.permission === 'undefined') {
+		if (isBlank(findOne.permission)) {
 			next()
 			return
 		}

@@ -1,3 +1,4 @@
+import { isNull } from '@/utils/public'
 import { router } from '@/utils/router.js'
 import { store } from '@/utils/store.js'
 
@@ -132,7 +133,7 @@ const apiAjax = (url, request, callback) => {
 			return err.json()
 		}
 	}).then(res => {
-		if (typeof res !== "undefined" && typeof res.status !== "undefined" && typeof res.message !== "undefined") {
+		if (!isNull(res) && !isNull(res.status) && !isNull(res.message)) {
 			alert(`${res.status}: ${res.message}`)
 		}
 	})
@@ -156,7 +157,7 @@ const apiAjaxBlob = (url, request, callback) => {
 			return err.json()
 		}
 	}).then(res => {
-		if (typeof res !== "undefined" && typeof res.error !== "undefined") {
+		if (!isNull(res) && !isNull(res.error)) {
 			alert(`${res.error}: ${res.message}`)
 		}
 	})
