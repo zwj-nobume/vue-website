@@ -1,5 +1,6 @@
 <script setup>
 import { apiPost, apiPut } from '@/utils/ajax';
+import { isNull } from '@/utils/public';
 import { ref, toRaw } from 'vue';
 
 const props = defineProps({
@@ -45,7 +46,7 @@ const showModal = (sflag, params) => {
 	const rawParams = toRaw(params)
 	Object.keys(form.value).forEach(key => delete form.value[key])
 	flag.value = sflag
-	if (typeof rawParams !== 'undefined') {
+	if (!isNull(rawParams)) {
 		Object.keys(rawParams).forEach(key => form.value[key] = rawParams[key])
 	}
 	dialogRef.value.showModal()
@@ -61,7 +62,11 @@ defineExpose({
 		<form method="dialog" @submit.prevent="update">
 			<p v-for="elem in elems">
 				<label v-if="elem.type !== 'hidden'">{{ elem.label }}:&emsp;</label>
-				<input :name="elem.name" :type="elem.type" v-model="form[elem.name]" />
+				<input v-if="isNull(elem.item) || 'input' === elem.item" :name="elem.name" :type="elem.type"
+					v-model="form[elem.name]" />
+				<select v-if="'select' === elem.item" :name="elem.name" v-model="form[elem.name]">
+					<option v-for="option in elem.options" :value="option.value">{{ option.text }}</option>
+				</select>
 			</p>
 			<p class="btn-list">
 				<button class="cancel" type="button" @click.stop="dialogRef.close">取消</button>
@@ -104,6 +109,7 @@ dialog form p.btn-list button:hover {
 	cursor: pointer;
 }
 
+dialog form p select,
 dialog form p input,
 dialog form p.btn-list button {
 	font-size: larger;
