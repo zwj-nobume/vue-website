@@ -52,7 +52,8 @@ defineExpose({
 			{{ cur - midNum + i }}
 		</li>
 		<span v-if="(cur + midNum - 1) < Math.ceil(total / size) - 1">...</span>
-		<li :class="{ hide: (cur + midNum - 1) >= Math.ceil(total / size) }" @click.stop="loadPage(Math.ceil(total / size))">
+		<li :class="{ hide: (cur + midNum - 1) >= Math.ceil(total / size) }"
+			@click.stop="loadPage(Math.ceil(total / size))">
 			{{ Math.ceil(total / size) }}
 		</li>
 		<li @click.stop="nextPage">&gt;</li>

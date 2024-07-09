@@ -9,6 +9,7 @@ import Role from '@/view/Role.vue'
 import System from '@/view/System.vue'
 import User from '@/view/User.vue'
 import File from '@/view/File.vue'
+import Dict from '@/view/Dict.vue'
 
 const routes = [
 	{ name: 'home', path: '/', component: Home },
@@ -18,6 +19,7 @@ const routes = [
 	{ name: 'role', path: '/system/role', component: Role, permission: 'system:role' },
 	{ name: 'menu', path: '/system/menu', component: Menu, permission: 'system:menu' },
 	{ name: 'file', path: '/system/file', component: File, permission: 'system:file' },
+	{ name: 'dict', path: '/system/dict', component: Dict, permission: 'system:dict' },
 	{ name: 'other', path: '/other', component: Other },
 ]
 const noVerify = new Set(['/login'])
