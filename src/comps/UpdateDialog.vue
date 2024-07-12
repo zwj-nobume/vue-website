@@ -83,6 +83,12 @@ dialog form p {
 	justify-content: space-between;
 }
 
+dialog form p label {
+	width: 30%;
+	display: flex;
+	justify-content: flex-end;
+}
+
 dialog form p.btn-list button:first-child {
 	margin-left: 0;
 }
@@ -113,5 +119,6 @@ dialog form p select,
 dialog form p input,
 dialog form p.btn-list button {
 	font-size: larger;
+	flex: 1;
 }
 </style>
