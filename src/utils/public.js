@@ -10,7 +10,7 @@ const isEmpty = (item) => {
 
 // 判断字符串为空
 const isBlank = (item) => {
-    return isNull(item) || (item instanceof String && item === '')
+    return isNull(item) || ((typeof item === 'string' || item instanceof String) && item == '')
 }
 
 export { isNull, isEmpty, isBlank }
