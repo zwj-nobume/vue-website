@@ -93,7 +93,7 @@ const del = () => {
 		alert("请先选择需要删除的记录")
 		return
 	}
-	if (window.confirm(`确认要删除选中的 ${delTable.length} 条记录吗?`)) {
+	if (confirm(`确认要删除选中的 ${delTable.length} 条记录吗?`)) {
 		const ids = delTable.map(tb => tb[props.idName])
 		const callback = (res) => {
 			alert(res.message)
