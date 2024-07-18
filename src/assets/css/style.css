@@ -36,6 +36,7 @@ section.page {
 }
 
 dialog {
+	width: 30vw;
 	border: 1px solid;
 	font-size: 1.2em;
 	border-radius: 0.8em;
@@ -72,6 +73,27 @@ div.loading:after {
 	width: 40px;
 	height: 40px;
 	margin: 26px;
+}
+
+input,
+select {
+	border: 1px solid #E1E1E1;
+	border-radius: 5px;
+	width: 120px;
+	height: 2.2em;
+	padding: 0 24px 0 8px;
+	background-color: rgba(255, 240, 245, 0.5);
+}
+
+
+input:focus-visible,
+select:focus-visible {
+	outline: unset;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
 }
 
 @keyframes satellite {

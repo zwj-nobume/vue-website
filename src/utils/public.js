@@ -13,4 +13,4 @@ const isBlank = (item) => {
     return isNull(item) || ((typeof item === 'string' || item instanceof String) && item == '')
 }
 
-export { isNull, isEmpty, isBlank }
+export { isBlank, isEmpty, isNull }

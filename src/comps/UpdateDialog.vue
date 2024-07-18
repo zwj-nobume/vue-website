@@ -100,6 +100,7 @@ dialog form p.btn-list button {
 	border: 0;
 	border-radius: 8px;
 	margin-top: 15px;
+	font-size: 1.2em;
 }
 
 dialog form p.btn-list button.submit {
@@ -116,9 +117,7 @@ dialog form p.btn-list button:hover {
 }
 
 dialog form p select,
-dialog form p input,
-dialog form p.btn-list button {
-	font-size: larger;
+dialog form p input {
 	flex: 1;
 }
 </style>
