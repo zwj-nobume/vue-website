@@ -85,6 +85,10 @@ select {
 	background-color: rgba(255, 240, 245, 0.5);
 }
 
+input[type='button']:hover,
+select:hover {
+	cursor: pointer;
+}
 
 input:focus-visible,
 select:focus-visible {
