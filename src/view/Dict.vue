@@ -142,7 +142,7 @@ onMounted(() => loadDict())
         <section class="page">
             <aside>
                 <ul class="dict-list">
-                    <li v-for="dict in dictList" @click.stop="selKey(dict)">
+                    <li v-for="dict in dictList" @click.stop="selKey(dict)" :title="dict">
                         <img :src="selItem === dict ? '/src/assets/icon/dict-open.svg' : '/src/assets/icon/dict.svg'"
                             :alt="dict" width="60" height="60">
                         <span>{{ dict }}</span>
@@ -203,7 +203,9 @@ aside ul.dict-list {
     flex: 1;
     width: 100%;
     display: grid;
-    grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+    gap: 0.5em;
 }
 
 aside ul.dict-list li {
@@ -221,6 +223,13 @@ aside ul.dict-list li:hover {
 aside ul.dict-list li img {
     max-width: 100%;
     max-height: calc(100% - 20px);
+}
+
+aside ul.dict-list li span {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 }
 
 aside p.page {
