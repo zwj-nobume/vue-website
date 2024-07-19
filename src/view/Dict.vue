@@ -139,7 +139,7 @@ onMounted(() => loadDict())
 <template>
     <main class="main">
         <TitleButton :list="buttons" @add="addDict" @func1="saveValue" @del="del"></TitleButton>
-        <section class="page">
+        <section class="layout">
             <aside>
                 <ul class="dict-list">
                     <li v-for="dict in dictList" @click.stop="selKey(dict)" :title="dict">
@@ -179,11 +179,11 @@ onMounted(() => loadDict())
 </template>
 
 <style scoped>
-section.page {
+section.layout {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 3px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 3px;
 }
 
 aside {
