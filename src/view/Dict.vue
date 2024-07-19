@@ -16,16 +16,19 @@ const selItem = ref('')
 const valueType = ref('number')
 const numberValue = ref(0)
 const textValue = ref('')
+const arrayValue = ref([])
 const objectValue = ref({})
 const typeValueMap = new Map()
 typeValueMap.set('number', numberValue)
 typeValueMap.set('text', textValue)
+typeValueMap.set('array', arrayValue)
 typeValueMap.set('object', objectValue)
 
 const resetAllValue = () => {
     valueType.value = 'number'
     numberValue.value = 0
     textValue.value = ''
+    arrayValue.value.length = 0
     objectValue.value = {}
 }
 
@@ -83,6 +86,10 @@ const buttons = ref(new Array(
     { name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg' },
 ))
 
+const addArrValKey = () => {
+    arrayValue.value.push('')
+}
+
 const addObjValKey = () => {
     const objValKey = prompt("请输入字典值对象KEY")
     if (isNull(objValKey)) return
@@ -97,6 +104,9 @@ const addObjValKey = () => {
     }
     objectValue.value[objValKey] = ''
 }
+
+const removeArrVal = (index) => arrayValue.value.splice(index, 1)
+const removeObjVal = (objKey) => delete objectValue.value[objKey]
 
 const dictList = ref([])
 const page = ref(null)
@@ -158,15 +168,28 @@ onMounted(() => loadDict())
                     <select name="value-type" v-model="valueType">
                         <option value="number">数字</option>
                         <option value="text">字符串</option>
+                        <option value="array">数组</option>
                         <option value="object">对象</option>
                     </select>
                 </label>
                 <input class="only" v-if="valueType === 'number'" type="number" v-model="numberValue"
                     onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
                 <input class="only" v-if="valueType === 'text'" type="text" v-model="textValue">
+                <section class="only" v-if="valueType === 'array'">
+                    <label v-for="(_, i) in arrayValue">
+                        <img class="remove" @click.stop="removeArrVal(i)" src="/src/assets/icon/minus.svg" width="20"
+                            height="20">
+                        <input type="text" v-model="arrayValue[i]">
+                    </label>
+                    <label>
+                        <input type="button" @click.stop="addArrValKey" value="添加">
+                    </label>
+                </section>
                 <section class="only" v-if="valueType === 'object'">
                     <label v-for="objKey in Object.keys(objectValue)">
-                        <text>{{ objKey }}:&emsp;</text>
+                        <img class="remove" @click.stop="removeObjVal(objKey)" src="/src/assets/icon/minus.svg"
+                            width="20" height="20">
+                        <text :title="objKey">{{ objKey }}:&emsp;</text>
                         <input type="text" v-model="objectValue[objKey]">
                     </label>
                     <label>
@@ -230,6 +253,7 @@ aside ul.dict-list li span {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
+    text-align: center;
 }
 
 aside p.page {
@@ -269,13 +293,30 @@ article section.only {
 }
 
 article section.only label {
+    position: relative;
     display: flex;
     justify-content: space-between;
+}
+
+article section.only label img.remove {
+    position: absolute;
+    top: 5px;
+    left: -30px;
+    border: 1px solid #f6ad88;
+    border-radius: 50%;
+}
+
+article section.only label img.remove:hover {
+    cursor: pointer;
 }
 
 article section.only label text {
     flex: 1;
     text-align: right;
+    margin-right: 0.5em;
+    border: 1px solid #E1E1E1;
+    border-radius: 5px;
+    background-color: rgba(255, 240, 245, 0.5);
 }
 
 article section.only label input {
