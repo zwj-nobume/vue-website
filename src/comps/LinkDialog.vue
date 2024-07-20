@@ -8,11 +8,15 @@ const linkUrl = ref('')
 const form = ref(new Object())
 const elems = ref(new Array())
 const link = () => {
+	const data = {
+		id: form.value.id,
+		ids: Array.from(form.value.ids)
+	}
 	const callback = (res) => {
 		alert(res.message)
 		dialogRef.value.close()
 	}
-	apiPost(linkUrl.value, form.value, callback)
+	apiPost(linkUrl.value, data, callback)
 }
 
 const dialogRef = ref(null)
@@ -25,7 +29,7 @@ const showModal = (params) => {
 	form.value.id = rawParams.id
 	const lurl = `${rawParams.linked}?${rawParams.idName}=${rawParams.id}`
 	const lcallback = (res) => {
-		form.value.ids = res.data
+		form.value.ids = new Set(res.data)
 	}
 	apiGet(lurl, lcallback)
 	const url = `${rawParams.list}?pageSize=1000`
@@ -80,8 +84,8 @@ dialog form>ul {
 }
 
 dialog form p {
+	margin-top: 0.5em;
 	margin-bottom: 0;
-	font-size: 1.2em;
 	display: flex;
 	flex-direction: column;
 }
@@ -89,6 +93,7 @@ dialog form p {
 dialog form p button {
 	flex: 1;
 	margin-left: 5px;
+	font-size: 1em;
 	padding: 0;
 	border: 0;
 	border-radius: 8px;
@@ -106,10 +111,5 @@ dialog form p button.cancel {
 dialog form p button:hover {
 	filter: brightness(1.4);
 	cursor: pointer;
-}
-
-dialog form p input,
-dialog form p button {
-	font-size: large;
 }
 </style>
