@@ -207,7 +207,6 @@ p.page div span {
 }
 
 section.page,
-p.page div select,
 p.page ul {
 	font-size: 1.3em;
 }

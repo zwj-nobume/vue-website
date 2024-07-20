@@ -90,6 +90,7 @@ dialog p.btn-list button:first-child {
 dialog p.btn-list button {
 	flex: 1;
 	margin-left: 5px;
+	font-size: 1.2em;
 	padding: 0;
 	border: 0;
 	border-radius: 8px;
@@ -107,9 +108,5 @@ dialog p.btn-list button.cancel {
 dialog p.btn-list button:hover {
 	filter: brightness(1.4);
 	cursor: pointer;
-}
-
-dialog p.btn-list button {
-	font-size: larger;
 }
 </style>
