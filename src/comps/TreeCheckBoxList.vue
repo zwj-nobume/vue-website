@@ -24,4 +24,9 @@ ul {
 	list-style: none;
 	padding: 0 0 0 1em;
 }
+
+ul li input[type="checkbox"] {
+	width: auto;
+	height: auto;
+}
 </style>

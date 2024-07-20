@@ -73,6 +73,12 @@ defineExpose({
 </template>
 
 <style scoped>
+dialog form>ul {
+	height: 30vh;
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
+
 dialog form p {
 	margin-bottom: 0;
 	font-size: 1.2em;
