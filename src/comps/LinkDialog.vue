@@ -78,7 +78,7 @@ defineExpose({
 
 <style scoped>
 dialog form>ul {
-	height: 30vh;
+	max-height: 50vh;
 	overflow-y: auto;
 	scrollbar-width: thin;
 }
@@ -93,7 +93,7 @@ dialog form p {
 dialog form p button {
 	flex: 1;
 	margin-left: 5px;
-	font-size: 1em;
+	font-size: 1.2em;
 	padding: 0;
 	border: 0;
 	border-radius: 8px;
