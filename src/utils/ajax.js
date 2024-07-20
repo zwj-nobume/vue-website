@@ -130,7 +130,7 @@ const apiAjax = (url, request, callback) => {
 			store.commit('deleteToken')
 			router.push('/login')
 		} else {
-			return err.json()
+			console.error(err)
 		}
 	}).then(res => {
 		if (!isNull(res) && !isNull(res.status) && !isNull(res.message)) {
@@ -154,7 +154,7 @@ const apiAjaxBlob = (url, request, callback) => {
 			store.commit('deleteToken')
 			router.push('/login')
 		} else {
-			return err.json()
+			console.error(err)
 		}
 	}).then(res => {
 		if (!isNull(res) && !isNull(res.error)) {
