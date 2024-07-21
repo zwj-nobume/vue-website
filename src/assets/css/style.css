@@ -90,6 +90,7 @@ select:hover {
 	cursor: pointer;
 }
 
+button:focus-visible,
 input:focus-visible,
 select:focus-visible {
 	outline: unset;

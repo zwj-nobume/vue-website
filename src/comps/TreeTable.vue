@@ -32,11 +32,21 @@ const emit = defineEmits([
 	'next',
 	'linkRole',
 	'edit',
+	'func0',
+	'func1',
+	'func2',
+	'func3',
+	'func4',
+	'func5',
+	'func6',
+	'func7',
+	'func8',
+	'func9',
 ])
 
 const table = ref(new Array())
 const parentId = ref([''])
-const sortFlag = ref('')
+const sortFlag = ref('create_time')
 const loadTable = (item) => {
 	if (!isNull(item) && !isNull(item[props.idName])) parentId.value.push(item[props.idName])
 	const params = new Object()
@@ -131,7 +141,7 @@ onMounted(() => loadTable())
 			</thead>
 			<tbody>
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
-					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
+					<td v-for="td in struct" @dblclick.stop="upd(i, td)" :title="tr[td.value]">{{ tr[td.value] }}</td>
 					<td class="control" v-if="!isNull(control)">
 						<a href="javascript:void(0);"
 							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"
@@ -197,11 +207,6 @@ p.page {
 
 p.page span {
 	margin-left: 10px;
-}
-
-section.page,
-p.page select {
-	font-size: 1.3em;
 }
 
 table td.control {

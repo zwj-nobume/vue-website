@@ -6,6 +6,7 @@ import { isBlank } from '@/utils/public'
 import Dict from '@/view/Dict.vue'
 import File from '@/view/File.vue'
 import Home from '@/view/Home.vue'
+import Log from '@/view/Log.vue'
 import Login from '@/view/Login.vue'
 import Menu from '@/view/Menu.vue'
 import Other from '@/view/Other.vue'
@@ -22,6 +23,7 @@ const routes = [
 	{ name: 'menu', path: '/system/menu', component: Menu, permission: 'system:menu' },
 	{ name: 'file', path: '/system/file', component: File, permission: 'system:file' },
 	{ name: 'dict', path: '/system/dict', component: Dict, permission: 'system:dict' },
+	{ name: 'log', path: '/system/log', component: Log, permission: 'system:log' },
 	{ name: 'other', path: '/other', component: Other },
 ]
 const noVerify = new Set(['/login'])

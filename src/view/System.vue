@@ -8,6 +8,7 @@ const pages = ref(new Array(
 	{ name: "菜单管理", path: '/system/menu', icon: '/src/assets/icon/menu.svg', permission: 'system:menu' },
 	{ name: "文件管理", path: '/system/file', icon: '/src/assets/icon/file-manager.svg', permission: 'system:file' },
 	{ name: "字典管理", path: '/system/dict', icon: '/src/assets/icon/dict-manager.svg', permission: 'system:dict' },
+	{ name: "日志管理", path: '/system/log', icon: '/src/assets/icon/log-manager.svg', permission: 'system:log' },
 ))
 </script>
 
