@@ -30,11 +30,21 @@ const emit = defineEmits([
 	'linkRole',
 	'linkMenu',
 	'edit',
+	'func0',
+	'func1',
+	'func2',
+	'func3',
+	'func4',
+	'func5',
+	'func6',
+	'func7',
+	'func8',
+	'func9',
 ])
 
 const page = ref(null)
 const table = ref(new Array())
-const sortFlag = ref('')
+const sortFlag = ref('create_time')
 const pageSize = ref(20)
 const total = ref(0)
 const sizeList = ref([10, 20, 30, 40, 50])
@@ -125,7 +135,7 @@ onMounted(() => loadTable())
 			</thead>
 			<tbody>
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
-					<td v-for="td in struct" @dblclick.stop="upd(i, td)">{{ tr[td.value] }}</td>
+					<td v-for="td in struct" @dblclick.stop="upd(i, td)" :title="tr[td.value]">{{ tr[td.value] }}</td>
 					<td class="control" v-if="!isNull(control)">
 						<a href="javascript:void(0);"
 							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"
@@ -204,11 +214,6 @@ p.page div {
 
 p.page div span {
 	margin-left: 10px;
-}
-
-section.page,
-p.page ul {
-	font-size: 1.3em;
 }
 
 table td.control {

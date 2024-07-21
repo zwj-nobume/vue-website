@@ -15,6 +15,16 @@ const props = defineProps({
 })
 const emit = defineEmits([
 	'reload-table',
+	'func0',
+	'func1',
+	'func2',
+	'func3',
+	'func4',
+	'func5',
+	'func6',
+	'func7',
+	'func8',
+	'func9',
 ])
 
 const flag = ref(new String(''))

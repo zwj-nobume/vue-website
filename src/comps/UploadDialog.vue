@@ -4,7 +4,17 @@ import { isNull } from '@/utils/public';
 import { ref, toRaw } from 'vue';
 
 const emit = defineEmits([
-	'reload'
+	'reload',
+	'func0',
+	'func1',
+	'func2',
+	'func3',
+	'func4',
+	'func5',
+	'func6',
+	'func7',
+	'func8',
+	'func9',
 ])
 
 const flist = ref(new Array())

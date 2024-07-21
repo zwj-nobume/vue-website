@@ -82,7 +82,7 @@ const del = () => {
 }
 const buttons = ref(new Array(
     { name: "添加字典", emit: 'add', icon: '/src/assets/icon/add-dict.svg' },
-    { name: "保存值", emit: 'func1', icon: '/src/assets/icon/save-data.svg' },
+    { name: "保存值", emit: 'func0', icon: '/src/assets/icon/save-data.svg' },
     { name: "删除", emit: 'del', icon: '/src/assets/icon/delete.svg' },
 ))
 
@@ -148,7 +148,7 @@ onMounted(() => loadDict())
 
 <template>
     <main class="main">
-        <TitleButton :list="buttons" @add="addDict" @func1="saveValue" @del="del"></TitleButton>
+        <TitleButton :list="buttons" @add="addDict" @func0="saveValue" @del="del"></TitleButton>
         <section class="layout">
             <aside>
                 <ul class="dict-list">
