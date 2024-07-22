@@ -1,6 +1,6 @@
 import { isNull } from '@/utils/public'
-import { router } from '@/utils/router.js'
-import { store } from '@/utils/store.js'
+import { router } from '@/utils/router'
+import { store } from '@/utils/store'
 
 const apiGet = (url, callback) => {
 	const token = store.getters.getToken

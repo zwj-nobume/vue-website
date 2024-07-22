@@ -1,8 +1,8 @@
 <script setup>
 import PageList from '@/comps/PageList.vue';
 import TitleButton from '@/comps/TitleButton.vue';
-import { apiDelete, apiGet, apiPost, apiPut } from '@/utils/ajax.js';
-import { isBlank, isNull } from '@/utils/public.js';
+import { apiDelete, apiGet, apiPost, apiPut } from '@/utils/ajax';
+import { isBlank, isNull } from '@/utils/public';
 import { onMounted, ref } from 'vue';
 
 const url = ref({
