@@ -1,7 +1,7 @@
 <script setup>
 import PageList from '@/comps/PageList.vue';
 import { apiDelete, apiGet, apiPost } from '@/utils/ajax';
-import { isNull } from '@/utils/public';
+import { isBlank, isNull } from '@/utils/public';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -48,6 +48,8 @@ const sortFlag = ref('create_time')
 const pageSize = ref(20)
 const total = ref(0)
 const sizeList = ref([10, 20, 30, 40, 50])
+const dictMap = ref(new Map())
+
 const loadTable = (pageNum) => {
 	if (isNull(pageNum)) {
 		pageNum = 1
@@ -121,7 +123,16 @@ defineExpose({
 	del,
 })
 
-onMounted(() => loadTable())
+onMounted(() => {
+	props.struct.forEach(item => {
+		if (!isBlank(item.dict)) {
+			store.getters.getDict(item.dict).then(res => {
+				if (!isNull(res)) dictMap.value.set(item.dict, res)
+			})
+		}
+	})
+	loadTable()
+})
 </script>
 
 <template>
@@ -135,7 +146,10 @@ onMounted(() => loadTable())
 			</thead>
 			<tbody>
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
-					<td v-for="td in struct" @dblclick.stop="upd(i, td)" :title="tr[td.value]">{{ tr[td.value] }}</td>
+					<td v-for="td in struct" @dblclick.stop="upd(i, td)"
+						:title="isBlank(td.dict) ? tr[td.value] : dictMap.get(td.dict)[tr[td.value]]">
+						{{ isBlank(td.dict) ? tr[td.value] : dictMap.get(td.dict)[tr[td.value]] }}
+					</td>
 					<td class="control" v-if="!isNull(control)">
 						<a href="javascript:void(0);"
 							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"

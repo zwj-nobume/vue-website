@@ -12,7 +12,7 @@ const form = ref({
 	password: '',
 })
 
-const token = store.getters.getToken
+const token = store.getters.getToken()
 if (!isBlank(token)) {
 	alert("您已登录")
 	router.push('/')

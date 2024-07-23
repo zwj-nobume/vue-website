@@ -4,6 +4,9 @@ import TitleButton from '@/comps/TitleButton.vue';
 import { apiDelete, apiGet, apiPost, apiPut } from '@/utils/ajax';
 import { isBlank, isNull } from '@/utils/public';
 import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore()
 
 const url = ref({
     list: '/api/dict/page',
@@ -59,6 +62,7 @@ const saveValue = () => {
     const key = selItem.value
     const value = `${valueType.value}:${JSON.stringify(typeValueMap.get(valueType.value).value)}`
     const data = { key, value }
+    store.commit('setDict', data)
     const callback = (res) => {
         alert(res.message)
     }
@@ -66,14 +70,16 @@ const saveValue = () => {
 }
 
 const del = () => {
-    if (isBlank(selItem.value)) {
+    const key = selItem.value
+    if (isBlank(key)) {
         alert("请选择一个字典KEY")
         return
     }
-    if (confirm(`确认要删除选中的 ${selItem.value} 字典吗?`)) {
-        const data = [selItem.value]
+    if (confirm(`确认要删除选中的 ${key} 字典吗?`)) {
+        const data = [key]
         const callback = (res) => {
             alert(res.message)
+            store.dispatch('deleteDictKey', key)
             resetAllValue()
             loadDict()
         }

@@ -38,9 +38,9 @@ router.beforeEach((to, from, next) => {
 		next()
 		return
 	}
-	if (store.getters.getToken === null || store.getters.getToken === '') {
+	if (store.getters.getToken() === null || store.getters.getToken() === '') {
 		alert("需要登录")
-		store.commit('deleteToken')
+		store.dispatch('deleteToken')
 		router.push('/login')
 		return
 	}
@@ -51,7 +51,7 @@ router.beforeEach((to, from, next) => {
 			next()
 			return
 		}
-		const permission = store.getters.getPermission
+		const permission = store.getters.getPermission()
 		if (permission.has(findOne.permission)) {
 			next()
 			return

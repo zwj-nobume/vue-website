@@ -1,19 +1,18 @@
-import { isNull } from '@/utils/public'
 import { router } from '@/utils/router'
 import { store } from '@/utils/store'
 
-const apiGet = (url, callback) => {
-	const token = store.getters.getToken
+const apiGet = async (url, callback) => {
+	const token = store.getters.getToken()
 	const request = {
 		method: "GET",
 		headers: {
 			"Authorization": token
 		}
 	}
-	apiAjax(url, request, callback)
+	return apiAjax(url, request, callback)
 }
 
-const apiGetDownload = (url, fileName) => {
+const apiGetDownload = async (url, fileName) => {
 	const callback = (blob) => {
 		const fileURL = window.URL.createObjectURL(blob)
 		const link = document.createElement('a')
@@ -22,22 +21,22 @@ const apiGetDownload = (url, fileName) => {
 		link.click()
 		window.URL.revokeObjectURL(fileURL);
 	}
-	apiGetBlob(url, callback)
+	return apiGetBlob(url, callback)
 }
 
-const apiGetBlob = (url, callback) => {
-	const token = store.getters.getToken
+const apiGetBlob = async (url, callback) => {
+	const token = store.getters.getToken()
 	const request = {
 		method: "GET",
 		headers: {
 			"Authorization": token
 		}
 	}
-	apiAjaxBlob(url, request, callback)
+	return apiAjaxBlob(url, request, callback)
 }
 
-const apiPost = (url, data, callback) => {
-	let token = store.getters.getToken
+const apiPost = async (url, data, callback) => {
+	let token = store.getters.getToken()
 	const request = {
 		method: "POST",
 		headers: {
@@ -46,11 +45,11 @@ const apiPost = (url, data, callback) => {
 		},
 		body: data === null ? "" : JSON.stringify(data)
 	}
-	apiAjax(url, request, callback)
+	return apiAjax(url, request, callback)
 }
 
-const apiPostBlob = (url, data, callback) => {
-	const token = store.getters.getToken
+const apiPostBlob = async (url, data, callback) => {
+	const token = store.getters.getToken()
 	const request = {
 		method: "POST",
 		headers: {
@@ -59,11 +58,11 @@ const apiPostBlob = (url, data, callback) => {
 		},
 		body: data === null ? "" : JSON.stringify(data)
 	}
-	apiAjaxBlob(url, request, callback)
+	return apiAjaxBlob(url, request, callback)
 }
 
-const apiPut = (url, data, callback) => {
-	const token = store.getters.getToken
+const apiPut = async (url, data, callback) => {
+	const token = store.getters.getToken()
 	const request = {
 		method: "PUT",
 		headers: {
@@ -72,11 +71,11 @@ const apiPut = (url, data, callback) => {
 		},
 		body: data === null ? "" : JSON.stringify(data)
 	}
-	apiAjax(url, request, callback)
+	return apiAjax(url, request, callback)
 }
 
-const apiPutUpload = (url, files, callback) => {
-	const token = store.getters.getToken
+const apiPutUpload = async (url, files, callback) => {
+	const token = store.getters.getToken()
 	const formData = new FormData()
 	for (const file of files) {
 		formData.append("files", file)
@@ -88,11 +87,11 @@ const apiPutUpload = (url, files, callback) => {
 		},
 		body: formData
 	}
-	apiAjax(url, request, callback)
+	return apiAjax(url, request, callback)
 }
 
-const apiDelete = (url, data, callback) => {
-	const token = store.getters.getToken
+const apiDelete = async (url, data, callback) => {
+	const token = store.getters.getToken()
 	const request = {
 		method: "DELETE",
 		headers: {
@@ -101,7 +100,7 @@ const apiDelete = (url, data, callback) => {
 		},
 		body: data === null ? "" : JSON.stringify(data)
 	}
-	apiAjax(url, request, callback)
+	return apiAjax(url, request, callback)
 }
 
 const logout = (msg) => {
@@ -109,58 +108,56 @@ const logout = (msg) => {
 	if (confirmVal) {
 		apiPost("/api/logout", null, (res) => {
 			alert(res.message)
-			store.commit('deleteToken')
+			store.dispatch('deleteToken')
 			router.push('/login')
 		})
 	}
 }
 
-const apiAjax = (url, request, callback) => {
-	url = encodeURI(url)
-	fetch(url, request).then(res => {
-		if (200 === res.status) {
-			return res.json()
-		} else {
-			return Promise.reject(res)
-		}
-	}).then(res => callback(res)).catch(async err => {
-		if (401 === err.status) {
+const apiAjax = async (url, request, callback) => {
+	try {
+		const res = await defaultAjax(url, request)
+		return callback(res)
+	} catch (error) {
+		if (401 === error.status) {
 			const errObj = await err.json()
 			alert(errObj.message)
-			store.commit('deleteToken')
+			store.dispatch('deleteToken')
 			router.push('/login')
 		} else {
-			console.error(err)
+			return Promise.reject(error)
 		}
-	}).then(res => {
-		if (!isNull(res) && !isNull(res.status) && !isNull(res.message)) {
-			alert(`${res.status}: ${res.message}`)
-		}
-	})
+	}
 }
 
-const apiAjaxBlob = (url, request, callback) => {
-	url = encodeURI(url)
-	fetch(url, request).then(res => {
-		if (200 === res.status) {
-			return res.blob()
-		} else {
-			return Promise.reject(res)
-		}
-	}).then(blob => callback(blob)).catch(async err => {
-		if (401 === err.status) {
+const apiAjaxBlob = async (url, request, callback) => {
+	try {
+		const blob = await defaultAjaxBlob(url, request)
+		return async () => callback(blob)
+	} catch (error) {
+		if (401 === error.status) {
 			const errObj = await err.json()
 			alert(errObj.message)
-			store.commit('deleteToken')
+			store.dispatch('deleteToken')
 			router.push('/login')
 		} else {
-			console.error(err)
+			return Promise.reject(error)
 		}
-	}).then(res => {
-		if (!isNull(res) && !isNull(res.error)) {
-			alert(`${res.error}: ${res.message}`)
-		}
-	})
+	}
+}
+
+const defaultAjax = async (url, request) => {
+	url = encodeURI(url)
+	const response = await fetch(url, request)
+	if (200 === response.status) return response.json()
+	return Promise.reject(response)
+}
+
+const defaultAjaxBlob = async (url, request) => {
+	url = encodeURI(url)
+	const response = await fetch(url, request)
+	if (200 === response.status) return response.blob()
+	return Promise.reject(response)
 }
 
 export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload, logout }
