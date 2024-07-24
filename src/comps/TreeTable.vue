@@ -1,6 +1,6 @@
 <script setup>
 import { apiDelete, apiGet, apiPost } from '@/utils/ajax';
-import { isNull } from '@/utils/public';
+import { isBlank, isNull } from '@/utils/public';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -47,6 +47,8 @@ const emit = defineEmits([
 const table = ref(new Array())
 const parentId = ref([''])
 const sortFlag = ref('create_time')
+const dictMap = ref(new Map())
+
 const loadTable = (item) => {
 	if (!isNull(item) && !isNull(item[props.idName])) parentId.value.push(item[props.idName])
 	const params = new Object()
@@ -127,7 +129,16 @@ defineExpose({
 	del,
 })
 
-onMounted(() => loadTable())
+onMounted(() => {
+	props.struct.forEach(item => {
+		if (!isBlank(item.dict)) {
+			store.getters.getDict(item.dict).then(res => {
+				if (!isNull(res)) dictMap.value.set(item.dict, res)
+			})
+		}
+	})
+	loadTable()
+})
 </script>
 
 <template>
@@ -141,7 +152,9 @@ onMounted(() => loadTable())
 			</thead>
 			<tbody>
 				<tr v-for="(tr, i) in table" @click.stop="selectLine(i)" :class="{ selected: tr.selected }">
-					<td v-for="td in struct" @dblclick.stop="upd(i, td)" :title="tr[td.value]">{{ tr[td.value] }}</td>
+					<td v-for="td in struct" @dblclick.stop="upd(i, td)"
+						:title="isBlank(td.dict) ? tr[td.value] : dictMap.get(td.dict)[tr[td.value]]">
+						{{ isBlank(td.dict) ? tr[td.value] : dictMap.get(td.dict)[tr[td.value]] }}</td>
 					<td class="control" v-if="!isNull(control)">
 						<a href="javascript:void(0);"
 							v-for="ctl in control.filter(item => !item.permission || store.state.permission.has(item.permission))"
