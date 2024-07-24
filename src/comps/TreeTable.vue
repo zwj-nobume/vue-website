@@ -172,7 +172,7 @@ onMounted(() => {
 		</table>
 	</section>
 	<p class="page">
-		<ul>
+	<ul>
 		<li>
 			<select v-model="searchForm.sortFlag" @change="loadTable()">
 				<option value="">排序标识</option>
@@ -189,7 +189,8 @@ onMounted(() => {
 					{{ dictMap.has(search.dict) ? dictMap.get(search.dict)[op] : '' }}
 				</option>
 			</select>
-			<input v-if="!search.dict" v-model="searchForm[search.value]" @change="loadTable()" type="text">
+			<input v-if="!search.dict" v-model="searchForm[search.value]" @change="loadTable()"
+				:type="search.type ? search.type : 'text'" :placeholder="search.name">
 		</li>
 	</ul>
 	</p>
