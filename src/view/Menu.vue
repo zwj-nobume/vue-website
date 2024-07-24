@@ -52,10 +52,10 @@ const url = ref({
 const idName = ref('menuId')
 const parentName = ref('parentId')
 const struct = ref(new Array(
-	{ name: "菜单名称", value: 'menuName', sortFlag: 'menu_name', modifiable: true },
-	{ name: "菜单标签", value: 'menuLabel', sortFlag: 'menu_label', modifiable: true },
-	{ name: "权限标识", value: 'permission', modifiable: true },
-	{ name: "创建人", value: 'createName', sortFlag: 'create_name' },
+	{ name: "菜单名称", value: 'menuName', sortFlag: 'menu_name', modifiable: true, search: true },
+	{ name: "菜单标签", value: 'menuLabel', sortFlag: 'menu_label', modifiable: true, search: true },
+	{ name: "权限标识", value: 'permission', modifiable: true, search: true },
+	{ name: "创建人", value: 'createName', sortFlag: 'create_name', search: true },
 	{ name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
 const control = ref(new Array(

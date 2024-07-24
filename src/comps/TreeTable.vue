@@ -172,11 +172,26 @@ onMounted(() => {
 		</table>
 	</section>
 	<p class="page">
-		<span>排序标识:&emsp;</span>
-		<select v-model="searchForm.sortFlag" @change="loadTable()">
-			<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
-			<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
-		</select>
+		<ul>
+		<li>
+			<select v-model="searchForm.sortFlag" @change="loadTable()">
+				<option value="">排序标识</option>
+				<option value="">=====</option>
+				<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
+				<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
+			</select>
+		</li>
+		<li v-for="search in struct.filter(item => item.search)">
+			<select v-if="search.dict" v-model="searchForm[search.value]" @change="loadTable()">
+				<option value="">{{ search.name }}</option>
+				<option value="">=====</option>
+				<option v-for="op in dictMap.has(search.dict) ? Object.keys(dictMap.get(search.dict)) : []" :value="op">
+					{{ dictMap.has(search.dict) ? dictMap.get(search.dict)[op] : '' }}
+				</option>
+			</select>
+			<input v-if="!search.dict" v-model="searchForm[search.value]" @change="loadTable()" type="text">
+		</li>
+	</ul>
 	</p>
 </template>
 
@@ -223,11 +238,20 @@ p.page {
 	align-items: center;
 }
 
-p.page span {
+p.page>ul {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+p.page>ul>li {
 	margin-left: 10px;
 }
 
-p.page select {
+p.page>ul>li select {
 	width: auto;
 }
 

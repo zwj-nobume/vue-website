@@ -16,9 +16,9 @@ const url = ref({
 })
 const idName = ref('logId')
 const struct = ref(new Array(
-    { name: "日志类型", value: 'logType', sortFlag: 'log_type', dict: 'log_type' },
-    { name: "日志简介", value: 'logIntro', sortFlag: 'log_intro' },
-    { name: "创建人", value: 'createName', sortFlag: 'create_name' },
+    { name: "日志类型", value: 'logType', sortFlag: 'log_type', dict: 'log_type', search: true },
+    { name: "日志简介", value: 'logIntro', sortFlag: 'log_intro', search: true },
+    { name: "创建人", value: 'createName', sortFlag: 'create_name', search: true },
     { name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
 const control = ref(new Array(

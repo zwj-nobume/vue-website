@@ -27,6 +27,11 @@ const props = defineProps({
 		default: 'create_time',
 		required: false,
 	},
+	pageSize: {
+		type: Number,
+		default: 20,
+		required: false,
+	}
 })
 
 const store = useStore()
@@ -51,7 +56,7 @@ const page = ref(null)
 const table = ref(new Array())
 const searchForm = ref({
 	sortFlag: props.sortFlag,
-	pageSize: 20,
+	pageSize: props.pageSize,
 })
 const total = ref(0)
 const sizeList = ref([10, 20, 30, 40, 50])
@@ -165,17 +170,34 @@ onMounted(() => {
 		</table>
 	</section>
 	<p class="page">
-	<div>
-		<span>排序标识:&emsp;</span>
-		<select v-model="searchForm.sortFlag" @change="loadTable()">
-			<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
-			<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
-		</select>
-		<span>每页数量:&emsp;</span>
-		<select v-model="searchForm.pageSize" @change="loadTable()">
-			<option v-for="size in sizeList" :value="size">{{ size }}</option>
-		</select>
-	</div>
+	<ul>
+		<li>
+			<select v-model="searchForm.sortFlag" @change="loadTable()">
+				<option value="">排序标识</option>
+				<option value="" disabled>=====</option>
+				<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
+				<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
+			</select>
+		</li>
+		<li>
+			<select v-model="searchForm.pageSize" @change="loadTable()">
+				<option value="">每页数量</option>
+				<option value="" disabled>=====</option>
+				<option v-for="size in sizeList" :value="size">{{ size }}</option>
+			</select>
+		</li>
+		<li v-for="search in struct.filter(item => item.search)">
+			<select v-if="search.dict" v-model="searchForm[search.value]" @change="loadTable()">
+				<option value="">{{ search.name }}</option>
+				<option value="" disabled>=====</option>
+				<option v-for="op in dictMap.has(search.dict) ? Object.keys(dictMap.get(search.dict)) : []" :value="op">
+					{{ dictMap.has(search.dict) ? dictMap.get(search.dict)[op] : '' }}
+				</option>
+			</select>
+			<input v-if="!search.dict" v-model="searchForm[search.value]" @change="loadTable()"
+				:type="search.type ? search.type : 'text'" :placeholder="search.name">
+		</li>
+	</ul>
 	<PageList ref="page" @load-page="loadTable" :total="total" :size="searchForm.pageSize"></PageList>
 	</p>
 </template>
@@ -224,16 +246,20 @@ p.page {
 	align-items: center;
 }
 
-p.page>div {
+p.page>ul:not(:last-child) {
 	display: flex;
+	flex: 1;
 	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
-p.page>div span {
+p.page>ul>li {
 	margin-left: 10px;
 }
 
-p.page>div select {
+p.page>ul>li select {
 	width: auto;
 }
 

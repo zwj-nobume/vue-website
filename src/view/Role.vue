@@ -58,9 +58,9 @@ const url = ref({
 })
 const idName = ref('roleId')
 const struct = ref(new Array(
-	{ name: "角色名", value: 'roleName', sortFlag: 'role_name', modifiable: true },
-	{ name: "角色标签", value: 'roleLabel', sortFlag: 'role_label', modifiable: true },
-	{ name: "创建人", value: 'createName', sortFlag: 'create_name' },
+	{ name: "角色名", value: 'roleName', sortFlag: 'role_name', modifiable: true, search: true },
+	{ name: "角色标签", value: 'roleLabel', sortFlag: 'role_label', modifiable: true, search: true },
+	{ name: "创建人", value: 'createName', sortFlag: 'create_name', search: true },
 	{ name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
 const control = ref(new Array(

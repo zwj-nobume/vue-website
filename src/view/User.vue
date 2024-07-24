@@ -52,9 +52,9 @@ const url = ref({
 })
 const idName = ref('userId')
 const struct = ref(new Array(
-	{ name: "用户名", value: 'userName', sortFlag: 'user_name', modifiable: true },
-	{ name: "邮箱", value: 'email', sortFlag: 'email', modifiable: true, regexp: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ },
-	{ name: "创建人", value: 'createName', sortFlag: 'create_name' },
+	{ name: "用户名", value: 'userName', sortFlag: 'user_name', modifiable: true, search: true },
+	{ name: "邮箱", value: 'email', sortFlag: 'email', type: 'email', modifiable: true, regexp: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, search: true },
+	{ name: "创建人", value: 'createName', sortFlag: 'create_name', search: true },
 	{ name: "创建时间", value: 'createTime', sortFlag: 'create_time' },
 ))
 const control = ref(new Array(
