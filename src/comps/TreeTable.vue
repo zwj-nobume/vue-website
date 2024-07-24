@@ -51,16 +51,16 @@ const emit = defineEmits([
 
 const table = ref(new Array())
 const parentId = ref([''])
-const sortFlag = ref(props.sortFlag)
+const searchForm = ref({
+	sortFlag: props.sortFlag,
+})
 const dictMap = ref(new Map())
 
 const loadTable = (item) => {
 	if (!isNull(item) && !isNull(item[props.idName])) parentId.value.push(item[props.idName])
-	const params = new Object()
-	params[props.parentName] = getLastParentId()
-	if (sortFlag.value !== '') params.sortFlag = sortFlag.value
+	searchForm.value[props.parentName] = getLastParentId()
 	const arr = new Array()
-	Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
+	Object.keys(searchForm.value).forEach(key => arr.push(`${key}=${searchForm.value[key]}`))
 	apiGet(`${props.url.list}?${arr.join('&')}`, res => {
 		table.value = res.data
 	})
@@ -173,7 +173,7 @@ onMounted(() => {
 	</section>
 	<p class="page">
 		<span>排序标识:&emsp;</span>
-		<select v-model="sortFlag" @change="loadTable()">
+		<select v-model="searchForm.sortFlag" @change="loadTable()">
 			<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
 			<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
 		</select>
@@ -225,6 +225,10 @@ p.page {
 
 p.page span {
 	margin-left: 10px;
+}
+
+p.page select {
+	width: auto;
 }
 
 table td.control {

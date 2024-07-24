@@ -49,8 +49,10 @@ const emit = defineEmits([
 
 const page = ref(null)
 const table = ref(new Array())
-const sortFlag = ref(props.sortFlag)
-const pageSize = ref(20)
+const searchForm = ref({
+	sortFlag: props.sortFlag,
+	pageSize: 20,
+})
 const total = ref(0)
 const sizeList = ref([10, 20, 30, 40, 50])
 const dictMap = ref(new Map())
@@ -60,13 +62,9 @@ const loadTable = (pageNum) => {
 		pageNum = 1
 		page.value.cur = 1
 	}
-	const params = {
-		pageNum: pageNum,
-		pageSize: pageSize.value,
-	}
-	if (sortFlag.value !== "") params.sortFlag = sortFlag.value
+	searchForm.value.pageNum = pageNum
 	const arr = new Array()
-	Object.keys(params).forEach(key => arr.push(`${key}=${params[key]}`))
+	Object.keys(searchForm.value).forEach(key => arr.push(`${key}=${searchForm.value[key]}`))
 	apiGet(`${props.url.list}?${arr.join('&')}`, res => {
 		table.value = res.data
 		total.value = res.total
@@ -169,16 +167,16 @@ onMounted(() => {
 	<p class="page">
 	<div>
 		<span>排序标识:&emsp;</span>
-		<select v-model="sortFlag" @change="loadTable()">
+		<select v-model="searchForm.sortFlag" @change="loadTable()">
 			<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
 			<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
 		</select>
 		<span>每页数量:&emsp;</span>
-		<select v-model="pageSize" @change="loadTable()">
+		<select v-model="searchForm.pageSize" @change="loadTable()">
 			<option v-for="size in sizeList" :value="size">{{ size }}</option>
 		</select>
 	</div>
-	<PageList ref="page" @load-page="loadTable" :total="total" :size="pageSize"></PageList>
+	<PageList ref="page" @load-page="loadTable" :total="total" :size="searchForm.pageSize"></PageList>
 	</p>
 </template>
 
@@ -226,13 +224,17 @@ p.page {
 	align-items: center;
 }
 
-p.page div {
+p.page>div {
 	display: flex;
 	align-items: center;
 }
 
-p.page div span {
+p.page>div span {
 	margin-left: 10px;
+}
+
+p.page>div select {
+	width: auto;
 }
 
 table td.control {
