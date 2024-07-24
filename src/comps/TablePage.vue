@@ -20,7 +20,12 @@ const props = defineProps({
 	},
 	control: {
 		type: Array,
-		required: false
+		required: false,
+	},
+	sortFlag: {
+		type: String,
+		default: 'create_time',
+		required: false,
 	},
 })
 
@@ -44,7 +49,7 @@ const emit = defineEmits([
 
 const page = ref(null)
 const table = ref(new Array())
-const sortFlag = ref('create_time')
+const sortFlag = ref(props.sortFlag)
 const pageSize = ref(20)
 const total = ref(0)
 const sizeList = ref([10, 20, 30, 40, 50])

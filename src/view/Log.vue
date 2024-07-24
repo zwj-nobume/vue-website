@@ -31,7 +31,7 @@ const control = ref(new Array(
 <template>
     <main class="main">
         <TitleButton :list="buttons"></TitleButton>
-        <TablePage :url="url" :idName="idName" :struct="struct" :control="control" @func0="openParams"
+        <TablePage :url="url" :idName="idName" :struct="struct" :control="control" sortFlag="create_time DESC" @func0="openParams"
             @func1="openIntro" @func2="openData">
         </TablePage>
         <TextDialog ref="textDialog"></TextDialog>

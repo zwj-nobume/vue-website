@@ -25,6 +25,11 @@ const props = defineProps({
 		type: Array,
 		required: false
 	},
+	sortFlag: {
+		type: String,
+		default: 'create_time',
+		required: false,
+	},
 })
 
 const store = useStore()
@@ -46,7 +51,7 @@ const emit = defineEmits([
 
 const table = ref(new Array())
 const parentId = ref([''])
-const sortFlag = ref('create_time')
+const sortFlag = ref(props.sortFlag)
 const dictMap = ref(new Map())
 
 const loadTable = (item) => {
