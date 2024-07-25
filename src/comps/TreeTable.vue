@@ -140,6 +140,9 @@ onMounted(() => {
 			store.getters.getDict(item.dict).then(res => {
 				if (!isNull(res)) dictMap.value.set(item.dict, res)
 			})
+			if (item.search) {
+				searchForm.value[item.value] = ''
+			}
 		}
 	})
 	loadTable()
@@ -176,7 +179,7 @@ onMounted(() => {
 		<li>
 			<select v-model="searchForm.sortFlag" @change="loadTable()">
 				<option value="">排序标识</option>
-				<option value="">=====</option>
+				<option value="=====">=====</option>
 				<option v-for="op in struct" :value="op.sortFlag">{{ op.name }}</option>
 				<option v-for="op in struct" :value="op.sortFlag + ' DESC'">{{ op.name }} 倒序</option>
 			</select>
@@ -184,7 +187,7 @@ onMounted(() => {
 		<li v-for="search in struct.filter(item => item.search)">
 			<select v-if="search.dict" v-model="searchForm[search.value]" @change="loadTable()">
 				<option value="">{{ search.name }}</option>
-				<option value="">=====</option>
+				<option value="=====">=====</option>
 				<option v-for="op in dictMap.has(search.dict) ? Object.keys(dictMap.get(search.dict)) : []" :value="op">
 					{{ dictMap.has(search.dict) ? dictMap.get(search.dict)[op] : '' }}
 				</option>
