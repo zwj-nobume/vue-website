@@ -2,9 +2,11 @@
 import { ref } from 'vue';
 
 const textRef = ref('')
+const isCodeRef = ref(false)
 const dialogRef = ref(null)
-const showModal = (text) => {
+const showModal = (text, isCode = false) => {
     textRef.value = text
+    isCodeRef.value = isCode
     dialogRef.value.showModal()
 }
 
@@ -17,7 +19,8 @@ defineExpose({
     <dialog ref="dialogRef">
         <button class="close" @click="dialogRef.close()"><img src="/src/assets/icon/close.svg" width="20"
                 height="20"></button>
-        <text>{{ textRef }}</text>
+        <pre v-if="isCodeRef">{{ JSON.parse(textRef) }}</pre>
+        <text v-if="!isCodeRef">{{ textRef }}</text>
     </dialog>
 </template>
 

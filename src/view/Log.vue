@@ -7,7 +7,7 @@ import { ref } from 'vue';
 const textDialog = ref(null)
 const buttons = ref(new Array())
 
-const openParams = (item) => textDialog.value.showModal(item.apiParams)
+const openParams = (item) => textDialog.value.showModal(item.apiParams, true)
 const openIntro = (item) => textDialog.value.showModal(item.logIntro)
 const openData = (item) => textDialog.value.showModal(item.logData)
 
