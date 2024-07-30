@@ -5,8 +5,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { isBlank } from '../utils/public';
 
-const store = useStore()
 const router = useRouter()
+const store = useStore()
 const form = ref({
 	userName: '',
 	password: '',

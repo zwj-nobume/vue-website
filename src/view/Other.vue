@@ -1,6 +1,5 @@
 <script setup>
 import NavList from '@/comps/NavList.vue';
-import { apiGetDownload } from '@/utils/ajax';
 import { ref } from 'vue';
 
 const pages = ref(new Array(
@@ -13,16 +12,11 @@ const pages = ref(new Array(
 	// { name: 'Transmission', path: 'https://transmission.colonq.cn:81', icon: '/src/assets/icon/transmission.svg', target: '_blank' },
 ))
 
-const download = () => {
-	console.log('download')
-	apiGetDownload('/api/file/download/VMware.vscode-boot-dev-pack-0.1.0.vsix', 'test1.vsix')
-}
 </script>
 
 <template>
 	<main class="main">
 		<NavList :list="pages"></NavList>
-		<button @click.stop="download">点击下载</button>
 	</main>
 </template>
 
