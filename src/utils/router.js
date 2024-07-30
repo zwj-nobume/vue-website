@@ -1,4 +1,4 @@
-import { store } from '@/utils/store'
+import { getStore, setRouter } from '@/utils/global'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import { isBlank } from '@/utils/public'
@@ -10,6 +10,7 @@ import Log from '@/view/Log.vue'
 import Login from '@/view/Login.vue'
 import Menu from '@/view/Menu.vue'
 import Other from '@/view/Other.vue'
+import Personal from '@/view/Personal.vue'
 import Role from '@/view/Role.vue'
 import System from '@/view/System.vue'
 import User from '@/view/User.vue'
@@ -18,6 +19,7 @@ const routes = [
 	{ name: 'home', path: '/', component: Home },
 	{ name: 'login', path: '/login', component: Login },
 	{ name: 'system', path: '/system', component: System, permission: 'system' },
+	{ name: 'personal', path: '/personal', component: Personal },
 	{ name: 'user', path: '/system/user', component: User, permission: 'system:user' },
 	{ name: 'role', path: '/system/role', component: Role, permission: 'system:role' },
 	{ name: 'menu', path: '/system/menu', component: Menu, permission: 'system:menu' },
@@ -38,9 +40,9 @@ router.beforeEach((to, from, next) => {
 		next()
 		return
 	}
-	if (store.getters.getToken() === null || store.getters.getToken() === '') {
+	if (getStore().getters.getToken() === null || getStore().getters.getToken() === '') {
 		alert("需要登录")
-		store.dispatch('deleteToken')
+		getStore().dispatch('deleteToken')
 		router.push('/login')
 		return
 	}
@@ -51,7 +53,7 @@ router.beforeEach((to, from, next) => {
 			next()
 			return
 		}
-		const permission = store.getters.getPermission()
+		const permission = getStore().getters.getPermission()
 		if (permission.has(findOne.permission)) {
 			next()
 			return
@@ -60,4 +62,5 @@ router.beforeEach((to, from, next) => {
 	}
 })
 
-export { router }
+setRouter(router)
+export default router

@@ -1,8 +1,7 @@
-import { router } from '@/utils/router'
-import { store } from '@/utils/store'
+import { getRouter, getStore } from '@/utils/global';
 
 const apiGet = async (url, callback) => {
-	const token = store.getters.getToken()
+	const token = getStore().getters.getToken()
 	const request = {
 		method: "GET",
 		headers: {
@@ -25,7 +24,7 @@ const apiGetDownload = async (url, fileName) => {
 }
 
 const apiGetBlob = async (url, callback) => {
-	const token = store.getters.getToken()
+	const token = getStore().getters.getToken()
 	const request = {
 		method: "GET",
 		headers: {
@@ -36,7 +35,7 @@ const apiGetBlob = async (url, callback) => {
 }
 
 const apiPost = async (url, data, callback) => {
-	let token = store.getters.getToken()
+	let token = getStore().getters.getToken()
 	const request = {
 		method: "POST",
 		headers: {
@@ -49,7 +48,7 @@ const apiPost = async (url, data, callback) => {
 }
 
 const apiPostBlob = async (url, data, callback) => {
-	const token = store.getters.getToken()
+	const token = getStore().getters.getToken()
 	const request = {
 		method: "POST",
 		headers: {
@@ -62,7 +61,7 @@ const apiPostBlob = async (url, data, callback) => {
 }
 
 const apiPut = async (url, data, callback) => {
-	const token = store.getters.getToken()
+	const token = getStore().getters.getToken()
 	const request = {
 		method: "PUT",
 		headers: {
@@ -75,7 +74,7 @@ const apiPut = async (url, data, callback) => {
 }
 
 const apiPutUpload = async (url, files, callback) => {
-	const token = store.getters.getToken()
+	const token = getStore().getters.getToken()
 	const formData = new FormData()
 	for (const file of files) {
 		formData.append("files", file)
@@ -91,7 +90,7 @@ const apiPutUpload = async (url, files, callback) => {
 }
 
 const apiDelete = async (url, data, callback) => {
-	const token = store.getters.getToken()
+	const token = getStore().getters.getToken()
 	const request = {
 		method: "DELETE",
 		headers: {
@@ -108,8 +107,8 @@ const logout = (msg) => {
 	if (confirmVal) {
 		apiPost("/api/logout", null, (res) => {
 			alert(res.message)
-			store.dispatch('deleteToken')
-			router.push('/login')
+			getStore().dispatch('deleteToken')
+			getRouter().push('/login')
 		})
 	}
 }
@@ -119,30 +118,26 @@ const apiAjax = async (url, request, callback) => {
 		const res = await defaultAjax(url, request)
 		return callback(res)
 	} catch (error) {
-		if (401 === error.status) {
-			const errObj = await err.json()
-			alert(errObj.message)
-			store.dispatch('deleteToken')
-			router.push('/login')
-		} else {
-			return Promise.reject(error)
-		}
+		const err = await error.json()
+		alert(err.message)
+		if (401 === err.status) {
+			getStore().dispatch('deleteToken')
+			getRouter().push('/login')
+		} else return Promise.reject(err)
 	}
 }
 
 const apiAjaxBlob = async (url, request, callback) => {
 	try {
 		const blob = await defaultAjaxBlob(url, request)
-		return async () => callback(blob)
+		return callback(blob)
 	} catch (error) {
-		if (401 === error.status) {
-			const errObj = await err.json()
-			alert(errObj.message)
-			store.dispatch('deleteToken')
-			router.push('/login')
-		} else {
-			return Promise.reject(error)
-		}
+		const err = await error.json()
+		alert(err.message)
+		if (401 === err.status) {
+			getStore().dispatch('deleteToken')
+			getRouter().push('/login')
+		} else return Promise.reject(err)
 	}
 }
 
@@ -160,5 +155,4 @@ const defaultAjaxBlob = async (url, request) => {
 	return Promise.reject(response)
 }
 
-export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload, logout }
-
+export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload, logout };

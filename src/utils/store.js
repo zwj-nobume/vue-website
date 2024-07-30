@@ -1,4 +1,5 @@
 import { apiGet } from '@/utils/ajax'
+import { getRouter, setStore } from '@/utils/global'
 import { isBlank } from '@/utils/public'
 import { createStore } from 'vuex'
 
@@ -16,6 +17,16 @@ const store = createStore({
 	getters: {
 		getToken: (state) => () => {
 			return state.token
+		},
+		getTokenPayload: (state) => () => {
+			const tokenArr = state.token.split('.')
+			if (tokenArr.length !== 3) {
+				alert("需要重新登录")
+				getRouter().push('/login')
+			}
+			const payloadStr = tokenArr[1]
+			const payload = JSON.parse(decodeURIComponent(atob(payloadStr)))
+			return payload
 		},
 		getPermission: (state) => () => {
 			return state.permission
@@ -71,4 +82,5 @@ const store = createStore({
 	},
 })
 
-export { store }
+setStore(store)
+export default store
