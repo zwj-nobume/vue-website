@@ -32,6 +32,8 @@ const emit = defineEmits([
 	'sel-resv',
 	'del',
 	'download',
+	'logout',
+	'reset-salt',
 	'func0',
 	'func1',
 	'func2',

@@ -42,7 +42,6 @@ router.beforeEach((to, from, next) => {
 	}
 	if (getStore().getters.getToken() === null || getStore().getters.getToken() === '') {
 		alert("需要登录")
-		getStore().dispatch('deleteToken')
 		router.push('/login')
 		return
 	}

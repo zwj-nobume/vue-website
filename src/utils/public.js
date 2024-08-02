@@ -1,3 +1,5 @@
+import { getRouter, getStore } from '@/utils/global'
+
 // 判断变量为空
 const isNull = (item) => {
     return typeof item === 'undefined' || item === null
@@ -32,4 +34,13 @@ const listToTree = (data, keyName = 'id', parentName = 'parentId', childName = '
     return tree
 }
 
-export { isBlank, isEmpty, isNull, listToTree }
+const logout = (msg) => {
+    const confirmVal = confirm(msg ? msg : "需要退出登录吗?")
+    if (confirmVal) {
+        getStore().dispatch('deleteToken')
+        getStore().dispatch('deletePermission')
+        getRouter().push('/login')
+    }
+}
+
+export { isBlank, isEmpty, isNull, listToTree, logout }

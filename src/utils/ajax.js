@@ -102,17 +102,6 @@ const apiDelete = async (url, data, callback) => {
 	return apiAjax(url, request, callback)
 }
 
-const logout = (msg) => {
-	const confirmVal = confirm(msg ? msg : "需要退出登录吗?")
-	if (confirmVal) {
-		apiPost("/api/logout", null, (res) => {
-			alert(res.message)
-			getStore().dispatch('deleteToken')
-			getRouter().push('/login')
-		})
-	}
-}
-
 const apiAjax = async (url, request, callback) => {
 	try {
 		const res = await defaultAjax(url, request)
@@ -122,6 +111,7 @@ const apiAjax = async (url, request, callback) => {
 		alert(err.message)
 		if (401 === err.status) {
 			getStore().dispatch('deleteToken')
+			getStore().dispatch('deletePermission')
 			getRouter().push('/login')
 		} else return Promise.reject(err)
 	}
@@ -136,6 +126,7 @@ const apiAjaxBlob = async (url, request, callback) => {
 		alert(err.message)
 		if (401 === err.status) {
 			getStore().dispatch('deleteToken')
+			getStore().dispatch('deletePermission')
 			getRouter().push('/login')
 		} else return Promise.reject(err)
 	}
@@ -155,4 +146,4 @@ const defaultAjaxBlob = async (url, request) => {
 	return Promise.reject(response)
 }
 
-export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload, logout };
+export { apiDelete, apiGet, apiGetBlob, apiGetDownload, apiPost, apiPostBlob, apiPut, apiPutUpload };
