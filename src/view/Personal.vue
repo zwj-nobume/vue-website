@@ -1,22 +1,23 @@
 <script setup>
 import TitleButton from '@/comps/TitleButton.vue';
+import UpdateDialog from '@/comps/UpdateDialog.vue';
 import { apiPost } from '@/utils/ajax';
-import { logout } from '@/utils/public';
+import { logout, relogin } from '@/utils/public';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 const store = useStore()
-const router = useRouter()
 const origin = store.getters.getTokenPayload()
 const form = ref({})
 Object.assign(form.value, origin)
-console.log(form.value)
 
 const url = ref({
     salt: '/api/user/salt',
     edit: '/api/user/edit',
+    editpwd: '/api/user/editpwd',
 })
+const updateDialog = ref(null)
 
 const update = () => {
     const data = {}
@@ -26,9 +27,7 @@ const update = () => {
     data.userId = form.value.userId
     const callback = (res) => {
         alert(res.message)
-        store.dispatch('deleteToken')
-        store.dispatch('deletePermission')
-        router.push('/login')
+        relogin()
     }
     apiPost(url.value.edit, data, callback)
 }
@@ -39,24 +38,24 @@ const resetSalt = () => {
     if (confirm("重置密钥需要重新登录，确定要重置吗？")) {
         const callback = (res) => {
             alert(res.message)
-            store.dispatch('deleteToken')
-            store.dispatch('deletePermission')
-            router.push('/login')
+            relogin()
         }
         apiPost(url.value.salt, null, callback)
     }
 }
 
-const editPassword = () => {
-}
+const editPassword = () => updateDialog.value.showModal(origin, 'editpwd')
 
+const idName = ref('userId')
 const buttons = ref(new Array(
     { name: "退出登录", emit: 'logout', icon: '/src/assets/icon/logout.svg' },
     { name: "重置密钥", emit: 'reset-salt', icon: '/src/assets/icon/reset-salt.svg' },
     { name: "修改密码", emit: 'edit-password', icon: '/src/assets/icon/edit-password.svg' },
 ))
 const elems = ref(new Array(
-    { name: 'password', label: "密码", type: 'password', required: true },
+    { name: 'oldPassword', label: "原密码", type: 'password', required: true },
+    { name: 'newPassword', label: "新密码", type: 'password', required: true },
+    { name: 'chkPassword', label: "确认密码", type: 'password', required: true },
 ))
 </script>
 
@@ -78,6 +77,8 @@ const elems = ref(new Array(
                 <button class="cancel" type="button" @click.stop="reset">重置</button>
             </p>
         </form>
+        <UpdateDialog ref="updateDialog" :url="url" :idName="idName" :elems="elems" @reload-table="relogin">
+        </UpdateDialog>
     </main>
 </template>
 
