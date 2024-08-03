@@ -37,10 +37,14 @@ const listToTree = (data, keyName = 'id', parentName = 'parentId', childName = '
 const logout = (msg) => {
     const confirmVal = confirm(msg ? msg : "需要退出登录吗?")
     if (confirmVal) {
-        getStore().dispatch('deleteToken')
-        getStore().dispatch('deletePermission')
-        getRouter().push('/login')
+        relogin()
     }
 }
 
-export { isBlank, isEmpty, isNull, listToTree, logout }
+const relogin = () => {
+    getStore().dispatch('deleteToken')
+    getStore().dispatch('deletePermission')
+    getRouter().push('/login')
+}
+
+export { isBlank, isEmpty, isNull, listToTree, logout, relogin }

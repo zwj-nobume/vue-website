@@ -1,4 +1,5 @@
-import { getRouter, getStore } from '@/utils/global';
+import { getStore } from '@/utils/global';
+import { relogin } from '@/utils/public';
 
 const apiGet = async (url, callback) => {
 	const token = getStore().getters.getToken()
@@ -110,9 +111,7 @@ const apiAjax = async (url, request, callback) => {
 		const err = await error.json()
 		alert(err.message)
 		if (401 === err.status) {
-			getStore().dispatch('deleteToken')
-			getStore().dispatch('deletePermission')
-			getRouter().push('/login')
+			relogin()
 		} else return Promise.reject(err)
 	}
 }
@@ -125,9 +124,7 @@ const apiAjaxBlob = async (url, request, callback) => {
 		const err = await error.json()
 		alert(err.message)
 		if (401 === err.status) {
-			getStore().dispatch('deleteToken')
-			getStore().dispatch('deletePermission')
-			getRouter().push('/login')
+			relogin()
 		} else return Promise.reject(err)
 	}
 }
