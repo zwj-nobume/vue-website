@@ -34,6 +34,7 @@ const emit = defineEmits([
 	'download',
 	'logout',
 	'reset-salt',
+	'edit-password',
 	'func0',
 	'func1',
 	'func2',
