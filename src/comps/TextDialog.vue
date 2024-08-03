@@ -45,6 +45,7 @@ dialog>button.close {
     cursor: pointer;
 }
 
+dialog>pre,
 dialog>text {
     white-space: pre-wrap;
 }
