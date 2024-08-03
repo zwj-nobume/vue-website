@@ -23,8 +23,8 @@ const elems = ref(new Array(
 	{ name: 'roleName', label: "角色名", type: 'text', required: true },
 	{ name: 'roleLabel', label: "角色标签", type: 'text', required: true },
 ))
-const add = () => updateDialog.value.showModal('add')
-const edit = (item) => updateDialog.value.showModal('edit', item)
+const add = () => updateDialog.value.showModal()
+const edit = (item) => updateDialog.value.showModal(item, 'edit')
 const openLinkUser = (item) => {
 	const params = {
 		id: item.roleId,
@@ -76,7 +76,8 @@ const control = ref(new Array(
 		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control"
 			@linkUser="openLinkUser" @linkMenu="openLinkMenu" @edit="edit">
 		</TablePage>
-		<UpdateDialog ref="updateDialog" :url="url" :elems="elems" @reload-table="reloadTable"></UpdateDialog>
+		<UpdateDialog ref="updateDialog" :url="url" :idName="idName" :elems="elems" @reload-table="reloadTable">
+		</UpdateDialog>
 		<LinkDialog ref="linkDialog" :url="url"></LinkDialog>
 	</main>
 </template>

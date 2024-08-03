@@ -29,8 +29,8 @@ const editElems = ref(new Array(
 	{ name: 'userName', label: "用户名", type: 'text', required: true },
 	{ name: 'email', label: "邮箱", type: 'email', required: true },
 ))
-const add = () => addDialog.value.showModal('add')
-const edit = (item) => editDialog.value.showModal('edit', item)
+const add = () => addDialog.value.showModal()
+const edit = (item) => editDialog.value.showModal(item, 'edit')
 const openLinkRole = (item) => {
 	const params = {
 		id: item.userId,
@@ -69,8 +69,10 @@ const control = ref(new Array(
 		<TablePage ref="tablePage" :url="url" :idName="idName" :struct="struct" :control="control"
 			@linkRole="openLinkRole" @edit="edit">
 		</TablePage>
-		<UpdateDialog ref="addDialog" :url="url" :elems="addElems" @reload-table="reloadTable"></UpdateDialog>
-		<UpdateDialog ref="editDialog" :url="url" :elems="editElems" @reload-table="reloadTable"></UpdateDialog>
+		<UpdateDialog ref="addDialog" :url="url" :idName="idName" :elems="addElems" @reload-table="reloadTable">
+		</UpdateDialog>
+		<UpdateDialog ref="editDialog" :url="url" :idName="idName" :elems="editElems" @reload-table="reloadTable">
+		</UpdateDialog>
 		<LinkDialog ref="linkDialog" :url="url"></LinkDialog>
 	</main>
 </template>

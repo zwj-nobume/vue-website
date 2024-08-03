@@ -8,6 +8,10 @@ const props = defineProps({
 		type: Object,
 		required: true,
 	},
+	idName: {
+		type: String,
+		required: true,
+	},
 	elems: {
 		type: Array,
 		required: true,
@@ -27,8 +31,9 @@ const emit = defineEmits([
 	'func9',
 ])
 
-const flag = ref(new String(''))
-const form = ref(new Object())
+const flag = ref('')
+const form = ref({})
+const old = ref({})
 const update = () => {
 	let checked = true
 	props.elems.forEach(elem => {
@@ -44,20 +49,26 @@ const update = () => {
 		emit('reload-table')
 	}
 	if ('add' === flag.value) {
-		apiPut(props.url.add, form.value, callback)
+		apiPut(props.url[flag.value], form.value, callback)
 	}
-	if ('edit' === flag.value) {
-		apiPost(props.url.edit, form.value, callback)
+	if ('edit' === flag.value || 'editpwd' === flag.value) {
+		const data = {}
+		data[props.idName] = old.value[props.idName]
+		props.elems.forEach(elem => {
+			if (form.value[elem.name] !== old.value[elem.name]) data[elem.name] = form.value[elem.name]
+		})
+		apiPost(props.url[flag.value], data, callback)
 	}
 }
 
 const dialogRef = ref(null)
-const showModal = (sflag, params) => {
+const showModal = (params, sflag = 'add') => {
 	const rawParams = toRaw(params)
-	Object.keys(form.value).forEach(key => delete form.value[key])
+	form.value = {}
 	flag.value = sflag
 	if (!isNull(rawParams)) {
-		Object.keys(rawParams).forEach(key => form.value[key] = rawParams[key])
+		Object.assign(form.value, rawParams)
+		Object.assign(old.value, rawParams)
 	}
 	dialogRef.value.showModal()
 }

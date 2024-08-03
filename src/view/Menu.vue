@@ -26,10 +26,10 @@ const elems = ref(new Array(
 	{ name: 'menuLabel', label: "菜单标签", type: 'text', required: true },
 	{ name: 'permission', label: "权限标识", type: 'text', required: true },
 ))
-const add = () => updateDialog.value.showModal('add', {
+const add = () => updateDialog.value.showModal({
 	parentId: treeTable.value.getLastParentId()
 })
-const edit = (item) => updateDialog.value.showModal('edit', item)
+const edit = (item) => updateDialog.value.showModal(item, 'edit')
 const openLinkRole = (item) => {
 	const params = {
 		id: item.menuId,
@@ -73,7 +73,8 @@ const control = ref(new Array(
 		<TreeTable ref="treeTable" :url="url" :idName="idName" :parentName="parentName" :struct="struct"
 			@linkRole="openLinkRole" :control="control" @next="reloadTable" @edit="edit">
 		</TreeTable>
-		<UpdateDialog ref="updateDialog" :url="url" :elems="elems" @reload-table="reloadTable"></UpdateDialog>
+		<UpdateDialog ref="updateDialog" :url="url" :idName="idName" :elems="elems" @reload-table="reloadTable">
+		</UpdateDialog>
 		<LinkDialog ref="linkDialog" :url="url"></LinkDialog>
 	</main>
 </template>
