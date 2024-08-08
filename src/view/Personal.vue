@@ -4,7 +4,6 @@ import UpdateDialog from '@/comps/UpdateDialog.vue';
 import { apiPost } from '@/utils/ajax';
 import { logout, relogin } from '@/utils/public';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 const store = useStore()
